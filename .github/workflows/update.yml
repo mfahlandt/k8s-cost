@@ -1,0 +1,136 @@
+name: Update cost dashboard
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily 06:00 UTC (billing data for yesterday has landed)
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["web/**", "internal/**", "cmd/**", "data/**"]
+
+permissions:
+  contents: write # commit updated data/ back to the repo
+  pages: write # deploy to GitHub Pages
+  id-token: write # OIDC for Pages (and optional GCP WIF)
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # ---- date window: previous month start .. tomorrow (catches late-landing costs)
+      - name: Compute collection window
+        id: win
+        run: |
+          echo "start=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "end=$(date -u -d tomorrow +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "prev_month=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m)" >> "$GITHUB_OUTPUT"
+          echo "cur_month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+
+      # ---- collectors (each skips gracefully when its secret is absent)
+      - name: Collect AWS
+        if: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+        run: go run ./cmd/costctl collect-aws --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
+
+      - name: Set up GCP credentials
+        if: ${{ secrets.GCP_SA_KEY != '' }}
+        run: |
+          # GCP_SA_KEY may be a service-account key OR a user ADC file
+          # (~/.config/gcloud/application_default_credentials.json) — the Go
+          # BigQuery client accepts both via GOOGLE_APPLICATION_CREDENTIALS.
+          echo '${{ secrets.GCP_SA_KEY }}' > "$RUNNER_TEMP/gcp-creds.json"
+          chmod 600 "$RUNNER_TEMP/gcp-creds.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+
+      - name: Collect GCP (previous + current month)
+        if: ${{ secrets.GCP_SA_KEY != '' }}
+        env:
+          GOOGLE_CLOUD_PROJECT: kubernetes-public
+        run: |
+          go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.prev_month }}
+          go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.cur_month }}
+
+      - name: Collect DigitalOcean
+        if: ${{ secrets.DIGITALOCEAN_TOKEN != '' }}
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+        run: go run ./cmd/costctl collect-do --preview
+
+      - name: Collect IBM Power
+        if: ${{ secrets.IBMCLOUD_API_KEY != '' }}
+        env:
+          IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+        run: go run ./cmd/costctl collect-ibm --provider ibm-power --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
+
+      - name: Collect IBM Z
+        if: ${{ secrets.IBM_Z_API_KEY != '' }}
+        env:
+          IBMCLOUD_API_KEY: ${{ secrets.IBM_Z_API_KEY }}
+        run: go run ./cmd/costctl collect-ibm --provider ibm-z --account 6efe35b964de46b0924c2e95fe410903 --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
+
+      - name: Collect Fastly
+        if: ${{ secrets.FASTLY_API_TOKEN != '' }}
+        env:
+          FASTLY_API_TOKEN: ${{ secrets.FASTLY_API_TOKEN }}
+        run: go run ./cmd/costctl collect-fastly --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
+
+      # ---- report + dashboard JSON + XLSX
+      - name: Generate report
+        run: go run ./cmd/costctl report
+
+      # ---- commit updated data back (file-based store lives in the repo)
+      - name: Commit updated data
+        run: |
+          git config user.name "cost-bot"
+          git config user.email "cost-bot@users.noreply.github.com"
+          git add data web/public/dashboard.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: daily cost data update $(date -u +%F)"
+            git push
+          else
+            echo "no data changes"
+          fi
+
+      # ---- build + deploy GitHub Pages
+      - name: Build frontend
+        working-directory: web
+        run: |
+          npm ci
+          npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # ---- Slack budget alerts
+      - name: Slack alert
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: go run ./cmd/costctl alert --webhook "$SLACK_WEBHOOK_URL"
+
+
+

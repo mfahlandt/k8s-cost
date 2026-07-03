@@ -1,0 +1,24 @@
+# Go
+/bin/
+*.out
+
+# Node / frontend
+web/node_modules/
+web/dist/
+
+# Generated report artifacts (dashboard.json is committed on purpose)
+/reports/*.xlsx
+
+# Editor
+.idea/
+.vscode/
+.DS_Store
+
+
+# GCP service-account keys (never commit)
+gcp-key.json
+*-key.json
+*.sa.json
+
+# Local secrets (tokens/keys) — never commit
+.env
