@@ -92,6 +92,8 @@ export default function App() {
           <ProviderCard key={p.provider} p={p} />
         ))}
       </div>
+
+      <Methodology />
     </div>
   );
 }
@@ -107,7 +109,11 @@ function ProviderCard({ p }) {
         {b?.budgetAlert && <span className="badge">BUDGET ALERT</span>}
       </div>
       <YearChart series={p.series} budget={b?.annualBudget} currency={c} />
-      {p.weeklySeries && <WeeklyChart weeks={p.weeklySeries} currency={c} />}
+      {p.weeklySeries ? (
+        <WeeklyChart weeks={p.weeklySeries} currency={c} />
+      ) : (
+        <div className="chart-note">billed monthly — no daily/weekly data from this provider</div>
+      )}
       <Row label="Last month avg daily spend" value={money(p.lastMonthAvgDaily, c)} />
       <Row
         label={partialMonth ? `This month so far (${p.daysElapsedInMonth}d of ${p.daysInCurrentMonth})` : "Monthly spend"}
@@ -158,6 +164,63 @@ function Row({ label, value, valueClass = "" }) {
       <span className="row-label">{label}</span>
       <span className={`row-value ${valueClass}`}>{value}</span>
     </div>
+  );
+}
+
+// Methodology explains every number on the page. Formulas mirror
+// internal/calc/calc.go — keep the two in sync.
+function Methodology() {
+  return (
+    <section className="card method">
+      <h2>How the numbers are calculated</h2>
+      <dl>
+        <dt>Last month avg daily spend</dt>
+        <dd><code>previous month total ÷ days in that month</code></dd>
+
+        <dt>This month so far (MTD)</dt>
+        <dd>Sum of the current month's booked days. Cloud bills land 1–3 days late, so
+        early in a month this is small — that's data lag, not savings.</dd>
+
+        <dt>This month projected</dt>
+        <dd><code>current month avg daily × days in month</code>. The daily average
+        only divides by days that actually have data.</dd>
+
+        <dt>Yearly based on this month</dt>
+        <dd><code>this month projected × 12</code> — what a full year would cost if
+        every month looked like this one.</dd>
+
+        <dt>YTD</dt>
+        <dd>Sum of everything booked since Jan 1. Budgets reset on Jan 1.</dd>
+
+        <dt>Burn rate / total on 31 Dec &amp; forecast months (hatched bars, dashed line)</dt>
+        <dd>Everything forecast uses one number: the <strong>YTD daily run rate</strong>{" "}
+        <code>= YTD ÷ days elapsed this year</code>. Future months are{" "}
+        <code>run rate × days in month</code>, the rest of the current month is{" "}
+        <code>run rate × remaining days</code>, and 31 Dec ={" "}
+        <code>YTD + run rate × days remaining</code>. It is a straight-line
+        projection of the whole year so far — one expensive month moves it only
+        gradually, which is why forecast bars can differ from last month's actuals.</dd>
+
+        <dt>Budget utilization</dt>
+        <dd><code>projected 31 Dec total ÷ annual budget</code>. The alert fires at
+        ≥ 90%. Dotted red line in the charts = annual budget.</dd>
+
+        <dt>Budget lasts (at current burn)</dt>
+        <dd><code>(annual budget − YTD) ÷ YTD daily run rate</code> → days until the
+        money runs out, and the projected "day zero" date. Red when that lands
+        before 31 Dec.</dd>
+
+        <dt>Weekly chart (yellow)</dt>
+        <dd>Sat–Fri weekly totals — only for providers with daily-granular data
+        (GCP, AWS, Fastly). DigitalOcean and IBM bill one invoice per month, so
+        there is no weekly data to plot.</dd>
+
+        <dt>Fastly</dt>
+        <dd>Invoices are $0 under the committed contract, so we track{" "}
+        <strong>bandwidth in GB</strong> instead; the "budget" is the contracted
+        10 PB/month (120M GB/year).</dd>
+      </dl>
+    </section>
   );
 }
 
