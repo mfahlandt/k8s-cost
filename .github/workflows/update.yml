@@ -22,7 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     # secrets are not available in step-level `if:` expressions, so map them to
     # job env once and gate steps on `env.* != ''` instead.
+    #
+    # Collection/commit only happens on schedule or manual dispatch; a plain
+    # push just rebuilds and redeploys the page from the committed data.
     env:
+      COLLECT: ${{ github.event_name != 'push' }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: us-east-1
@@ -57,11 +61,11 @@ jobs:
 
       # ---- collectors (each skips gracefully when its secret is absent)
       - name: Collect AWS
-        if: ${{ env.AWS_ACCESS_KEY_ID != '' }}
+        if: ${{ env.COLLECT == 'true' && env.AWS_ACCESS_KEY_ID != '' }}
         run: go run ./cmd/costctl collect-aws --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
 
       - name: Set up GCP credentials
-        if: ${{ env.GCP_SA_KEY != '' }}
+        if: ${{ env.COLLECT == 'true' && env.GCP_SA_KEY != '' }}
         run: |
           # GCP_SA_KEY may be a service-account key OR a user ADC file — the Go
           # BigQuery client accepts both via GOOGLE_APPLICATION_CREDENTIALS.
@@ -70,35 +74,37 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
 
       - name: Collect GCP (previous + current month)
-        if: ${{ env.GCP_SA_KEY != '' }}
+        if: ${{ env.COLLECT == 'true' && env.GCP_SA_KEY != '' }}
         run: |
           go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.prev_month }}
           go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.cur_month }}
 
       - name: Collect DigitalOcean
-        if: ${{ env.DIGITALOCEAN_TOKEN != '' }}
+        if: ${{ env.COLLECT == 'true' && env.DIGITALOCEAN_TOKEN != '' }}
         run: go run ./cmd/costctl collect-do --preview
 
       - name: Collect IBM Power
-        if: ${{ env.IBMCLOUD_API_KEY != '' }}
+        if: ${{ env.COLLECT == 'true' && env.IBMCLOUD_API_KEY != '' }}
         run: go run ./cmd/costctl collect-ibm --provider ibm-power --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
 
       - name: Collect IBM Z
-        if: ${{ env.IBM_Z_API_KEY != '' }}
+        if: ${{ env.COLLECT == 'true' && env.IBM_Z_API_KEY != '' }}
         env:
           IBMCLOUD_API_KEY: ${{ secrets.IBM_Z_API_KEY }}
         run: go run ./cmd/costctl collect-ibm --provider ibm-z --account 6efe35b964de46b0924c2e95fe410903 --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
 
       - name: Collect Fastly
-        if: ${{ env.FASTLY_API_TOKEN != '' }}
+        if: ${{ env.COLLECT == 'true' && env.FASTLY_API_TOKEN != '' }}
         run: go run ./cmd/costctl collect-fastly --start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}
 
       # ---- report + dashboard JSON + XLSX
       - name: Generate report
+        if: ${{ env.COLLECT == 'true' }}
         run: go run ./cmd/costctl report
 
       # ---- commit updated data back (file-based store lives in the repo)
       - name: Commit updated data
+        if: ${{ env.COLLECT == 'true' }}
         run: |
           git config user.name "cost-bot"
           git config user.email "cost-bot@users.noreply.github.com"
@@ -127,6 +133,7 @@ jobs:
 
       # ---- Slack budget alerts
       - name: Slack alert
-        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
+        if: ${{ env.COLLECT == 'true' && env.SLACK_WEBHOOK_URL != '' }}
         run: go run ./cmd/costctl alert --webhook "$SLACK_WEBHOOK_URL"
+
 

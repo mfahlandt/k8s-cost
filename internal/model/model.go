@@ -42,15 +42,16 @@ func (p Provider) DisplayName() string {
 	}
 }
 
-// AllProviders lists every provider in the canonical report order.
+// AllProviders lists every provider in the canonical report/dashboard order:
+// GCP -> AWS -> Fastly -> DigitalOcean -> IBM (Power, Z) -> Azure.
 var AllProviders = []Provider{
-	ProviderAWS,
-	ProviderAzure,
-	ProviderDigitalOcean,
-	ProviderFastly,
 	ProviderGCP,
+	ProviderAWS,
+	ProviderFastly,
+	ProviderDigitalOcean,
 	ProviderIBMPower,
 	ProviderIBMZ,
+	ProviderAzure,
 }
 
 // ParseProvider validates and normalizes a provider identifier.
