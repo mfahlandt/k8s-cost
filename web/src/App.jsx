@@ -109,11 +109,7 @@ function ProviderCard({ p }) {
         {b?.budgetAlert && <span className="badge">BUDGET ALERT</span>}
       </div>
       <YearChart series={p.series} budget={b?.annualBudget} currency={c} />
-      {p.weeklySeries ? (
-        <WeeklyChart weeks={p.weeklySeries} currency={c} />
-      ) : (
-        <div className="chart-note">billed monthly — no daily/weekly data from this provider</div>
-      )}
+      {p.weeklySeries && <WeeklyChart weeks={p.weeklySeries} currency={c} derived={p.weeklyDerived} />}
       <Row label="Last month avg daily spend" value={money(p.lastMonthAvgDaily, c)} />
       <Row
         label={partialMonth ? `This month so far (${p.daysElapsedInMonth}d of ${p.daysInCurrentMonth})` : "Monthly spend"}
@@ -211,9 +207,11 @@ function Methodology() {
         before 31 Dec.</dd>
 
         <dt>Weekly chart (yellow)</dt>
-        <dd>Sat–Fri weekly totals — only for providers with daily-granular data
-        (GCP, AWS, Fastly). DigitalOcean and IBM bill one invoice per month, so
-        there is no weekly data to plot.</dd>
+        <dd>Sat–Fri weekly totals. GCP, AWS and Fastly have real daily data.
+        DigitalOcean and IBM bill one invoice per month, so their daily values
+        are <strong>derived</strong>: <code>monthly invoice ÷ days in month</code>,
+        spread evenly (same approach as the old Excel) — the line is therefore
+        flat within each month and steps at month boundaries.</dd>
 
         <dt>Fastly</dt>
         <dd>Invoices are $0 under the committed contract, so we track{" "}
@@ -291,7 +289,7 @@ function YearChart({ series, budget, currency }) {
 
 // WeeklyChart is a compact Sat–Fri weekly spend line (like the sheet's weekly
 // tab), only shown for providers with daily-granular data.
-function WeeklyChart({ weeks, currency }) {
+function WeeklyChart({ weeks, currency, derived }) {
   if (!weeks || weeks.length < 2) return null;
   const W = 320, H = 48, PAD = 4;
   const max = Math.max(...weeks.map((w) => w.weekly), 1);
@@ -313,7 +311,9 @@ function WeeklyChart({ weeks, currency }) {
         ))}
       </svg>
       <div className="chart-legend">
-        <span>weekly (Sat–Fri) · avg {compact(avg)} {currency}/wk · {weeks.length} wks</span>
+        <span>
+          weekly (Sat–Fri{derived ? ", derived from monthly invoice" : ""}) · avg {compact(avg)} {currency}/wk · {weeks.length} wks
+        </span>
       </div>
     </div>
   );

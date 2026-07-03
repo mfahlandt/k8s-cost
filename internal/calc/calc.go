@@ -40,9 +40,12 @@ type Metrics struct {
 	Series []MonthPoint `json:"series"`
 
 	// WeeklySeries is the Sat–Fri weekly progression (like the old sheet's
-	// weekly tab). Only present for providers with daily-granular data
-	// (AWS/GCP/Fastly); monthly-billed providers (DO/IBM) omit it.
-	WeeklySeries []WeekPoint `json:"weeklySeries,omitempty"`
+	// weekly tab). For daily-granular providers (AWS/GCP/Fastly) it uses real
+	// daily data; for monthly-billed providers (DO/IBM) it is derived by
+	// spreading each monthly invoice evenly across the month's days
+	// (WeeklyDerived=true) — same approach as the old Excel.
+	WeeklySeries  []WeekPoint `json:"weeklySeries,omitempty"`
+	WeeklyDerived bool        `json:"weeklyDerived,omitempty"`
 }
 
 // MonthPoint is one month's spend and running cumulative total for the year.
@@ -212,9 +215,28 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 		m.Series = append(m.Series, mp)
 	}
 
-	// Weekly (Sat–Fri) series for daily-granular providers, like the old
-	// sheet's weekly tab. Sorted by week end.
-	if dailyGranular && len(weeklyTotals) > 0 {
+	// Weekly (Sat–Fri) series like the old sheet's weekly tab. Monthly-billed
+	// providers get derived weeks: invoice spread evenly across the month.
+	if !dailyGranular {
+		weeklyTotals = map[time.Time]float64{}
+		for mo := 1; mo <= int(month); mo++ {
+			total := monthlyByMonth[mo-1]
+			if total == 0 {
+				continue
+			}
+			dim := daysInMonth(year, time.Month(mo))
+			perDay := total / float64(dim)
+			for day := 1; day <= dim; day++ {
+				d := time.Date(year, time.Month(mo), day, 0, 0, 0, 0, time.UTC)
+				if d.After(asOf) {
+					break
+				}
+				weeklyTotals[weekEndFriday(d)] += perDay
+			}
+		}
+		m.WeeklyDerived = true
+	}
+	if len(weeklyTotals) > 0 {
 		ends := make([]time.Time, 0, len(weeklyTotals))
 		for e := range weeklyTotals {
 			ends = append(ends, e)
