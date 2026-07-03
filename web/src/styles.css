@@ -109,6 +109,17 @@ hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
 .compare svg { height: 220px; }
 .chart-months-wide { font-size: 11px; }
 .dim-note { opacity: 0.55; margin-left: auto; }
+.grid-label { fill: var(--muted); font-size: 9px; opacity: 0.8; }
+.mode-toggle { display: flex; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.mode-toggle button {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.mode-toggle button.on { background: var(--accent); color: #fff; }
 .hdr-alert { color: var(--danger); font-weight: 700; }
 .hdr-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .month-select {

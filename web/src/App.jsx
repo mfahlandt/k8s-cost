@@ -213,6 +213,13 @@ function Methodology() {
         spread evenly (same approach as the old Excel) — the line is therefore
         flat within each month and steps at month boundaries.</dd>
 
+        <dt>Comparison chart (top)</dt>
+        <dd>Default view shows <code>cumulative spend ÷ annual budget</code> in %
+        — this makes big ($3M) and small ($17K) providers comparable and shows
+        who is burning budget fastest; crossing the 100% line before December
+        means overspend. Fastly's GB cap fits here too, since percentages are
+        unitless. Toggle to USD for absolute cumulative spend.</dd>
+
         <dt>Fastly</dt>
         <dd>Invoices are $0 under the committed contract, so we track{" "}
         <strong>bandwidth in GB</strong> instead; the "budget" is the contracted
@@ -319,42 +326,73 @@ function WeeklyChart({ weeks, currency, derived }) {
   );
 }
 
-// ComparisonChart overlays every USD provider's cumulative line in one graph
-// (like the sheet's "Compare GCP & AWS"), with dashed forecast continuation.
+// ComparisonChart overlays every provider's cumulative trajectory in one graph.
+// Default mode normalizes to "% of annual budget" so small and large providers
+// are comparable (and Fastly's GB budget fits too — percentages are unitless);
+// the USD mode shows absolute cumulative spend for dollar providers.
 const COMPARE_COLORS = ["#4c8dff", "#7ee08a", "#f6c445", "#e07ee0", "#45d4f6", "#ff7e6b"];
 
 function ComparisonChart({ providers }) {
-  const usd = providers.filter((p) => (p.currency || "USD") === "USD" && p.series?.length);
-  if (usd.length < 2) return null;
+  const [mode, setMode] = useState("budget"); // "budget" | "usd"
+
+  const list =
+    mode === "budget"
+      ? providers.filter((p) => p.budget?.annualBudget > 0 && p.series?.length)
+      : providers.filter((p) => (p.currency || "USD") === "USD" && p.series?.length);
+  if (list.length < 2) return null;
 
   const W = 960, H = 220, PAD = 10;
-  const maxCum = Math.max(...usd.flatMap((p) => p.series.map((s) => s.cumulative)), 1);
+  const val = (p, s) =>
+    mode === "budget" ? (s.cumulative / p.budget.annualBudget) * 100 : s.cumulative;
+  const maxVal =
+    mode === "budget"
+      ? Math.max(...list.flatMap((p) => p.series.map((s) => val(p, s))), 110)
+      : Math.max(...list.flatMap((p) => p.series.map((s) => s.cumulative)), 1);
+
   const x = (i) => PAD + (i / 11) * (W - 2 * PAD);
-  const y = (v) => H - PAD - (v / maxCum) * (H - 2 * PAD);
+  const y = (v) => H - PAD - (v / maxVal) * (H - 2 * PAD);
 
   const compact = (v) =>
     new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 
+  const gridLines = mode === "budget" ? [25, 50, 75, 90, 100] : [];
+
   return (
     <section className="card compare">
-      <div className="card-head"><h2>Cumulative spend — all providers (USD)</h2></div>
+      <div className="card-head">
+        <h2>{mode === "budget" ? "Budget utilization — all providers" : "Cumulative spend — USD providers"}</h2>
+        <div className="mode-toggle">
+          <button className={mode === "budget" ? "on" : ""} onClick={() => setMode("budget")}>% of budget</button>
+          <button className={mode === "usd" ? "on" : ""} onClick={() => setMode("usd")}>USD</button>
+        </div>
+      </div>
       <div className="chart">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
-             aria-label="Cumulative spend comparison across providers">
-          {usd.map((p, pi) => {
+             aria-label="Cumulative comparison across providers">
+          {gridLines.map((g) => (
+            <g key={g}>
+              <line x1={PAD} x2={W - PAD} y1={y(g)} y2={y(g)}
+                    stroke={g >= 90 ? "var(--danger)" : "var(--line)"}
+                    strokeWidth={g === 100 ? 1.4 : 0.7}
+                    strokeDasharray={g >= 90 ? "5 4" : "2 5"}
+                    opacity={g >= 90 ? 0.75 : 0.6} />
+              <text x={W - PAD - 2} y={y(g) - 3} textAnchor="end" className="grid-label">{g}%</text>
+            </g>
+          ))}
+          {list.map((p, pi) => {
             const color = COMPARE_COLORS[pi % COMPARE_COLORS.length];
             const firstF = p.series.findIndex((s) => s.forecast);
             const actual = firstF === -1 ? p.series : p.series.slice(0, firstF + 1);
             const forecast = firstF === -1 ? [] : p.series.slice(Math.max(firstF - 1, 0));
             const toPts = (arr) =>
-              arr.map((s) => `${x(s.month - 1).toFixed(1)},${y(s.cumulative).toFixed(1)}`).join(" ");
+              arr.map((s) => `${x(s.month - 1).toFixed(1)},${y(val(p, s)).toFixed(1)}`).join(" ");
             return (
               <g key={p.provider} stroke={color}>
                 <polyline points={toPts(actual)} fill="none" strokeWidth="2.2" />
                 {forecast.length > 0 && (
                   <polyline points={toPts(forecast)} fill="none" strokeWidth="1.8" strokeDasharray="6 4" opacity="0.7" />
                 )}
-                {p.budget?.annualBudget > 0 && (
+                {mode === "usd" && p.budget?.annualBudget > 0 && (
                   <line x1={PAD} x2={W - PAD} y1={y(p.budget.annualBudget)} y2={y(p.budget.annualBudget)}
                         strokeWidth="1" strokeDasharray="2 4" opacity="0.5" />
                 )}
@@ -363,13 +401,22 @@ function ComparisonChart({ providers }) {
           })}
         </svg>
         <div className="chart-legend">
-          {usd.map((p, pi) => (
-            <span key={p.provider}>
-              <i className="sw" style={{ background: COMPARE_COLORS[pi % COMPARE_COLORS.length] }} />
-              {PROVIDER_NAMES[p.provider] || p.provider} ({compact(p.series[p.series.length - 1].cumulative)})
-            </span>
-          ))}
-          <span className="dim-note">solid = actual · dashed = forecast · dotted = budget</span>
+          {list.map((p, pi) => {
+            const last = p.series[p.series.length - 1];
+            const lbl =
+              mode === "budget"
+                ? `${Math.round(val(p, last))}% by Dec`
+                : compact(last.cumulative);
+            return (
+              <span key={p.provider}>
+                <i className="sw" style={{ background: COMPARE_COLORS[pi % COMPARE_COLORS.length] }} />
+                {PROVIDER_NAMES[p.provider] || p.provider} ({lbl})
+              </span>
+            );
+          })}
+          <span className="dim-note">
+            solid = actual · dashed = forecast{mode === "budget" ? " · red lines = 90% alert / 100% budget" : " · dotted = budget"}
+          </span>
         </div>
         <div className="chart-months chart-months-wide">
           {MONTHS.map((mn) => <span key={mn}>{mn}</span>)}
