@@ -206,6 +206,47 @@ IBMCLOUD_API_KEY=$IBM_Z_API_KEY go run ./cmd/costctl collect-ibm \
   --start 2025-01-01 --end 2026-08-01
 ```
 
+## Azure — CSV drop (no API collector)
+
+Azure has no automated collector in this tool — the usage export is downloaded
+manually from the portal. Instead of a one-off `import`, use the **drop folder**
+so committing the file ingests it (locally or via CI).
+
+### Get the export
+Azure portal → **Cost Management + Billing → Cost analysis / Usage + charges →
+Download** → CSV. The importer expects the classic usage schema:
+
+```
+SubscriptionName, SubscriptionGuid, Date, ResourceGuid, ServiceName,
+ServiceType, ServiceRegion, ServiceResource, Quantity, Cost
+```
+
+Dates are US-style `M/D/YYYY`; there is **one row per resource per day**. The
+`azure-csv` importer sums those rows to **per-day, per-`ServiceName` totals**
+(`Aggregate: true`) so they survive the store's `(date, service)` merge. There
+is no currency column, so amounts default to USD — pass `--currency` to override.
+
+### Ingest it
+```bash
+# drop it in and commit → the ingest.yml Action does the rest
+cp AzureUsage.csv incoming/azure/AzureUsage.csv
+
+# or run the same ingestion locally
+go run ./cmd/costctl ingest --dir incoming --data ./data
+go run ./cmd/costctl report --data ./data
+```
+
+`ingest` scans `incoming/<provider>/*.csv`, imports each with that provider's
+default format, merges into the store (idempotent — re-dropping a period just
+updates it) and moves the raw file to `data/archive/` (git-ignored). Any provider
+with a CSV format works the same way (`incoming/aws/`, `incoming/gcp/`, …).
+
+### Budget
+Azure's annual budget is **$500,000/yr** (`data/budgets/azure.json`):
+```bash
+go run ./cmd/costctl budget --provider azure --year 2026 --amount 500000
+```
+
 ## Fastly — bandwidth usage (not dollars)
 
 Fastly invoices for the project are **$0** (covered by a committed bandwidth

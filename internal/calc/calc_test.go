@@ -84,3 +84,31 @@ func dateStr(y, m, d int) string {
 	return time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.UTC).Format("2006-01-02")
 }
 
+// TestMonthlyBilledProvider verifies that a provider billing one invoice per
+// month (dated to the 1st, e.g. DigitalOcean/IBM) treats that invoice as a
+// whole-month total: MonthlyProjected must equal the invoice, NOT invoice ×
+// daysInMonth. Reproduces the $200 invoice → $6,212 projection bug.
+func TestMonthlyBilledProvider(t *testing.T) {
+do := func(date string, amt float64) model.DailySpend {
+return model.DailySpend{Provider: model.ProviderDigitalOcean, Date: day(date), Amount: amt, Currency: "USD"}
+}
+records := []model.DailySpend{
+do("2026-05-01", 921.97),
+do("2026-06-01", 543.41), // previous month invoice
+do("2026-07-01", 200.39), // current month invoice
+}
+asOf := time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC)
+m := Compute(model.ProviderDigitalOcean, records, asOf, nil)
+approx(t, "MonthlySpend", m.MonthlySpend, 200.39)
+// Whole-month invoice, not projected up by ~31 days.
+approx(t, "MonthlyProjected", m.MonthlyProjected, 200.39)
+approx(t, "CurrentMonthAvgDaily", m.CurrentMonthAvgDaily, 200.39/31.0)
+approx(t, "LastMonthAvgDaily", m.LastMonthAvgDaily, 543.41/30.0) // ≈ 18.11
+// Dashboard should treat it as a full month (hides the projection row).
+if m.DaysElapsedInMonth != m.DaysInCurrentMonth {
+t.Errorf("DaysElapsedInMonth = %d, want %d (full month)", m.DaysElapsedInMonth, m.DaysInCurrentMonth)
+}
+if !m.WeeklyDerived {
+t.Error("expected WeeklyDerived=true for a monthly-billed provider")
+}
+}

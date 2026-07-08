@@ -93,6 +93,12 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 	year := asOf.Year()
 	month := asOf.Month()
 
+	// Monthly-billed providers (DO, IBM) store one whole-month invoice dated to
+	// the 1st; daily-granular providers (AWS/GCP/Azure/Fastly) have per-day
+	// records. This drives both the current-month averaging and whether the
+	// weekly series is derived (spread) or built from real daily data.
+	monthlyBilled := provider.MonthlyBilled()
+
 	prevMonthTime := asOf.AddDate(0, -1, 0)
 	prevYear, prevMonth := prevMonthTime.Year(), prevMonthTime.Month()
 
@@ -104,7 +110,6 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 	daysWithData := map[int]struct{}{} // distinct current-month days that have records
 	var monthlyByMonth [12]float64     // per-month totals for the reference year
 	weeklyTotals := map[time.Time]float64{} // Sat–Fri weeks, keyed by ending Friday
-	dailyGranular := false                  // true if any record is not on the 1st
 	for _, r := range records {
 		d := r.Date.Time
 		if d.After(asOf) {
@@ -121,9 +126,6 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 			ytd += r.Amount
 			monthlyByMonth[d.Month()-1] += r.Amount
 			weeklyTotals[weekEndFriday(d)] += r.Amount
-			if d.Day() != 1 {
-				dailyGranular = true
-			}
 		}
 	}
 	// Divide the current-month average by the days that actually have data, not
@@ -133,6 +135,16 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 	dataDays := len(daysWithData)
 	if dataDays == 0 {
 		dataDays = daysElapsed
+	}
+	// Monthly-billed providers store one invoice for the whole month (dated to
+	// the 1st), so their single day-1 record already covers the full month.
+	// Averaging over daysInCur gives CurrentMonthAvgDaily = invoice/daysInMonth
+	// and MonthlyProjected = invoice, instead of multiplying a whole-month total
+	// by ~31 (which produced absurd projections like $6k from a $200 invoice).
+	// It also makes the dashboard label it "Monthly spend" rather than a partial
+	// month with a bogus projection.
+	if monthlyBilled {
+		dataDays = daysInCur
 	}
 
 	currency := ""
@@ -217,7 +229,7 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 
 	// Weekly (Sat–Fri) series like the old sheet's weekly tab. Monthly-billed
 	// providers get derived weeks: invoice spread evenly across the month.
-	if !dailyGranular {
+	if monthlyBilled {
 		weeklyTotals = map[time.Time]float64{}
 		for mo := 1; mo <= int(month); mo++ {
 			total := monthlyByMonth[mo-1]

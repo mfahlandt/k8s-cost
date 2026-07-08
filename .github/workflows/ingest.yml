@@ -1,0 +1,56 @@
+name: Ingest dropped billing exports
+
+# Drop a provider export into incoming/<provider>/<file>.csv (e.g.
+# incoming/azure/AzureUsage.csv) and push it. This workflow parses the file into
+# the normalized store, regenerates dashboard.json + the XLSX, removes the raw
+# file from the repo (it is archived out-of-tree, see .gitignore) and commits
+# the resulting data changes back to the branch.
+
+on:
+  push:
+    paths:
+      - "incoming/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ingest-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+          cache: true
+
+      - name: Ingest dropped files
+        run: |
+          go run ./cmd/costctl ingest --dir incoming --archive data/archive --data ./data
+
+      - name: Regenerate dashboard.json + XLSX
+        run: |
+          go run ./cmd/costctl report --data ./data \
+            --json web/public/dashboard.json --xlsx reports/report.xlsx
+
+      - name: Commit ingested data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Stage the normalized data + generated dashboard, and the removal of
+          # the now-processed raw files from incoming/ (moved to the ignored
+          # data/archive/). --ignore-removal is NOT set so deletions are staged.
+          git add -A data/ web/public/dashboard.json incoming/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(ingest): ingest dropped billing exports [skip ci]"
+            git push
+          fi
+

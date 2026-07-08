@@ -87,12 +87,31 @@ Budgets are per **provider + year** in `data/budgets/*.json` (they reset Jan 1):
 |----------|-------------|
 | AWS | $3,000,000 |
 | GCP | $3,000,000 |
+| Azure | $500,000 |
 | DigitalOcean | $17,000 |
 | IBM Power | $45,000 |
 | IBM Z | $55,000 |
 | Fastly | 120,000,000 GB (= 10 PB/month) |
 
 Change with: `go run ./cmd/costctl budget --provider <p> --year <y> --amount <n> [--currency GB]`.
+
+## Drop-folder ingestion (`ingest.yml`)
+
+Providers without an API collector (Azure) are fed by committing their export
+into `incoming/<provider>/`. The `.github/workflows/ingest.yml` workflow triggers
+on any push under `incoming/**`:
+
+```
+push incoming/azure/AzureUsage.csv
+  → costctl ingest   (parse + merge into data/spend/azure.json)
+  → costctl report   (dashboard.json + XLSX)
+  → move raw file to data/archive/ (git-ignored)
+  → commit data/ + dashboard.json back to the branch
+```
+
+No secrets are required. Give the workflow write permission
+(Settings → Actions → General → Workflow permissions → "Read and write"). The
+commit uses `[skip ci]` so it doesn't re-trigger itself.
 
 
 

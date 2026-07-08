@@ -5,7 +5,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/kubernetes/k8s-cost/internal/calc"
@@ -29,6 +32,8 @@ func main() {
 	switch os.Args[1] {
 	case "import":
 		err = cmdImport(os.Args[2:])
+	case "ingest":
+		err = cmdIngest(os.Args[2:])
 	case "budget":
 		err = cmdBudget(os.Args[2:])
 	case "collect-gcp":
@@ -64,6 +69,7 @@ func usage() {
 
 Usage:
   costctl import  --provider <p> --format <fmt> --file <csv> [--currency USD] [--period YYYY-MM] [--data ./data]
+  costctl ingest  [--dir incoming] [--archive data/archive] [--currency USD] [--data ./data]
   costctl budget  --provider <p> --year <y> --amount <n> [--threshold 0.9] [--currency USD] [--data ./data]
   costctl collect-gcp --project <billing-project> --table <fq-billing-table> --period YYYY-MM [--location US] [--data ./data]
   costctl collect-aws [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--period YYYY-MM] [--profile <p>] [--data ./data]
@@ -73,7 +79,13 @@ Usage:
   costctl report  [--asof YYYY-MM-DD] [--data ./data] [--json web/public/dashboard.json] [--xlsx reports/report.xlsx]
   costctl alert   --webhook <url> [--asof YYYY-MM-DD] [--data ./data]
 
-Import formats: aws-csv, gcp-csv, digitalocean-csv
+Import formats: aws-csv, gcp-csv, digitalocean-csv, azure-csv
+
+ingest watches a drop directory laid out as incoming/<provider>/*.csv (e.g.
+incoming/azure/AzureUsage.csv). Each file is parsed with that provider's
+default format, merged into the store, then moved to the archive directory.
+Wire it to a "push to incoming/**" GitHub Action so committing a file ingests
+it automatically.
 
 collect-gcp requires Google Application Default Credentials (ADC):
   gcloud auth application-default login      # user creds, or
@@ -141,6 +153,133 @@ func cmdImport(args []string) error {
 	}
 	fmt.Printf("imported %s: %d records (%d added, %d updated)\n", provider, len(records), added, updated)
 	return nil
+}
+
+// cmdIngest scans a drop directory laid out as <dir>/<provider>/*.csv, imports
+// each file with that provider's default format, and moves processed files into
+// the archive directory. It is the engine behind the "commit a file → it gets
+// ingested" GitHub Action: the workflow triggers on pushes under incoming/**.
+func cmdIngest(args []string) error {
+	fs := flag.NewFlagSet("ingest", flag.ExitOnError)
+	dir := fs.String("dir", "incoming", "drop directory laid out as <dir>/<provider>/*.csv")
+	archive := fs.String("archive", "data/archive", "directory processed files are moved into (empty = leave in place)")
+	currency := fs.String("currency", "USD", "default currency when an export omits one")
+	dataDir := fs.String("data", "./data", "data directory")
+	_ = fs.Parse(args)
+
+	entries, err := os.ReadDir(*dir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("ingest: drop directory %q does not exist, nothing to do\n", *dir)
+			return nil
+		}
+		return err
+	}
+	st, err := store.New(*dataDir)
+	if err != nil {
+		return err
+	}
+
+	files := 0
+	for _, e := range entries {
+		if !e.IsDir() {
+			continue // top level holds one subdirectory per provider
+		}
+		provider, err := model.ParseProvider(e.Name())
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "skip %q: %v\n", e.Name(), err)
+			continue
+		}
+		format, ok := importer.DefaultFormat(provider)
+		if !ok {
+			fmt.Fprintf(os.Stderr, "skip %q: no default import format for provider\n", provider)
+			continue
+		}
+		imp, err := importer.Get(format)
+		if err != nil {
+			return err
+		}
+
+		providerDir := filepath.Join(*dir, e.Name())
+		csvs, err := os.ReadDir(providerDir)
+		if err != nil {
+			return err
+		}
+		for _, cf := range csvs {
+			if cf.IsDir() || !strings.HasSuffix(strings.ToLower(cf.Name()), ".csv") {
+				continue
+			}
+			srcPath := filepath.Join(providerDir, cf.Name())
+			if err := ingestFile(st, imp, provider, srcPath, *currency); err != nil {
+				return fmt.Errorf("%s: %w", srcPath, err)
+			}
+			files++
+			if *archive != "" {
+				if err := archiveFile(*archive, string(provider), srcPath); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	fmt.Printf("ingest complete: %d file(s) processed from %q\n", files, *dir)
+	return nil
+}
+
+func ingestFile(st *store.Store, imp importer.Importer, provider model.Provider, path, currency string) error {
+	f, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	records, err := imp.Parse(f, importer.Options{DefaultCurrency: currency})
+	if err != nil {
+		return err
+	}
+	added, updated, err := st.MergeSpend(provider, records)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("ingested %s from %s: %d records (%d added, %d updated)\n",
+		provider, filepath.Base(path), len(records), added, updated)
+	return nil
+}
+
+// archiveFile moves a processed file into <archive>/<provider>/, prefixing it
+// with an ingest timestamp so re-dropping a same-named file never clobbers a
+// previous one.
+func archiveFile(archive, provider, srcPath string) error {
+	dstDir := filepath.Join(archive, provider)
+	if err := os.MkdirAll(dstDir, 0o755); err != nil {
+		return err
+	}
+	stamp := time.Now().UTC().Format("20060102T150405Z")
+	dst := filepath.Join(dstDir, stamp+"-"+filepath.Base(srcPath))
+	if err := os.Rename(srcPath, dst); err != nil {
+		// os.Rename fails across filesystems; fall back to copy+remove.
+		if err := copyFile(srcPath, dst); err != nil {
+			return err
+		}
+		return os.Remove(srcPath)
+	}
+	return nil
+}
+
+func copyFile(src, dst string) error {
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+	if _, err := io.Copy(out, in); err != nil {
+		return err
+	}
+	return out.Close()
 }
 
 func cmdBudget(args []string) error {

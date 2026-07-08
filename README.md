@@ -44,6 +44,25 @@ make dev   # http://localhost:5173
 
 Or use the Makefile: `make build`, `make test`, `make report`, `make web`.
 
+## Drop-folder ingestion (no API? just commit the file)
+
+Some providers have no automatable export (e.g. Azure). For those, drop the CSV
+into `incoming/<provider>/` and commit it — the `ingest.yml` GitHub Action
+parses it, updates the store, regenerates the dashboard and commits the result
+back. The raw file is archived out-of-tree (see `.gitignore`).
+
+```bash
+# e.g. Azure: put the portal usage export here and push
+cp AzureUsage.csv incoming/azure/AzureUsage.csv
+
+# or run the same ingestion locally
+go run ./cmd/costctl ingest --dir incoming --data ./data
+go run ./cmd/costctl report --data ./data
+```
+
+The subfolder name selects the provider + format (`incoming/azure/` → `azure-csv`,
+`incoming/aws/` → `aws-csv`, …). See `incoming/README.md` for the full mapping.
+
 ## Import formats
 
 | Format             | Provider     | Notes |
@@ -51,6 +70,7 @@ Or use the Makefile: `make build`, `make test`, `make report`, `make web`.
 | `aws-csv`          | AWS          | Cost Explorer / CUR style CSV with date + service + cost columns |
 | `gcp-csv`          | GCP          | BigQuery billing export CSV. The provided service-level monthly SQL has no date column — pass `--period YYYY-MM` |
 | `digitalocean-csv` | DigitalOcean | Billing history CSV (PDF/API collectors planned) |
+| `azure-csv`        | Azure        | Portal "Download usage" / Cost Management CSV (one row per resource per day; summed to per-day/service totals) |
 
 Column matching is alias-based and case-insensitive, so minor header
 differences between exports are tolerated. Amounts accept `$1,234.56`,
@@ -102,7 +122,7 @@ SLACK_WEBHOOK_URL=... go run ./cmd/costctl alert
 
 ## Roadmap
 
-- Additional providers: Azure, Fastly, IBM Power CSV profiles
+- Additional providers: Fastly, IBM Power CSV profiles
 - DigitalOcean PDF invoice parser + billing API collector
 - Optional cloud billing API collectors (AWS CE, GCP BigQuery) for automation
 - Historical trend charts in the dashboard

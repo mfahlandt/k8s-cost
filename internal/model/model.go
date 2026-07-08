@@ -43,15 +43,15 @@ func (p Provider) DisplayName() string {
 }
 
 // AllProviders lists every provider in the canonical report/dashboard order:
-// GCP -> AWS -> Fastly -> DigitalOcean -> IBM (Power, Z) -> Azure.
+// GCP -> AWS -> Azure -> Fastly -> DigitalOcean -> IBM (Power, Z).
 var AllProviders = []Provider{
 	ProviderGCP,
 	ProviderAWS,
+	ProviderAzure,
 	ProviderFastly,
 	ProviderDigitalOcean,
 	ProviderIBMPower,
 	ProviderIBMZ,
-	ProviderAzure,
 }
 
 // ParseProvider validates and normalizes a provider identifier.
@@ -63,6 +63,21 @@ func ParseProvider(s string) (Provider, error) {
 		}
 	}
 	return "", fmt.Errorf("unknown provider %q", s)
+}
+
+// MonthlyBilled reports whether a provider bills a single invoice per month,
+// stored as one record dated to the 1st of the month. Their monthly record
+// already represents the whole month's spend, so per-day metrics must divide
+// it by the days in the month (and must not project it by multiplying a
+// whole-month total by the number of days). Daily-granular providers
+// (AWS/GCP/Azure/Fastly) return false.
+func (p Provider) MonthlyBilled() bool {
+	switch p {
+	case ProviderDigitalOcean, ProviderIBMPower, ProviderIBMZ:
+		return true
+	default:
+		return false
+	}
 }
 
 // Date is a calendar day (no time-of-day component) serialized as YYYY-MM-DD.

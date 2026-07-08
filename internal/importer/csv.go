@@ -29,6 +29,12 @@ type CSVProfile struct {
 	ServiceAliases []string
 	// CurrencyAliases are candidate header names for the currency column.
 	CurrencyAliases []string
+
+	// Aggregate, when true, sums rows that share the same (date, service) key
+	// into a single record. Required for resource-granular exports (e.g. the
+	// Azure usage CSV emits one row per resource per day) so the day/service
+	// totals survive the store's (date, service)-keyed MergeSpend.
+	Aggregate bool
 }
 
 // parseCSV is the shared engine used by every provider profile.
@@ -120,7 +126,33 @@ func parseCSV(r io.Reader, profile CSVProfile, opts Options) ([]model.DailySpend
 			Service:  strings.TrimSpace(cell(row, serviceCol)),
 		})
 	}
+	if profile.Aggregate {
+		out = aggregate(out)
+	}
 	return out, nil
+}
+
+// aggregate collapses records that share the same (date, service) key by
+// summing their amounts, preserving the currency of the first record seen.
+// Insertion order is preserved so the result stays deterministic before the
+// store re-sorts it.
+func aggregate(in []model.DailySpend) []model.DailySpend {
+	type key struct {
+		date    string
+		service string
+	}
+	index := make(map[key]int, len(in))
+	out := make([]model.DailySpend, 0, len(in))
+	for _, r := range in {
+		k := key{r.Date.String(), r.Service}
+		if i, ok := index[k]; ok {
+			out[i].Amount += r.Amount
+			continue
+		}
+		index[k] = len(out)
+		out = append(out, r)
+	}
+	return out
 }
 
 func indexHeader(header []string) map[string]int {

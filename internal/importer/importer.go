@@ -52,3 +52,20 @@ func Formats() []string {
 	return keys
 }
 
+// defaultFormats maps a provider to the CSV import format used by the
+// folder-drop ingester, so a file dropped in incoming/<provider>/ is parsed
+// with the right profile without the operator naming the format explicitly.
+var defaultFormats = map[model.Provider]string{
+	model.ProviderAWS:          "aws-csv",
+	model.ProviderGCP:          "gcp-csv",
+	model.ProviderDigitalOcean: "digitalocean-csv",
+	model.ProviderAzure:        "azure-csv",
+}
+
+// DefaultFormat returns the import format registered for a provider's dropped
+// CSV files (e.g. ProviderAzure -> "azure-csv").
+func DefaultFormat(p model.Provider) (string, bool) {
+	f, ok := defaultFormats[p]
+	return f, ok
+}
+

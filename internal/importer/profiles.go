@@ -50,5 +50,20 @@ func init() {
 		ServiceAliases:  []string{"product", "description", "name", "category"},
 		CurrencyAliases: []string{"currency"},
 	}})
+
+	// Azure usage export (portal "Download usage" / Cost Management CSV). One
+	// row per resource per day (columns: Date, ServiceName, ServiceType, ...,
+	// Cost) with US-style M/D/YYYY dates and no currency column. Aggregate=true
+	// rolls the per-resource rows up to per-day/per-service totals so they
+	// survive the store's (date, service)-keyed merge.
+	register("azure-csv", csvImporter{CSVProfile{
+		Provider:        model.ProviderAzure,
+		DateAliases:     []string{"date", "usagedatetime", "usage date", "day"},
+		DateLayouts:     []string{"1/2/2006", "01/02/2006", "2006-01-02", "2006/01/02"},
+		AmountAliases:   []string{"cost", "costinbillingcurrency", "pretaxcost", "amount", "total"},
+		ServiceAliases:  []string{"servicename", "metercategory", "service", "servicetype"},
+		CurrencyAliases: []string{"currency", "billingcurrency", "currencycode"},
+		Aggregate:       true,
+	}})
 }
 
