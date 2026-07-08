@@ -431,12 +431,38 @@ func cmdCollectDO(args []string) error {
 	if err != nil {
 		return err
 	}
-	added, updated, err := st.MergeSpend(model.ProviderDigitalOcean, records)
+	// The DO collector returns the full invoice history, now split per product.
+	// Replace the covered month range so the old day-total (service-less) rows
+	// are swapped for per-service rows without double-counting.
+	if len(records) == 0 {
+		fmt.Println("collected digitalocean: no invoices returned")
+		return nil
+	}
+	start, end := spendRange(records)
+	removed, added, err := st.ReplaceSpendRange(model.ProviderDigitalOcean, start, end, records)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("collected digitalocean: %d monthly invoices (%d added, %d updated)\n", len(records), added, updated)
+	fmt.Printf("collected digitalocean: %d monthly/service records (%d added, %d replaced)\n", len(records), added, removed)
 	return nil
+}
+
+// spendRange returns [start, end) covering every record's month: the first day
+// of the earliest record's month to the first day after the latest record's
+// month.
+func spendRange(records []model.DailySpend) (time.Time, time.Time) {
+	min, max := records[0].Date.Time, records[0].Date.Time
+	for _, r := range records {
+		if r.Date.Time.Before(min) {
+			min = r.Date.Time
+		}
+		if r.Date.Time.After(max) {
+			max = r.Date.Time
+		}
+	}
+	start := time.Date(min.Year(), min.Month(), 1, 0, 0, 0, 0, time.UTC)
+	end := time.Date(max.Year(), max.Month(), 1, 0, 0, 0, 0, time.UTC).AddDate(0, 1, 0)
+	return start, end
 }
 
 func cmdCollectIBM(args []string) error {
@@ -494,11 +520,11 @@ func cmdCollectIBM(args []string) error {
 	if err != nil {
 		return err
 	}
-	added, updated, err := st.MergeSpend(provider, records)
+	removed, added, err := st.ReplaceSpendRange(provider, start, end, records)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("collected %s: %d monthly records (%d added, %d updated)\n", provider, len(records), added, updated)
+	fmt.Printf("collected %s: %d monthly/service records (%d added, %d replaced)\n", provider, len(records), added, removed)
 	return nil
 }
 

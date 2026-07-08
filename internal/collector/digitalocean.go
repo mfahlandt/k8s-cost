@@ -45,7 +45,15 @@ type doInvoicesResponse struct {
 // doSummaryItem is a grouped charge block in an invoice summary. DigitalOcean
 // zeroes out the top-level invoice amount when credits/discounts apply, so the
 // real spend must be read from product_charges (+ overages), before credits.
+// Items breaks the group down per product (Droplets, Spaces, Load Balancers…).
 type doSummaryItem struct {
+	Name  string       `json:"name"`
+	Amount string      `json:"amount"`
+	Items []doLineItem `json:"items"`
+}
+
+// doLineItem is a single per-product line within a summary group.
+type doLineItem struct {
 	Name   string `json:"name"`
 	Amount string `json:"amount"`
 }
@@ -73,6 +81,35 @@ func (s doInvoiceSummary) grossSpend() float64 {
 	return total
 }
 
+// byProduct returns the gross spend broken down per product, keyed by product
+// name. It uses the product_charges line items (and folds overages into an
+// "Overages" bucket). Any rounding remainder between Σ items and grossSpend is
+// added as "(other)" so the breakdown reconciles exactly with the headline.
+func (s doInvoiceSummary) byProduct() map[string]float64 {
+	out := map[string]float64{}
+	for _, it := range s.ProductCharges.Items {
+		name := strings.TrimSpace(it.Name)
+		if name == "" {
+			name = "Product charges"
+		}
+		out[name] += parseFloatSafe(it.Amount)
+	}
+	if ov := parseFloatSafe(s.Overages.Amount); ov != 0 {
+		out["Overages"] += ov
+	}
+	if len(out) == 0 {
+		return nil // no line-item detail available
+	}
+	var sum float64
+	for _, v := range out {
+		sum += v
+	}
+	if rem := s.grossSpend() - sum; rem > 0.005 || rem < -0.005 {
+		out["(other)"] += rem
+	}
+	return out
+}
+
 // CollectDO pulls monthly invoices from the DigitalOcean billing API and maps
 // each to a model.DailySpend dated to the first day of its invoice period,
 // using the invoice summary's product charges (spend before credits/discounts).
@@ -96,17 +133,15 @@ func CollectDO(ctx context.Context, cfg DOConfig) ([]model.DailySpend, error) {
 			return nil, err
 		}
 		for _, inv := range resp.Invoices {
-			rec, ok, err := invoiceToSpend(ctx, client, cfg.Token, inv)
+			recs, err := invoiceToSpend(ctx, client, cfg.Token, inv)
 			if err != nil {
 				return nil, err
 			}
-			if ok {
-				out = append(out, rec)
-			}
+			out = append(out, recs...)
 		}
 		if cfg.IncludePreview && !previewDone && resp.InvoicePreview.InvoicePeriod != "" {
-			if rec, ok, err := invoiceToSpend(ctx, client, cfg.Token, resp.InvoicePreview); err == nil && ok {
-				out = append(out, rec)
+			if recs, err := invoiceToSpend(ctx, client, cfg.Token, resp.InvoicePreview); err == nil {
+				out = append(out, recs...)
 			}
 			previewDone = true
 		}
@@ -115,34 +150,62 @@ func CollectDO(ctx context.Context, cfg DOConfig) ([]model.DailySpend, error) {
 	return out, nil
 }
 
-// invoiceToSpend resolves an invoice to its gross monthly spend by fetching the
-// invoice summary (product charges before credits). Falls back to the net
-// invoice amount if no uuid/summary is available (e.g. the current preview).
-func invoiceToSpend(ctx context.Context, client *http.Client, token string, inv doInvoice) (model.DailySpend, bool, error) {
+// invoiceToSpend resolves an invoice to its gross monthly spend, broken down per
+// product (Droplets, Spaces, …) from the invoice summary's line items. Falls
+// back to a single record (service unset) when no summary/line items are
+// available (e.g. the current preview). Every record is dated to the first of
+// the invoice period; the per-product amounts sum to the gross monthly spend.
+func invoiceToSpend(ctx context.Context, client *http.Client, token string, inv doInvoice) ([]model.DailySpend, error) {
 	if inv.InvoicePeriod == "" {
-		return model.DailySpend{}, false, nil
+		return nil, nil
 	}
 	t, err := time.Parse("2006-01", strings.TrimSpace(inv.InvoicePeriod))
 	if err != nil {
-		return model.DailySpend{}, false, nil
+		return nil, nil
+	}
+	date := model.NewDate(t)
+
+	// No uuid (e.g. the preview): fall back to the net invoice amount, no split.
+	if inv.InvoiceUUID == "" {
+		return []model.DailySpend{{
+			Provider: model.ProviderDigitalOcean,
+			Date:     date,
+			Amount:   parseFloatSafe(inv.Amount),
+			Currency: "USD",
+		}}, nil
 	}
 
-	amount := parseFloatSafe(inv.Amount) // net (usually 0 when discounted)
-	if inv.InvoiceUUID != "" {
-		var sum doInvoiceSummary
-		surl := doAPIBase + "/customers/my/invoices/" + inv.InvoiceUUID + "/summary"
-		if err := doGet(ctx, client, token, surl, &sum); err != nil {
-			return model.DailySpend{}, false, err
+	var sum doInvoiceSummary
+	surl := doAPIBase + "/customers/my/invoices/" + inv.InvoiceUUID + "/summary"
+	if err := doGet(ctx, client, token, surl, &sum); err != nil {
+		return nil, err
+	}
+
+	byProduct := sum.byProduct()
+	if len(byProduct) == 0 {
+		// No line-item detail: one record with the gross monthly spend.
+		return []model.DailySpend{{
+			Provider: model.ProviderDigitalOcean,
+			Date:     date,
+			Amount:   sum.grossSpend(),
+			Currency: "USD",
+		}}, nil
+	}
+
+	out := make([]model.DailySpend, 0, len(byProduct))
+	for name, amt := range byProduct {
+		if amt == 0 {
+			continue
 		}
-		amount = sum.grossSpend()
+		out = append(out, model.DailySpend{
+			Provider: model.ProviderDigitalOcean,
+			Date:     date,
+			Amount:   amt,
+			Currency: "USD",
+			Service:  name,
+		})
 	}
-
-	return model.DailySpend{
-		Provider: model.ProviderDigitalOcean,
-		Date:     model.NewDate(t),
-		Amount:   amount,
-		Currency: "USD",
-	}, true, nil
+	return out, nil
 }
 
 func parseFloatSafe(s string) float64 {

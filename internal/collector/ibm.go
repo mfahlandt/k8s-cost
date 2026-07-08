@@ -68,19 +68,25 @@ func CollectIBM(ctx context.Context, cfg IBMConfig) ([]model.DailySpend, error) 
 	var out []model.DailySpend
 	for m := monthStart(cfg.Start); m.Before(cfg.End); m = m.AddDate(0, 1, 0) {
 		billingMonth := m.Format("2006-01")
-		cost, found, err := ibmMonthlyBillableCost(ctx, client, token, accountID, billingMonth)
+		byService, found, err := ibmMonthlyByResource(ctx, client, token, accountID, billingMonth)
 		if err != nil {
 			return nil, fmt.Errorf("usage %s: %w", billingMonth, err)
 		}
 		if !found {
 			continue // no usage data for this month (account inactive / too old)
 		}
-		out = append(out, model.DailySpend{
-			Provider: provider,
-			Date:     model.NewDate(m),
-			Amount:   cost,
-			Currency: "USD",
-		})
+		for name, cost := range byService {
+			if cost == 0 {
+				continue
+			}
+			out = append(out, model.DailySpend{
+				Provider: provider,
+				Date:     model.NewDate(m),
+				Amount:   cost,
+				Currency: "USD",
+				Service:  name,
+			})
+		}
 	}
 	return out, nil
 }
@@ -140,27 +146,36 @@ func ibmDiscoverAccount(ctx context.Context, client *http.Client, token string) 
 	return resp.Resources[0].Metadata.GUID, nil
 }
 
-// ibmMonthlyBillableCost sums billable_cost across all resources for a month.
-// found is false when the month has no usage report (HTTP 404).
-func ibmMonthlyBillableCost(ctx context.Context, client *http.Client, token, accountID, billingMonth string) (float64, bool, error) {
+// ibmMonthlyByResource returns the billable cost for a month broken down by
+// resource (service), keyed by resource name. found is false when the month has
+// no usage report (HTTP 404). Costs for resources sharing a name are summed, so
+// the per-service totals reconcile exactly with the old month total (Σ == the
+// former billable_cost sum).
+func ibmMonthlyByResource(ctx context.Context, client *http.Client, token, accountID, billingMonth string) (map[string]float64, bool, error) {
 	u := fmt.Sprintf("%s/%s/usage/%s", ibmBillingBase, accountID, billingMonth)
 	var resp struct {
 		Resources []struct {
+			ResourceID   string  `json:"resource_id"`
+			ResourceName string  `json:"resource_name"`
 			BillableCost float64 `json:"billable_cost"`
 		} `json:"resources"`
 	}
 	status, err := ibmGet(ctx, client, token, u, &resp)
 	if err != nil {
-		return 0, false, err
+		return nil, false, err
 	}
 	if status == http.StatusNotFound {
-		return 0, false, nil
+		return nil, false, nil
 	}
-	var total float64
+	byService := make(map[string]float64, len(resp.Resources))
 	for _, r := range resp.Resources {
-		total += r.BillableCost
+		name := strings.TrimSpace(r.ResourceName)
+		if name == "" {
+			name = strings.TrimSpace(r.ResourceID)
+		}
+		byService[name] += r.BillableCost
 	}
-	return total, true, nil
+	return byService, true, nil
 }
 
 // ibmGet performs a GET and decodes the body. It returns the HTTP status so

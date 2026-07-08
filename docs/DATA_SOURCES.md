@@ -173,9 +173,12 @@ go run ./cmd/costctl import --provider aws --format aws-csv --file aws.csv
 
 ### API collector (recommended)
 `costctl collect-do` pulls monthly invoices from the DigitalOcean billing API
-(`/v2/customers/my/invoices`), mapping each `invoice_period` (YYYY-MM) + amount
-to one record per month (DO bills monthly, no daily data). `--preview` adds the
-current in-progress month (`invoice_preview`).
+(`/v2/customers/my/invoices`), then reads each invoice **summary** and emits one
+record **per product** (`product_charges.items[]` → service: Droplets, Spaces,
+Load Balancers…, plus an "Overages" bucket), before credits/discounts. Summed
+across products the monthly gross spend is unchanged (any rounding remainder is
+folded into "(other)"). `--preview` adds the current in-progress month
+(`invoice_preview`, no line-item split → a single record).
 
 Needs a **DigitalOcean personal access token** with read scope:
 ```bash
@@ -193,8 +196,10 @@ parsing is a possible future addition.
 
 ### API collector
 `costctl collect-ibm` exchanges an IBM Cloud IAM **API key** for an access token,
-then pulls monthly usage (`/v4/accounts/{account}/usage/{YYYY-MM}`) and sums
-`billable_cost` across resources — one record per month (IBM bills monthly).
+then pulls monthly usage (`/v4/accounts/{account}/usage/{YYYY-MM}`) and emits one
+record **per resource** (`resource_name` → service), so the store gets a
+per-service breakdown. Summed across resources the month total is unchanged
+(IBM bills monthly, so records are dated to the 1st).
 
 Needs an IBM Cloud IAM API key with billing/usage read access:
 ```bash
