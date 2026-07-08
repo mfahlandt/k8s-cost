@@ -350,11 +350,11 @@ func cmdCollectGCP(args []string) error {
 	if err != nil {
 		return err
 	}
-	added, updated, err := st.MergeSpend(model.ProviderGCP, records)
+	removed, added, err := st.ReplaceSpendRange(model.ProviderGCP, start, end, records)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("collected gcp %s: %d daily records (%d added, %d updated)\n", *period, len(records), added, updated)
+	fmt.Printf("collected gcp %s: %d daily/service records (%d added, %d replaced)\n", *period, len(records), added, removed)
 	return nil
 }
 
@@ -401,12 +401,12 @@ func cmdCollectAWS(args []string) error {
 	if err != nil {
 		return err
 	}
-	added, updated, err := st.MergeSpend(model.ProviderAWS, records)
+	removed, added, err := st.ReplaceSpendRange(model.ProviderAWS, start, end, records)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("collected aws %s..%s: %d daily records (%d added, %d updated)\n",
-		start.Format("2006-01-02"), end.Format("2006-01-02"), len(records), added, updated)
+	fmt.Printf("collected aws %s..%s: %d daily/service records (%d added, %d replaced)\n",
+		start.Format("2006-01-02"), end.Format("2006-01-02"), len(records), added, removed)
 	return nil
 }
 

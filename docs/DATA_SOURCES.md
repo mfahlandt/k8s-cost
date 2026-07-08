@@ -74,7 +74,18 @@ the old sheet exactly across the whole year.
 ## GCP — BigQuery collector (real data)
 
 The collector (`costctl collect-gcp`) runs a day-grouped version of your billing
-query directly against BigQuery, so the store gets true daily granularity.
+query directly against BigQuery, so the store gets true daily granularity. It
+groups by **`service.description`** as well, giving a per-service breakdown for
+the top-spenders view; summed across services each day's total is identical to
+the day-only query.
+
+> **Service breakdown backfill.** AWS and GCP collectors now store per-service
+> rows and use *replace-by-range* semantics (`Store.ReplaceSpendRange`), so a
+> re-collect swaps the old day-total rows for per-service rows without
+> double-counting. The daily workflow only re-collects the current + previous
+> month, so older history keeps its day-total rows (shown as `(unspecified)` in
+> the breakdown) until you re-collect the full range once. Azure already carries
+> full service detail from its CSV import.
 
 ### What I need from you
 1. **A billing/query project** — a GCP project the query runs in and is billed
@@ -124,6 +135,8 @@ go run ./cmd/costctl import --provider gcp --format gcp-csv --file gcp-may.csv -
 ### API collector (recommended)
 `costctl collect-aws` pulls daily **UnblendedCost** from the Cost Explorer API
 (`GetCostAndUsage`) — the same metric as the sheet's "AWS Cost Management" table.
+It groups by **SERVICE**, so the store gets a per-service, per-day breakdown for
+the top-spenders view; summed across services the day total is unchanged.
 
 It uses the standard AWS credential chain (SSO / shared profile / env / IAM
 role). Required IAM permission: **`ce:GetCostAndUsage`** (Cost Explorer must be

@@ -120,6 +120,38 @@ hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
   cursor: pointer;
 }
 .mode-toggle button.on { background: var(--accent); color: #fff; }
+.toggle-sep { width: 1px; align-self: stretch; background: var(--line); }
+
+/* header controls + view navigation (Overview / Top spenders sub-page) */
+.hdr-controls { display: flex; align-items: center; gap: 12px; }
+.view-nav { display: flex; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.view-nav a {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.view-nav a.on { background: var(--accent); color: #fff; }
+
+/* per-service breakdown bars on the Top spenders sub-page */
+.svc-total { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); }
+.svc-note { color: var(--muted); font-size: 13px; margin: 8px 0 2px; }
+.svc-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.svc-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 34%) 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.svc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
+.svc-bar-wrap { background: var(--line); border-radius: 4px; height: 10px; overflow: hidden; }
+.svc-bar { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.svc-val { font-variant-numeric: tabular-nums; color: var(--text); }
+.svc-pct { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 44px; text-align: right; }
+.svc-other .svc-name { color: var(--muted); font-style: italic; }
+.svc-other .svc-bar { background: var(--muted); opacity: 0.5; }
+
 .hdr-alert { color: var(--danger); font-weight: 700; }
 .hdr-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .month-select {

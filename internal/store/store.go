@@ -17,6 +17,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"time"
 
 	"github.com/kubernetes/k8s-cost/internal/model"
 )
@@ -99,6 +100,39 @@ func (s *Store) MergeSpend(p model.Provider, incoming []model.DailySpend) (added
 		return 0, 0, err
 	}
 	return added, updated, nil
+}
+
+// ReplaceSpendRange replaces every record whose date falls in [start, end) with
+// the incoming set, leaving records outside the window untouched. Records
+// outside the window are kept; incoming records are assumed to already lie
+// within it.
+//
+// API collectors that return a complete picture of a date range (AWS Cost
+// Explorer daily, GCP BigQuery daily) use this instead of MergeSpend so that
+// (a) re-collecting a window is idempotent, and (b) switching a window from
+// day-total records (service == "") to per-service records never double-counts
+// — the old whole-day rows in the window are dropped before the new per-service
+// rows are inserted, keeping the per-day totals exact.
+func (s *Store) ReplaceSpendRange(p model.Provider, start, end time.Time, incoming []model.DailySpend) (removed, added int, err error) {
+	existing, err := s.LoadSpend(p)
+	if err != nil {
+		return 0, 0, err
+	}
+	kept := make([]model.DailySpend, 0, len(existing))
+	for _, r := range existing {
+		d := r.Date.Time
+		if !d.Before(start) && d.Before(end) {
+			removed++
+			continue // inside the window: replaced by incoming
+		}
+		kept = append(kept, r)
+	}
+	kept = append(kept, incoming...)
+	added = len(incoming)
+	if err := s.SaveSpend(p, kept); err != nil {
+		return 0, 0, err
+	}
+	return removed, added, nil
 }
 
 // LoadBudgets returns all year-scoped budget configs for a provider, sorted by

@@ -77,6 +77,13 @@ func CollectAWS(ctx context.Context, cfg AWSConfig) ([]model.DailySpend, error) 
 				Start: aws.String(start),
 				End:   aws.String(end),
 			},
+			// Group by service so the store gets a per-service, per-day
+			// breakdown (for the top-spenders view). Summed across groups the
+			// day total is identical to the ungrouped query.
+			GroupBy: []cetypes.GroupDefinition{{
+				Type: cetypes.GroupDefinitionTypeDimension,
+				Key:  aws.String("SERVICE"),
+			}},
 			Filter:        filter,
 			NextPageToken: nextToken,
 		})
@@ -84,31 +91,38 @@ func CollectAWS(ctx context.Context, cfg AWSConfig) ([]model.DailySpend, error) 
 			return nil, fmt.Errorf("GetCostAndUsage: %w", err)
 		}
 		for _, r := range resp.ResultsByTime {
-			if r.TimePeriod == nil || r.Total == nil {
+			if r.TimePeriod == nil {
 				continue
 			}
 			day, err := model.ParseDate(aws.ToString(r.TimePeriod.Start))
 			if err != nil {
 				return nil, fmt.Errorf("parse period %q: %w", aws.ToString(r.TimePeriod.Start), err)
 			}
-			mv, ok := r.Total[metric]
-			if !ok {
-				continue
+			for _, g := range r.Groups {
+				mv, ok := g.Metrics[metric]
+				if !ok {
+					continue
+				}
+				amount, err := parseAWSAmount(aws.ToString(mv.Amount))
+				if err != nil {
+					return nil, err
+				}
+				currency := aws.ToString(mv.Unit)
+				if currency == "" {
+					currency = "USD"
+				}
+				service := ""
+				if len(g.Keys) > 0 {
+					service = g.Keys[0]
+				}
+				out = append(out, model.DailySpend{
+					Provider: model.ProviderAWS,
+					Date:     day,
+					Amount:   amount,
+					Currency: currency,
+					Service:  service,
+				})
 			}
-			amount, err := parseAWSAmount(aws.ToString(mv.Amount))
-			if err != nil {
-				return nil, err
-			}
-			currency := aws.ToString(mv.Unit)
-			if currency == "" {
-				currency = "USD"
-			}
-			out = append(out, model.DailySpend{
-				Provider: model.ProviderAWS,
-				Date:     day,
-				Amount:   amount,
-				Currency: currency,
-			})
 		}
 		if resp.NextPageToken == nil || aws.ToString(resp.NextPageToken) == "" {
 			break

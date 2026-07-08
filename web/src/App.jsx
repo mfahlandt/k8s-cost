@@ -39,6 +39,8 @@ export default function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [monthIdx, setMonthIdx] = useState(-1); // -1 = latest
+  const [view, setView] = useState(() =>
+    typeof window !== "undefined" && window.location.hash.includes("services") ? "services" : "overview");
 
   useEffect(() => {
     fetch(dataUrl())
@@ -48,6 +50,13 @@ export default function App() {
       })
       .then(setData)
       .catch((e) => setError(e.message));
+  }, []);
+
+  useEffect(() => {
+    const onHash = () =>
+      setView(window.location.hash.includes("services") ? "services" : "overview");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   if (error) return <div className="wrap"><h1>Cloud Spend</h1><p className="err">Could not load dashboard.json: {error}</p></div>;
@@ -65,15 +74,21 @@ export default function App() {
       <header>
         <div className="hdr-top">
           <h1>Kubernetes Cloud Spend</h1>
-          <select className="month-select" value={idx}
-                  onChange={(e) => setMonthIdx(Number(e.target.value))}
-                  aria-label="Select month">
-            {snaps.map((s, i) => (
-              <option key={s.label} value={i}>
-                {s.label}{i === snaps.length - 1 ? " (latest)" : ""}
-              </option>
-            ))}
-          </select>
+          <div className="hdr-controls">
+            <nav className="view-nav">
+              <a href="#/overview" className={view === "overview" ? "on" : ""}>Overview</a>
+              <a href="#/services" className={view === "services" ? "on" : ""}>Top spenders</a>
+            </nav>
+            <select className="month-select" value={idx}
+                    onChange={(e) => setMonthIdx(Number(e.target.value))}
+                    aria-label="Select month">
+              {snaps.map((s, i) => (
+                <option key={s.label} value={i}>
+                  {s.label}{i === snaps.length - 1 ? " (latest)" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <p className="sub">
           As of <strong>{snap.asOf}</strong>
@@ -85,15 +100,21 @@ export default function App() {
         </p>
       </header>
 
-      <ComparisonChart providers={providers} />
+      {view === "services" ? (
+        <TopSpenders providers={providers} />
+      ) : (
+        <>
+          <ComparisonChart providers={providers} />
 
-      <div className="grid">
-        {providers.map((p) => (
-          <ProviderCard key={p.provider} p={p} />
-        ))}
-      </div>
+          <div className="grid">
+            {providers.map((p) => (
+              <ProviderCard key={p.provider} p={p} />
+            ))}
+          </div>
 
-      <Methodology />
+          <Methodology />
+        </>
+      )}
     </div>
   );
 }
@@ -163,6 +184,91 @@ function Row({ label, value, valueClass = "" }) {
   );
 }
 
+// TopSpenders is the "sub-page": one card per provider showing where the money
+// goes, broken down by service. The breakdown reconciles exactly with the
+// provider's headline YTD / monthly spend (guaranteed server-side in calc.go).
+const TOP_N = 8;
+
+function TopSpenders({ providers }) {
+  const [metric, setMetric] = useState("ytd"); // "ytd" | "month"
+  const list = providers.filter((p) => p.topServices?.length);
+  if (list.length === 0) {
+    return <section className="card"><p>No service-level data available.</p></section>;
+  }
+  return (
+    <>
+      <section className="card compare">
+        <div className="card-head">
+          <h2>Top spenders per provider</h2>
+          <div className="mode-toggle">
+            <button className={metric === "ytd" ? "on" : ""} onClick={() => setMetric("ytd")}>YTD</button>
+            <button className={metric === "month" ? "on" : ""} onClick={() => setMetric("month")}>This month</button>
+          </div>
+        </div>
+        <p className="sub">
+          Where each provider's spend goes, by service. Values sum exactly to the
+          provider's {metric === "ytd" ? "YTD" : "month-to-date"} total.
+        </p>
+      </section>
+      <div className="grid">
+        {list.map((p) => (
+          <ServiceBreakdown key={p.provider} p={p} metric={metric} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ServiceBreakdown({ p, metric }) {
+  const currency = p.currency || "USD";
+  const rows = (p.topServices || [])
+    .map((s) => ({ service: s.service, value: metric === "ytd" ? s.ytd : s.month }))
+    .filter((r) => r.value > 0)
+    .sort((a, b) => b.value - a.value);
+
+  const total = rows.reduce((a, r) => a + r.value, 0);
+  const onlyUnspecified =
+    rows.length === 1 && rows[0].service === "(unspecified)";
+
+  // Collapse the long tail into a single "Other" bucket so the bars stay
+  // readable while the total still reconciles.
+  let shown = rows.slice(0, TOP_N);
+  const rest = rows.slice(TOP_N);
+  if (rest.length > 0) {
+    const otherVal = rest.reduce((a, r) => a + r.value, 0);
+    shown = [...shown, { service: `Other (${rest.length})`, value: otherVal, other: true }];
+  }
+  const max = Math.max(...shown.map((r) => r.value), 1);
+
+  return (
+    <div className="card">
+      <div className="card-head">
+        <h2>{PROVIDER_NAMES[p.provider] || p.provider}</h2>
+        <span className="svc-total">{money(total, currency)}</span>
+      </div>
+      {onlyUnspecified ? (
+        <p className="svc-note">
+          No service breakdown yet — this provider's next collector run will
+          populate per-service detail.
+        </p>
+      ) : (
+        <ul className="svc-list">
+          {shown.map((r) => (
+            <li key={r.service} className={`svc-row${r.other ? " svc-other" : ""}`}>
+              <span className="svc-name" title={r.service}>{r.service}</span>
+              <span className="svc-bar-wrap">
+                <span className="svc-bar" style={{ width: `${(r.value / max) * 100}%` }} />
+              </span>
+              <span className="svc-val">{money(r.value, currency)}</span>
+              <span className="svc-pct">{total > 0 ? `${((r.value / total) * 100).toFixed(1)}%` : "–"}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 // Methodology explains every number on the page. Formulas mirror
 // internal/calc/calc.go — keep the two in sync.
 function Methodology() {
@@ -213,12 +319,20 @@ function Methodology() {
         spread evenly (same approach as the old Excel) — the line is therefore
         flat within each month and steps at month boundaries.</dd>
 
+        <dt>Top spenders (sub-page)</dt>
+        <dd>Per-provider breakdown of spend by service (YTD or month-to-date).
+        The bars sum <strong>exactly</strong> to each provider's headline total —
+        the same records that make up YTD, just grouped by service. Azure carries
+        full service detail; AWS and GCP populate once their collectors re-run
+        with the per-service query; providers billed as a single monthly invoice
+        (DigitalOcean, IBM) have no service split.</dd>
+
         <dt>Comparison chart (top)</dt>
         <dd>Default view shows <code>cumulative spend ÷ annual budget</code> in %
         — this makes big ($3M) and small ($17K) providers comparable and shows
         who is burning budget fastest; crossing the 100% line before December
         means overspend. Fastly's GB cap fits here too, since percentages are
-        unitless. Toggle to USD for absolute cumulative spend.</dd>
+        unitless. Toggle to USD for absolute cumulative spend (linear or log).</dd>
 
         <dt>Fastly</dt>
         <dd>Invoices are $0 under the committed contract, so we track{" "}

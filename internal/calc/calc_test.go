@@ -112,3 +112,36 @@ if !m.WeeklyDerived {
 t.Error("expected WeeklyDerived=true for a monthly-billed provider")
 }
 }
+// TestTopServicesReconcile verifies the per-service breakdown sums exactly to
+// the headline YTD and MonthlySpend — the "numbers must match" requirement.
+func TestTopServicesReconcile(t *testing.T) {
+svc := func(date, service string, amt float64) model.DailySpend {
+return model.DailySpend{Provider: model.ProviderAzure, Date: day(date), Amount: amt, Currency: "USD", Service: service}
+}
+records := []model.DailySpend{
+svc("2026-01-10", "Virtual Machines", 100),
+svc("2026-01-10", "Storage", 40),
+svc("2026-03-05", "Virtual Machines", 60),
+svc("2026-03-05", "NAT Gateway", 25),
+svc("2026-07-02", "Virtual Machines", 30), // current month
+svc("2026-07-02", "Storage", 10),          // current month
+}
+asOf := time.Date(2026, 7, 8, 0, 0, 0, 0, time.UTC)
+m := Compute(model.ProviderAzure, records, asOf, nil)
+if len(m.TopServices) == 0 {
+t.Fatal("expected TopServices to be populated")
+}
+// Sorted by YTD desc: Virtual Machines (190) first.
+if m.TopServices[0].Service != "Virtual Machines" {
+t.Errorf("top service = %q, want Virtual Machines", m.TopServices[0].Service)
+}
+var sumY, sumM float64
+for _, s := range m.TopServices {
+sumY += s.YTD
+sumM += s.Month
+}
+approx(t, "Σ services YTD == YTD", sumY, m.YTD)
+approx(t, "Σ services Month == MonthlySpend", sumM, m.MonthlySpend)
+approx(t, "YTD", m.YTD, 265)          // 140 + 85 + 40
+approx(t, "MonthlySpend", m.MonthlySpend, 40) // 30 + 10
+}

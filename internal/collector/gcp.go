@@ -45,20 +45,24 @@ type GCPConfig struct {
 
 // dailyRow is a single day's aggregated cost returned by the query.
 type dailyRow struct {
-	Day      bigquery.NullDate `bigquery:"usage_day"`
-	Subtotal float64           `bigquery:"subtotal"`
+	Day      bigquery.NullDate   `bigquery:"usage_day"`
+	Service  bigquery.NullString `bigquery:"service"`
+	Subtotal float64             `bigquery:"subtotal"`
 }
 
-// query mirrors the k8s-infra billing query's adjustments but groups by day.
-// The Subtotal expression matches the original:
+// query mirrors the k8s-infra billing query's adjustments but groups by day and
+// service. The Subtotal expression matches the original:
 //
 //	cost + cud_credits + other_savings
 //
-// excluding tax/adjustment cost types, over the given usage window.
+// excluding tax/adjustment cost types, over the given usage window. Grouping by
+// service.description adds the per-service breakdown for the top-spenders view;
+// summed across services a day's total is identical to the day-only query.
 const gcpDailyQueryTemplate = `
 WITH cost_data AS (
   SELECT
     DATE(usage_start_time, 'US/Pacific') AS usage_day,
+    service.description AS service,
     cost,
     IFNULL((SELECT SUM(CAST(c.amount AS NUMERIC)) FROM UNNEST(credits) c
             WHERE c.type IN ('COMMITTED_USAGE_DISCOUNT','COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE')), 0) AS cud_credits,
@@ -72,10 +76,11 @@ WITH cost_data AS (
 )
 SELECT
   usage_day,
+  service,
   CAST(SUM(cost) + SUM(cud_credits) + SUM(other_savings) AS FLOAT64) AS subtotal
 FROM cost_data
-GROUP BY usage_day
-ORDER BY usage_day
+GROUP BY usage_day, service
+ORDER BY usage_day, service
 `
 
 // CollectGCP runs the BigQuery billing query and returns daily spend records.
@@ -126,6 +131,7 @@ func CollectGCP(ctx context.Context, cfg GCPConfig) ([]model.DailySpend, error) 
 			Date:     model.NewDate(when),
 			Amount:   row.Subtotal,
 			Currency: "USD",
+			Service:  row.Service.StringVal,
 		})
 	}
 	return out, nil

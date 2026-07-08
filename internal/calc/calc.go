@@ -46,6 +46,21 @@ type Metrics struct {
 	// (WeeklyDerived=true) — same approach as the old Excel.
 	WeeklySeries  []WeekPoint `json:"weeklySeries,omitempty"`
 	WeeklyDerived bool        `json:"weeklyDerived,omitempty"`
+
+	// TopServices is the per-service spend breakdown for this provider, sorted
+	// by YTD descending. By construction Σ YTD == Metrics.YTD and Σ Month ==
+	// MonthlySpend, so the breakdown reconciles exactly with the headline
+	// numbers. Records without a service label are bucketed as "(unspecified)".
+	// Empty for providers/periods that carry no service-level detail.
+	TopServices []ServiceSpend `json:"topServices,omitempty"`
+}
+
+// ServiceSpend is one service's contribution to a provider's spend, for both
+// the year-to-date and the current month-to-date.
+type ServiceSpend struct {
+	Service string  `json:"service"`
+	YTD     float64 `json:"ytd"`
+	Month   float64 `json:"month"`
 }
 
 // MonthPoint is one month's spend and running cumulative total for the year.
@@ -110,6 +125,8 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 	daysWithData := map[int]struct{}{} // distinct current-month days that have records
 	var monthlyByMonth [12]float64     // per-month totals for the reference year
 	weeklyTotals := map[time.Time]float64{} // Sat–Fri weeks, keyed by ending Friday
+	ytdByService := map[string]float64{}    // YTD spend per service (Σ == ytd)
+	monthByService := map[string]float64{}  // current-month spend per service (Σ == monthlySpend)
 	for _, r := range records {
 		d := r.Date.Time
 		if d.After(asOf) {
@@ -118,6 +135,7 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 		if d.Year() == year && d.Month() == month {
 			monthlySpend += r.Amount
 			daysWithData[d.Day()] = struct{}{}
+			monthByService[r.Service] += r.Amount
 		}
 		if d.Year() == prevYear && d.Month() == prevMonth {
 			prevMonthTotal += r.Amount
@@ -126,6 +144,7 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 			ytd += r.Amount
 			monthlyByMonth[d.Month()-1] += r.Amount
 			weeklyTotals[weekEndFriday(d)] += r.Amount
+			ytdByService[r.Service] += r.Amount
 		}
 	}
 	// Divide the current-month average by the days that actually have data, not
@@ -263,6 +282,34 @@ func Compute(provider model.Provider, records []model.DailySpend, asOf time.Time
 				Cumulative: wcum,
 			})
 		}
+	}
+
+	// Per-service breakdown. The union of the YTD and month maps guarantees no
+	// service is dropped; Σ YTD == ytd and Σ Month == monthlySpend by
+	// construction (same accumulation loop), so the numbers always reconcile.
+	if len(ytdByService) > 0 || len(monthByService) > 0 {
+		seen := make(map[string]struct{}, len(ytdByService))
+		for s := range ytdByService {
+			seen[s] = struct{}{}
+		}
+		for s := range monthByService {
+			seen[s] = struct{}{}
+		}
+		svcs := make([]ServiceSpend, 0, len(seen))
+		for s := range seen {
+			label := s
+			if label == "" {
+				label = "(unspecified)"
+			}
+			svcs = append(svcs, ServiceSpend{Service: label, YTD: ytdByService[s], Month: monthByService[s]})
+		}
+		sort.SliceStable(svcs, func(i, j int) bool {
+			if svcs[i].YTD != svcs[j].YTD {
+				return svcs[i].YTD > svcs[j].YTD
+			}
+			return svcs[i].Service < svcs[j].Service
+		})
+		m.TopServices = svcs
 	}
 	return m
 }
