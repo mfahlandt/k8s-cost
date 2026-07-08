@@ -360,10 +360,17 @@ function ComparisonChart({ providers }) {
   return (
     <section className="card compare">
       <div className="card-head">
-        <h2>{mode === "budget" ? "Budget utilization — all providers" : "Cumulative spend — USD providers"}</h2>
+        <h2>{mode === "budget" ? "Budget utilization — all providers" : `Cumulative spend — USD providers${logScale ? " (log)" : ""}`}</h2>
         <div className="mode-toggle">
           <button className={mode === "budget" ? "on" : ""} onClick={() => setMode("budget")}>% of budget</button>
           <button className={mode === "usd" ? "on" : ""} onClick={() => setMode("usd")}>USD</button>
+          {mode === "usd" && (
+            <>
+              <span className="toggle-sep" aria-hidden="true" />
+              <button className={scale === "linear" ? "on" : ""} onClick={() => setScale("linear")}>linear</button>
+              <button className={scale === "log" ? "on" : ""} onClick={() => setScale("log")}>log</button>
+            </>
+          )}
         </div>
       </div>
       <div className="chart">
@@ -372,11 +379,11 @@ function ComparisonChart({ providers }) {
           {gridLines.map((g) => (
             <g key={g}>
               <line x1={PAD} x2={W - PAD} y1={y(g)} y2={y(g)}
-                    stroke={g >= 90 ? "var(--danger)" : "var(--line)"}
-                    strokeWidth={g === 100 ? 1.4 : 0.7}
-                    strokeDasharray={g >= 90 ? "5 4" : "2 5"}
-                    opacity={g >= 90 ? 0.75 : 0.6} />
-              <text x={W - PAD - 2} y={y(g) - 3} textAnchor="end" className="grid-label">{g}%</text>
+                    stroke={gridDanger(g) ? "var(--danger)" : "var(--line)"}
+                    strokeWidth={g === 100 && mode === "budget" ? 1.4 : 0.7}
+                    strokeDasharray={gridDanger(g) ? "5 4" : "2 5"}
+                    opacity={gridDanger(g) ? 0.75 : 0.6} />
+              <text x={W - PAD - 2} y={y(g) - 3} textAnchor="end" className="grid-label">{gridLabel(g)}</text>
             </g>
           ))}
           {list.map((p, pi) => {
@@ -415,7 +422,11 @@ function ComparisonChart({ providers }) {
             );
           })}
           <span className="dim-note">
-            solid = actual · dashed = forecast{mode === "budget" ? " · red lines = 90% alert / 100% budget" : " · dotted = budget"}
+            solid = actual · dashed = forecast{mode === "budget"
+              ? " · red lines = 90% alert / 100% budget"
+              : logScale
+                ? " · log scale (powers of ten) · dotted = budget"
+                : " · dotted = budget"}
           </span>
         </div>
         <div className="chart-months chart-months-wide">
