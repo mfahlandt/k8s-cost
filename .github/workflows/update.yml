@@ -3,7 +3,14 @@ name: Update cost dashboard
 on:
   schedule:
     - cron: "0 6 * * *" # daily 06:00 UTC (billing data for yesterday has landed)
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Backfill start day YYYY-MM-DD (optional; default = previous month start)"
+        required: false
+      end:
+        description: "Backfill end day YYYY-MM-DD, exclusive (optional; default = tomorrow)"
+        required: false
   push:
     branches: [main]
     paths: ["web/**", "internal/**", "cmd/**", "data/**"]
@@ -50,14 +57,35 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
-      # ---- date window: previous month start .. tomorrow (catches late-landing costs)
+      # ---- date window: previous month start .. tomorrow (catches late-landing
+      # costs), or the manual backfill range from workflow_dispatch inputs.
       - name: Compute collection window
         id: win
         run: |
-          echo "start=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
-          echo "end=$(date -u -d tomorrow +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ github.event.inputs.start }}" ]; then
+            START="${{ github.event.inputs.start }}"
+          else
+            START="$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m-%d)"
+          fi
+          if [ -n "${{ github.event.inputs.end }}" ]; then
+            END="${{ github.event.inputs.end }}"
+          else
+            END="$(date -u -d tomorrow +%Y-%m-%d)"
+          fi
+          echo "start=$START" >> "$GITHUB_OUTPUT"
+          echo "end=$END" >> "$GITHUB_OUTPUT"
           echo "prev_month=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m)" >> "$GITHUB_OUTPUT"
           echo "cur_month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+          # Month list [START .. END-1day] for the per-month GCP collector.
+          cy=$(date -u -d "$START" +%Y); cm=$(date -u -d "$START" +%m)
+          ly=$(date -u -d "$END -1 day" +%Y); lm=$(date -u -d "$END -1 day" +%m)
+          months=""
+          while [ $((10#$cy * 12 + 10#$cm)) -le $((10#$ly * 12 + 10#$lm)) ]; do
+            months="$months $(printf '%04d-%02d' "$((10#$cy))" "$((10#$cm))")"
+            cm=$((10#$cm + 1)); if [ "$cm" -gt 12 ]; then cm=1; cy=$((cy + 1)); fi
+          done
+          echo "months=$(echo "$months" | xargs)" >> "$GITHUB_OUTPUT"
+          echo "collecting window $START .. $END (months:$months)"
 
       # ---- collectors (each skips gracefully when its secret is absent)
       - name: Collect AWS
@@ -73,11 +101,13 @@ jobs:
           chmod 600 "$RUNNER_TEMP/gcp-creds.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
 
-      - name: Collect GCP (previous + current month)
+      - name: Collect GCP (all months in window)
         if: ${{ env.COLLECT == 'true' && env.GCP_SA_KEY != '' }}
         run: |
-          go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.prev_month }}
-          go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period ${{ steps.win.outputs.cur_month }}
+          for m in ${{ steps.win.outputs.months }}; do
+            echo "== collect-gcp $m =="
+            go run ./cmd/costctl collect-gcp --project "$GOOGLE_CLOUD_PROJECT" --period "$m"
+          done
 
       - name: Collect DigitalOcean
         if: ${{ env.COLLECT == 'true' && env.DIGITALOCEAN_TOKEN != '' }}
