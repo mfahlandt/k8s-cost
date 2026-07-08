@@ -448,6 +448,7 @@ const COMPARE_COLORS = ["#4c8dff", "#7ee08a", "#f6c445", "#e07ee0", "#45d4f6", "
 
 function ComparisonChart({ providers }) {
   const [mode, setMode] = useState("budget"); // "budget" | "usd"
+  const [scale, setScale] = useState("log"); // "linear" | "log" — USD mode only
 
   const list =
     mode === "budget"
@@ -458,18 +459,48 @@ function ComparisonChart({ providers }) {
   const W = 960, H = 220, PAD = 10;
   const val = (p, s) =>
     mode === "budget" ? (s.cumulative / p.budget.annualBudget) * 100 : s.cumulative;
+
+  // Log scale only applies to the absolute-USD view. With ~3 orders of magnitude
+  // between GCP (~$3M) and DigitalOcean (~$4.5K), a linear axis flattens the
+  // small providers onto the baseline; log keeps them all readable.
+  const logScale = mode === "usd" && scale === "log";
+
   const maxVal =
     mode === "budget"
       ? Math.max(...list.flatMap((p) => p.series.map((s) => val(p, s))), 110)
       : Math.max(...list.flatMap((p) => p.series.map((s) => s.cumulative)), 1);
 
+  // Log domain: smallest positive cumulative rounded down to a power of ten, up
+  // to the max rounded up — so the axis spans whole decades.
+  const positives = list.flatMap((p) => p.series.map((s) => s.cumulative)).filter((v) => v > 0);
+  const logMin = Math.pow(10, Math.floor(Math.log10(Math.min(...positives, maxVal))));
+  const logMax = Math.pow(10, Math.ceil(Math.log10(maxVal)));
+
   const x = (i) => PAD + (i / 11) * (W - 2 * PAD);
-  const y = (v) => H - PAD - (v / maxVal) * (H - 2 * PAD);
+  const y = (v) => {
+    if (logScale) {
+      const c = Math.max(v, logMin); // clamp near-zero/early months to the floor
+      const t = (Math.log10(c) - Math.log10(logMin)) / (Math.log10(logMax) - Math.log10(logMin));
+      return H - PAD - t * (H - 2 * PAD);
+    }
+    return H - PAD - (v / maxVal) * (H - 2 * PAD);
+  };
 
   const compact = (v) =>
     new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 
-  const gridLines = mode === "budget" ? [25, 50, 75, 90, 100] : [];
+  // Grid lines: budget-% thresholds in budget mode, powers of ten in USD-log,
+  // none in USD-linear.
+  let gridLines = [];
+  if (mode === "budget") {
+    gridLines = [25, 50, 75, 90, 100];
+  } else if (logScale) {
+    for (let e = Math.log10(logMin); e <= Math.log10(logMax) + 1e-9; e++) {
+      gridLines.push(Math.pow(10, Math.round(e)));
+    }
+  }
+  const gridLabel = (g) => (mode === "budget" ? `${g}%` : `$${compact(g)}`);
+  const gridDanger = (g) => mode === "budget" && g >= 90;
 
   return (
     <section className="card compare">
