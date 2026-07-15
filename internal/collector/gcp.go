@@ -55,9 +55,13 @@ type dailyRow struct {
 //
 //	cost + cud_credits + other_savings
 //
-// excluding tax/adjustment cost types, over the given usage window. Grouping by
-// service.description adds the per-service breakdown for the top-spenders view;
-// summed across services a day's total is identical to the day-only query.
+// where cud_credits sums the committed-use discount credit types
+// (FEE_UTILIZATION_OFFSET, COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE,
+// COMMITTED_USAGE_DISCOUNT) and other_savings sums the remaining discount
+// credit types. Tax/adjustment cost types are excluded, over the given usage
+// window. Grouping by service.description adds the per-service breakdown for the
+// top-spenders view; summed across services a day's total is identical to the
+// day-only query.
 const gcpDailyQueryTemplate = `
 WITH cost_data AS (
   SELECT
@@ -65,7 +69,7 @@ WITH cost_data AS (
     service.description AS service,
     cost,
     IFNULL((SELECT SUM(CAST(c.amount AS NUMERIC)) FROM UNNEST(credits) c
-            WHERE c.type IN ('COMMITTED_USAGE_DISCOUNT','COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE')), 0) AS cud_credits,
+            WHERE c.type IN ('FEE_UTILIZATION_OFFSET','COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE','COMMITTED_USAGE_DISCOUNT')), 0) AS cud_credits,
     IFNULL((SELECT SUM(CAST(c.amount AS NUMERIC)) FROM UNNEST(credits) c
             WHERE c.type IN ('SUSTAINED_USAGE_DISCOUNT','DISCOUNT','SUBSCRIPTION_BENEFIT')), 0) AS other_savings
   FROM ` + "`%s`" + `
