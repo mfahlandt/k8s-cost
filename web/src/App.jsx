@@ -377,6 +377,10 @@ function YearChart({ series, budget, currency }) {
   const compact = (v) =>
     new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 
+  // Monthly budget guide: annual budget / 12, drawn on the *bar* scale so a
+  // single month's bar can be compared against its share of the yearly budget.
+  const monthlyBudget = budget > 0 ? budget / 12 : 0;
+
   return (
     <div className="chart">
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
@@ -384,6 +388,12 @@ function YearChart({ series, budget, currency }) {
         {budget > 0 && (
           <line x1={PAD} x2={W - PAD} y1={yCum(budget)} y2={yCum(budget)}
                 className="chart-budget" strokeDasharray="4 3" />
+        )}
+        {monthlyBudget > 0 && yBar(monthlyBudget) >= PAD && (
+          <line x1={PAD} x2={W - PAD} y1={yBar(monthlyBudget)} y2={yBar(monthlyBudget)}
+                className="chart-budget-monthly" strokeDasharray="2 3">
+            <title>{`Monthly budget: ${money(monthlyBudget, currency)} (annual ÷ 12)`}</title>
+          </line>
         )}
         {series.map((s, i) => (
           <rect key={s.month} x={x(i)} y={yBar(s.monthly)} width={barW}
