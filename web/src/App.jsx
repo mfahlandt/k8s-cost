@@ -359,11 +359,16 @@ function YearChart({ series, budget, currency }) {
   const barW = (W - 2 * PAD - GAP * (nSlots - 1)) / nSlots;
 
   const maxMonthly = Math.max(...series.map((s) => s.monthly), 1);
+  // Monthly budget guide (annual / 12). Fold it into the bar scale so the line
+  // is always on-chart even when a provider runs well under budget (otherwise
+  // budget > peak-month pushes the line above the top and it disappears).
+  const monthlyBudget = budget > 0 ? budget / 12 : 0;
+  const barScale = Math.max(maxMonthly, monthlyBudget, 1);
   const lastCum = series[series.length - 1].cumulative;
   const maxCum = Math.max(lastCum, budget || 0, 1);
 
   const x = (i) => PAD + i * (barW + GAP);
-  const yBar = (v) => H - PAD - (v / maxMonthly) * (H - 2 * PAD) * 0.9;
+  const yBar = (v) => H - PAD - (v / barScale) * (H - 2 * PAD) * 0.9;
   const yCum = (v) => H - PAD - (v / maxCum) * (H - 2 * PAD) * 0.9;
 
   const pt = (s, i) => `${(x(i) + barW / 2).toFixed(1)},${yCum(s.cumulative).toFixed(1)}`;
@@ -377,10 +382,6 @@ function YearChart({ series, budget, currency }) {
   const compact = (v) =>
     new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 
-  // Monthly budget guide: annual budget / 12, drawn on the *bar* scale so a
-  // single month's bar can be compared against its share of the yearly budget.
-  const monthlyBudget = budget > 0 ? budget / 12 : 0;
-
   return (
     <div className="chart">
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
@@ -389,7 +390,7 @@ function YearChart({ series, budget, currency }) {
           <line x1={PAD} x2={W - PAD} y1={yCum(budget)} y2={yCum(budget)}
                 className="chart-budget" strokeDasharray="4 3" />
         )}
-        {monthlyBudget > 0 && yBar(monthlyBudget) >= PAD && (
+        {monthlyBudget > 0 && (
           <line x1={PAD} x2={W - PAD} y1={yBar(monthlyBudget)} y2={yBar(monthlyBudget)}
                 className="chart-budget-monthly" strokeDasharray="2 3">
             <title>{`Monthly budget: ${money(monthlyBudget, currency)} (annual ÷ 12)`}</title>
