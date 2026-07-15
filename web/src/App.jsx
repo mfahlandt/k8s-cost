@@ -305,7 +305,12 @@ function Methodology() {
 
         <dt>Budget utilization</dt>
         <dd><code>projected 31 Dec total ÷ annual budget</code>. The alert fires at
-        ≥ 90%. Dotted red line in the charts = annual budget.</dd>
+        ≥ 90%. The red dashed line in the charts is the <strong>annual</strong>
+        budget, plotted on the cumulative (green) axis — it shows when
+        <em>cumulative</em> spend crosses the yearly budget. The fainter red
+        dotted line is the <strong>monthly</strong> budget (<code>annual ÷ 12</code>),
+        plotted on the bar axis, so an individual month's bar can be compared to
+        its share of the yearly budget.</dd>
 
         <dt>Budget lasts (at current burn)</dt>
         <dd><code>(annual budget − YTD) ÷ YTD daily run rate</code> → days until the
@@ -398,6 +403,7 @@ function YearChart({ series, budget, currency }) {
         <span><i className="sw sw-line" /> cumulative</span>
         <span><i className="sw sw-forecast" /> forecast → {compact(lastCum)} {currency}</span>
         {budget > 0 && <span><i className="sw sw-budget" /> budget ({compact(budget)})</span>}
+        {monthlyBudget > 0 && <span><i className="sw sw-budget-monthly" /> monthly budget ({compact(monthlyBudget)})</span>}
       </div>
       <div className="chart-months">
         {Array.from({ length: nSlots }, (_, i) => (
