@@ -223,7 +223,7 @@ func fetchGCPJobRows(ctx context.Context, project, table, location, labelKey str
 			continue
 		}
 		out = append(out, report.ScaleRow{
-			Date: r.Start, Group: job, Item: keyAt(r.Keys, 1), Cost: r.Amount,
+			Date: r.Start, Group: job, Item: keyAt(r.Keys, 1), Cost: r.Amount, Gross: r.Gross,
 		})
 	}
 	return out, nil
@@ -250,7 +250,7 @@ func fetchGCPProjectRows(ctx context.Context, project, table, location string, s
 	out := make([]report.ScaleRow, 0, len(rows))
 	for _, r := range rows {
 		out = append(out, report.ScaleRow{
-			Date: r.Start, Group: keyAt(r.Keys, 0), Item: keyAt(r.Keys, 1), Cost: r.Amount,
+			Date: r.Start, Group: keyAt(r.Keys, 0), Item: keyAt(r.Keys, 1), Cost: r.Amount, Gross: r.Gross,
 		})
 	}
 	return out, nil
@@ -281,7 +281,7 @@ func fetchAWSAccountRows(ctx context.Context, profile string, accounts map[strin
 			name = id
 		}
 		out = append(out, report.ScaleRow{
-			Date: r.Start, Group: name, Item: keyAt(r.Keys, 1), Cost: r.Amount,
+			Date: r.Start, Group: name, Item: keyAt(r.Keys, 1), Cost: r.Amount, Gross: r.Gross,
 		})
 	}
 	return out, nil
@@ -303,6 +303,9 @@ func keyAt(keys []string, i int) string {
 	}
 	return ""
 }
+
+
+
 
 
 

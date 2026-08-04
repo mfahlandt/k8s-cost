@@ -17,9 +17,11 @@ import (
 //
 // Rows are stored as JSON Lines with a compact array per record —
 //
-//	["2026-07-01","ci-kubernetes-e2e-gce-scale-performance-5000","E2 Instance Core running in Americas",123.4567]
+//	["2026-07-01","ci-kubernetes-e2e-gce-scale-performance-5000","E2 Instance Core running in Americas",123.4567,169.5]
 //
 // — which keeps the file small and produces readable, line-based git diffs.
+// The trailing gross (pre-discount) amount is optional: files written before it
+// existed still load, and gross then defaults to the net cost.
 
 // ScaleRowsPath returns the store path holding one cloud's raw scale rows.
 func ScaleRowsPath(dataDir, cloud string) string {
@@ -46,9 +48,12 @@ func LoadScaleRows(path string) ([]ScaleRow, error) {
 		if text == "" {
 			continue
 		}
-		var rec [4]json.RawMessage
+		var rec []json.RawMessage
 		if err := json.Unmarshal([]byte(text), &rec); err != nil {
 			return nil, fmt.Errorf("%s:%d: %w", path, line, err)
+		}
+		if len(rec) < 4 {
+			return nil, fmt.Errorf("%s:%d: expected at least 4 fields, got %d", path, line, len(rec))
 		}
 		var r ScaleRow
 		if err := json.Unmarshal(rec[0], &r.Date); err != nil {
@@ -62,6 +67,12 @@ func LoadScaleRows(path string) ([]ScaleRow, error) {
 		}
 		if err := json.Unmarshal(rec[3], &r.Cost); err != nil {
 			return nil, fmt.Errorf("%s:%d cost: %w", path, line, err)
+		}
+		r.Gross = r.Cost // pre-gross files: assume no discount
+		if len(rec) > 4 {
+			if err := json.Unmarshal(rec[4], &r.Gross); err != nil {
+				return nil, fmt.Errorf("%s:%d gross: %w", path, line, err)
+			}
 		}
 		out = append(out, r)
 	}
@@ -93,7 +104,7 @@ func SaveScaleRows(path string, rows []ScaleRow) error {
 	defer f.Close()
 	w := bufio.NewWriter(f)
 	for _, r := range sorted {
-		rec, err := json.Marshal([]any{r.Date, r.Group, r.Item, round4(r.Cost)})
+		rec, err := json.Marshal([]any{r.Date, r.Group, r.Item, round4(r.Cost), round4(r.Gross)})
 		if err != nil {
 			return err
 		}
@@ -147,40 +158,58 @@ func ScaleRowsRange(rows []ScaleRow) (string, string) {
 // projects is tens of megabytes of committed data.
 func CompactScaleRows(rows []ScaleRow, itemsPerDay int) []ScaleRow {
 	type key struct{ date, group string }
-	buckets := map[key]map[string]float64{}
+	type amounts struct{ cost, gross float64 }
+	buckets := map[key]map[string]amounts{}
 	order := make([]key, 0, len(rows))
 	for _, r := range rows {
 		k := key{r.Date, r.Group}
 		if _, ok := buckets[k]; !ok {
-			buckets[k] = map[string]float64{}
+			buckets[k] = map[string]amounts{}
 			order = append(order, k)
 		}
-		buckets[k][r.Item] += r.Cost
+		a := buckets[k][r.Item]
+		a.cost += r.Cost
+		a.gross += r.Gross
+		buckets[k][r.Item] = a
 	}
 
 	out := make([]ScaleRow, 0, len(order)*(itemsPerDay+1))
 	for _, k := range order {
-		items := make([]ScaleItem, 0, len(buckets[k]))
-		for name, cost := range buckets[k] {
-			if c := round4(cost); c != 0 {
-				items = append(items, ScaleItem{Name: name, Cost: c})
+		type item struct {
+			name string
+			amounts
+		}
+		items := make([]item, 0, len(buckets[k]))
+		for name, a := range buckets[k] {
+			if round4(a.cost) != 0 || round4(a.gross) != 0 {
+				items = append(items, item{name, a})
 			}
 		}
-		sort.Slice(items, func(i, j int) bool { return items[i].Cost > items[j].Cost })
+		sort.Slice(items, func(i, j int) bool { return items[i].cost > items[j].cost })
 
-		var other float64
+		var other amounts
 		for i, it := range items {
 			if itemsPerDay > 0 && i >= itemsPerDay {
-				other += it.Cost
+				other.cost += it.cost
+				other.gross += it.gross
 				continue
 			}
-			out = append(out, ScaleRow{Date: k.date, Group: k.group, Item: it.Name, Cost: it.Cost})
+			out = append(out, ScaleRow{
+				Date: k.date, Group: k.group, Item: it.name,
+				Cost: round4(it.cost), Gross: round4(it.gross),
+			})
 		}
-		if o := round4(other); o != 0 {
-			out = append(out, ScaleRow{Date: k.date, Group: k.group, Item: "Other", Cost: o})
+		if round4(other.cost) != 0 || round4(other.gross) != 0 {
+			out = append(out, ScaleRow{
+				Date: k.date, Group: k.group, Item: "Other",
+				Cost: round4(other.cost), Gross: round4(other.gross),
+			})
 		}
 	}
 	return out
 }
+
+
+
 
 

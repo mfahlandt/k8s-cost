@@ -66,6 +66,7 @@ type gcpQueryRow struct {
 	K2       bigquery.NullString `bigquery:"k2"`
 	K3       bigquery.NullString `bigquery:"k3"`
 	Subtotal float64             `bigquery:"subtotal"`
+	Gross    float64             `bigquery:"gross"`
 }
 
 var gcpGroupExpr = map[string]string{
@@ -181,7 +182,8 @@ WITH cost_data AS (
 )
 SELECT
   usage_day, k1, k2, k3,
-  CAST(SUM(cost) + SUM(cud_credits) + SUM(other_savings) AS FLOAT64) AS subtotal
+  CAST(SUM(cost) + SUM(cud_credits) + SUM(other_savings) AS FLOAT64) AS subtotal,
+  CAST(SUM(cost) AS FLOAT64) AS gross
 FROM cost_data
 GROUP BY usage_day, k1, k2, k3
 ORDER BY usage_day, %s
@@ -230,6 +232,7 @@ ORDER BY usage_day, %s
 			End:    next,
 			Keys:   keys,
 			Amount: row.Subtotal,
+			Gross:  row.Gross,
 			Unit:   "USD",
 		})
 	}
@@ -323,3 +326,6 @@ LIMIT 500
 	}
 	return out, nil
 }
+
+
+

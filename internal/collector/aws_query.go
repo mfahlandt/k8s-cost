@@ -49,11 +49,17 @@ type AWSQueryConfig struct {
 
 // CostRow is one Cost Explorer result cell: a time period, the group keys and
 // the metric amount.
+//
+// Amount is the effective (net) cost; Gross is the same usage before
+// provider-side discounts. On AWS the two are identical for these accounts
+// (no reserved instances or savings plans), on GCP Gross excludes the
+// committed-use/sustained-use credits.
 type CostRow struct {
 	Start  string   `json:"start"`
 	End    string   `json:"end"`
 	Keys   []string `json:"keys"`
 	Amount float64  `json:"amount"`
+	Gross  float64  `json:"gross"`
 	Unit   string   `json:"unit"`
 }
 
@@ -110,7 +116,7 @@ func QueryAWS(ctx context.Context, cfg AWSQueryConfig) ([]CostRow, error) {
 				if err != nil {
 					return nil, err
 				}
-				out = append(out, CostRow{Start: start, End: end, Amount: amount, Unit: aws.ToString(mv.Unit)})
+				out = append(out, CostRow{Start: start, End: end, Amount: amount, Gross: amount, Unit: aws.ToString(mv.Unit)})
 				continue
 			}
 			for _, g := range r.Groups {
@@ -127,7 +133,10 @@ func QueryAWS(ctx context.Context, cfg AWSQueryConfig) ([]CostRow, error) {
 					End:    end,
 					Keys:   append([]string(nil), g.Keys...),
 					Amount: amount,
-					Unit:   aws.ToString(mv.Unit),
+					// These accounts carry no reserved instances or savings
+					// plans, so the discounted and list figures coincide.
+					Gross: amount,
+					Unit:  aws.ToString(mv.Unit),
 				})
 			}
 		}
@@ -279,4 +288,6 @@ func sortedKeys(m map[string][]string) []string {
 	sort.Strings(keys)
 	return keys
 }
+
+
 

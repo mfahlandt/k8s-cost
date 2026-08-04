@@ -214,6 +214,26 @@ It emits three views:
 `gcp` and `gcp-projects` describe the *same* money at different granularity, so
 only `gcp` + `aws` are added into the headline figure.
 
+The tab opens with a **TL;DR table**: monthly spend per view, with and without
+provider discounts (`cost` vs. `gross`). Every row carries both, so the
+list-price question — "what would this cost without our committed-use
+discounts?" — is answered directly:
+
+| Month | GCP per project (billed) | GCP list price | saving | AWS (billed = list) |
+|-------|--------------------------|----------------|--------|---------------------|
+| Jan | $84,211.54 | $111,826.82 | −24.7% | $15,979.43 |
+| Feb | $48,494.73 | $63,273.14 | −23.4% | $19,590.79 |
+| Mar | $38,565.08 | $50,589.20 | −23.8% | $19,739.21 |
+| Apr | $42,044.93 | $58,354.84 | −27.9% | $20,141.67 |
+| May | $44,173.91 | $63,125.09 | −30.0% | $18,036.47 |
+| Jun | $46,279.63 | $68,362.58 | −32.3% | $19,044.91 |
+| Jul | $40,623.28 | $60,564.63 | −32.9% | $19,136.57 |
+| **Total** | **$346,598.39** | **$479,193.33** | **−27.7%** | **$133,515.93** |
+
+The GCP discount share grows over the year (24% → 33%) as more committed-use
+coverage kicks in. AWS shows no discount because the scale accounts have no
+reserved instances or savings plans — all five Cost Explorer metrics agree.
+
 Backfilled year to date (2026-01-01 → 2026-08-05):
 
 | Month | GCP scale projects | AWS scale accounts |
@@ -334,6 +354,7 @@ costctl query-gcp --project kubernetes-public --start 2026-07-01 --end 2026-08-0
 
 Cost Explorer API calls are billed at ~$0.01 each; a month of BigQuery billing
 export scans ~23 GB (~$0.14).
+
 
 
 

@@ -338,6 +338,8 @@ function ScaleTests() {
           when the label was introduced) and per scale project (full history).
         </p>
       </section>
+
+      <ScaleTldr clouds={clouds} />
       {clouds.map((c) => (
         <ScaleCloud key={c.cloud} c={c} />
       ))}
@@ -365,6 +367,103 @@ function ScaleTests() {
         </dl>
       </section>
     </>
+  );
+}
+
+// ScaleTldr is the summary at the top of the tab: monthly scale-test spend per
+// cloud, with and without the provider discounts. GCP's committed-use and
+// sustained-use credits take ~25-33% off list; the AWS scale accounts have no
+// discount contract, so both columns match there.
+function ScaleTldr({ clouds }) {
+  const sets = clouds.filter((c) => c.monthly?.length);
+  if (sets.length === 0) return null;
+
+  // Union of all months, newest first, capped to the last 12.
+  const months = [...new Set(sets.flatMap((c) => c.monthly.map((m) => m.month)))]
+    .sort()
+    .slice(-12)
+    .reverse();
+  const lookup = (c, month) => c.monthly.find((m) => m.month === month);
+
+  return (
+    <section className="card">
+      <div className="card-head">
+        <h2>TL;DR — monthly scale-test spend</h2>
+      </div>
+      <p className="svc-note">
+        Per month and cloud, with and without provider discounts. GCP is billed
+        net of committed-use/sustained-use credits; AWS has no discount contract
+        in the scale accounts, so list = billed there (those accounts are credit
+        funded, i.e. consumption rather than cash out).
+      </p>
+      <table className="scale-table tldr-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            {sets.map((c) => (
+              <th key={c.cloud} colSpan={3} className="tldr-cloud">
+                {CLOUD_NAMES[c.cloud] || c.cloud}
+                {c.cloud === "gcp" ? " (per job)" : c.cloud === "gcp-projects" ? " (per project)" : ""}
+              </th>
+            ))}
+          </tr>
+          <tr>
+            <th />
+            {sets.map((c) => (
+              <React.Fragment key={c.cloud}>
+                <th className="num">with discount</th>
+                <th className="num">list price</th>
+                <th className="num">saving</th>
+              </React.Fragment>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {months.map((month) => (
+            <tr key={month}>
+              <td className="tldr-month">{month}</td>
+              {sets.map((c) => {
+                const m = lookup(c, month);
+                if (!m) {
+                  return (
+                    <React.Fragment key={c.cloud}>
+                      <td className="num dim">–</td>
+                      <td className="num dim">–</td>
+                      <td className="num dim">–</td>
+                    </React.Fragment>
+                  );
+                }
+                const saving = m.gross > 0 ? 1 - m.cost / m.gross : 0;
+                return (
+                  <React.Fragment key={c.cloud}>
+                    <td className="num strong">{money(m.cost, c.currency || "USD")}</td>
+                    <td className="num dim">{money(m.gross, c.currency || "USD")}</td>
+                    <td className={`num ${saving > 0.005 ? "ok" : "dim"}`}>
+                      {saving > 0.005 ? `−${(saving * 100).toFixed(1)}%` : "–"}
+                    </td>
+                  </React.Fragment>
+                );
+              })}
+            </tr>
+          ))}
+          <tr className="tldr-total">
+            <td>Total</td>
+            {sets.map((c) => {
+              const saving = c.totalGross > 0 ? 1 - c.total / c.totalGross : 0;
+              return (
+                <React.Fragment key={c.cloud}>
+                  <td className="num strong">{money(c.total, c.currency || "USD")}</td>
+                  <td className="num dim">{money(c.totalGross, c.currency || "USD")}</td>
+                  <td className={`num ${saving > 0.005 ? "ok" : "dim"}`}>
+                    {saving > 0.005 ? `−${(saving * 100).toFixed(1)}%` : "–"}
+                  </td>
+                </React.Fragment>
+              );
+            })}
+          </tr>
+        </tbody>
+      </table>
+    </section>
   );
 }
 

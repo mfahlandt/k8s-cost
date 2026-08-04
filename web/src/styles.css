@@ -237,3 +237,19 @@ hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
   color: var(--muted);
   margin: 0 0 4px;
 }
+/* TL;DR table on the scale tab: monthly cost with vs. without discounts */
+.tldr-table th.tldr-cloud {
+  text-align: center;
+  border-left: 1px solid var(--line);
+  color: var(--text);
+}
+.tldr-table td.num.strong { font-weight: 600; color: var(--text); }
+.tldr-table td.num.dim, .scale-table td.dim { color: var(--muted); }
+.tldr-table td.num.ok { color: var(--ok, #7ee08a); }
+.tldr-table td.tldr-month { font-variant-numeric: tabular-nums; color: var(--muted); }
+.tldr-table tr.tldr-total td {
+  border-top: 1px solid var(--line);
+  border-bottom: none;
+  font-weight: 700;
+}
+.scale-table td.num { font-variant-numeric: tabular-nums; }

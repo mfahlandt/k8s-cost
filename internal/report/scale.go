@@ -26,20 +26,34 @@ type Scale struct {
 
 // ScaleSet is one cloud's scale-test spend.
 type ScaleSet struct {
-	Cloud     string       `json:"cloud"`     // "gcp" | "aws"
-	GroupKind string       `json:"groupKind"` // "job" | "account"
-	Note      string       `json:"note"`
-	Currency  string       `json:"currency"`
-	Total     float64      `json:"total"`
-	Groups    []ScaleGroup `json:"groups"`
-	Breakdown []ScaleItem  `json:"breakdown"` // resource split across all groups
-	Daily     []ScalePoint `json:"daily"`
+	Cloud     string  `json:"cloud"`     // "gcp" | "gcp-projects" | "aws"
+	GroupKind string  `json:"groupKind"` // "job" | "project" | "account"
+	Note      string  `json:"note"`
+	Currency  string  `json:"currency"`
+	Total     float64 `json:"total"`
+	// TotalGross is the same usage before provider discounts. On GCP this is
+	// list price (committed-use/sustained-use credits removed), on AWS it
+	// equals Total because these accounts have no discount contracts.
+	TotalGross float64      `json:"totalGross"`
+	Groups     []ScaleGroup `json:"groups"`
+	Breakdown  []ScaleItem  `json:"breakdown"` // resource split across all groups
+	Daily      []ScalePoint `json:"daily"`
+	Monthly    []ScaleMonth `json:"monthly"`
+}
+
+// ScaleMonth is one calendar month of scale spend, with and without discounts —
+// the TL;DR at the top of the tab.
+type ScaleMonth struct {
+	Month string  `json:"month"` // YYYY-MM
+	Cost  float64 `json:"cost"`  // net, what is actually charged
+	Gross float64 `json:"gross"` // list price, before discounts
 }
 
 // ScaleGroup is one prow job (GCP) or one account (AWS).
 type ScaleGroup struct {
-	Name string  `json:"name"`
-	Cost float64 `json:"cost"`
+	Name  string  `json:"name"`
+	Cost  float64 `json:"cost"`
+	Gross float64 `json:"gross"`
 	// ActiveDays counts days with non-trivial spend — for periodic jobs this
 	// equals the number of runs, hence CostPerActiveDay ≈ cost per run.
 	ActiveDays       int          `json:"activeDays"`
@@ -76,6 +90,7 @@ func BuildScaleSet(cloud, groupKind, note, currency string, rows []ScaleRow, top
 	groupDays := map[string]map[string]float64{}
 	items := map[string]float64{}
 	days := map[string]float64{}
+	months := map[string]*ScaleMonth{}
 
 	for _, r := range rows {
 		if r.Group == "" {
@@ -89,11 +104,24 @@ func BuildScaleSet(cloud, groupKind, note, currency string, rows []ScaleRow, top
 			groupDays[r.Group] = map[string]float64{}
 		}
 		g.Cost += r.Cost
+		g.Gross += r.Gross
 		groupItems[r.Group][r.Item] += r.Cost
 		groupDays[r.Group][r.Date] += r.Cost
 		items[r.Item] += r.Cost
 		days[r.Date] += r.Cost
 		set.Total += r.Cost
+		set.TotalGross += r.Gross
+
+		if len(r.Date) >= 7 {
+			key := r.Date[:7]
+			m, ok := months[key]
+			if !ok {
+				m = &ScaleMonth{Month: key}
+				months[key] = m
+			}
+			m.Cost += r.Cost
+			m.Gross += r.Gross
+		}
 	}
 
 	for name, g := range groups {
@@ -111,6 +139,7 @@ func BuildScaleSet(cloud, groupKind, note, currency string, rows []ScaleRow, top
 			}
 		}
 		g.Cost = round4(g.Cost)
+		g.Gross = round4(g.Gross)
 		if g.ActiveDays > 0 {
 			g.CostPerActiveDay = round4(g.Cost / float64(g.ActiveDays))
 		}
@@ -118,7 +147,15 @@ func BuildScaleSet(cloud, groupKind, note, currency string, rows []ScaleRow, top
 	}
 	sort.Slice(set.Groups, func(i, j int) bool { return set.Groups[i].Cost > set.Groups[j].Cost })
 
+	for _, m := range months {
+		set.Monthly = append(set.Monthly, ScaleMonth{
+			Month: m.Month, Cost: round4(m.Cost), Gross: round4(m.Gross),
+		})
+	}
+	sort.Slice(set.Monthly, func(i, j int) bool { return set.Monthly[i].Month < set.Monthly[j].Month })
+
 	set.Total = round4(set.Total)
+	set.TotalGross = round4(set.TotalGross)
 	set.Breakdown = topItems(items, topN)
 	set.Daily = sortedPoints(days)
 	return set
@@ -131,11 +168,13 @@ func round4(v float64) float64 {
 }
 
 // ScaleRow is one (day, group, resource) cost tuple fed into BuildScaleSet.
+// Cost is the discounted (net) amount, Gross the same usage at list price.
 type ScaleRow struct {
 	Date  string
 	Group string
 	Item  string
 	Cost  float64
+	Gross float64
 }
 
 // topItems ranks a resource map by cost and folds the tail into "Other (n)".
@@ -182,3 +221,6 @@ func WriteScaleJSON(path string, s Scale) error {
 	}
 	return os.WriteFile(path, append(b, '\n'), 0o644)
 }
+
+
+
