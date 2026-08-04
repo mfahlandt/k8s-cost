@@ -132,13 +132,27 @@ jobs:
         if: ${{ env.COLLECT == 'true' }}
         run: go run ./cmd/costctl report
 
+      # ---- scale-test tab: per prow job (GCP label) + scale accounts (AWS).
+      # Incremental: only the collection window is re-fetched and replaces those
+      # days in data/scale/*.jsonl, then the full history is re-aggregated. The
+      # yearly backfill therefore happens once, not on every run. Each half is
+      # skipped when its credentials are missing, so the tab degrades instead of
+      # failing the run.
+      - name: Generate scale-test dataset
+        if: ${{ env.COLLECT == 'true' && (env.GCP_SA_KEY != '' || env.AWS_ACCESS_KEY_ID != '') }}
+        run: |
+          args="--start ${{ steps.win.outputs.start }} --end ${{ steps.win.outputs.end }}"
+          [ -z "$GCP_SA_KEY" ] && args="$args --skip-gcp"
+          [ -z "$AWS_ACCESS_KEY_ID" ] && args="$args --skip-aws"
+          go run ./cmd/costctl collect-scale --project "$GOOGLE_CLOUD_PROJECT" $args
+
       # ---- commit updated data back (file-based store lives in the repo)
       - name: Commit updated data
         if: ${{ env.COLLECT == 'true' }}
         run: |
           git config user.name "cost-bot"
           git config user.email "cost-bot@users.noreply.github.com"
-          git add data web/public/dashboard.json
+          git add data web/public/dashboard.json web/public/scale.json
           if ! git diff --cached --quiet; then
             git commit -m "chore: daily cost data update $(date -u +%F)"
             git push

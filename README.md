@@ -44,6 +44,37 @@ make dev   # http://localhost:5173
 
 Or use the Makefile: `make build`, `make test`, `make report`, `make web`.
 
+## Ad-hoc breakdowns (`query-aws` / `query-gcp`)
+
+Beyond the tracked dataset, `costctl` can answer one-off questions such as *"what
+do the upstream scale tests cost, per resource type?"*. These commands print a
+table (or write CSV) and never write to `data/`:
+
+```bash
+# AWS: per service + usage type for the dedicated scale boskos accounts
+go run ./cmd/costctl query-aws --profile k8s \
+  --start 2026-07-01 --end 2026-08-01 --granularity MONTHLY \
+  --filter "LINKED_ACCOUNT=226543828060,405186867737" \
+  --group-by SERVICE --group-by USAGE_TYPE
+
+# AWS: per prow job (requires the tag to be activated for cost allocation)
+go run ./cmd/costctl query-aws --tag "prow.k8s.io/job=<job-name>" --group-by SERVICE \
+  --start 2026-07-27 --end 2026-07-29
+
+# GCP: per prow job (the `prow_k8s_io_job` label exists in the billing export)
+go run ./cmd/costctl query-gcp --project kubernetes-public \
+  --start 2026-07-01 --end 2026-08-01 --label-key prow_k8s_io_job --group-by job
+
+# GCP: per project / SKU from the BigQuery billing export
+go run ./cmd/costctl query-gcp --project kubernetes-public \
+  --start 2026-07-01 --end 2026-08-01 \
+  --projects k8s-infra-e2e-scale-5k-project --group-by service --group-by sku
+```
+
+See [`docs/SCALE_TESTS.md`](docs/SCALE_TESTS.md) for the scale-test numbers:
+per-job attribution already works on GCP via labels, while AWS first needs
+`prow.k8s.io/job` activated as a cost allocation tag.
+
 ## Drop-folder ingestion (no API? just commit the file)
 
 Some providers have no automatable export (e.g. Azure). For those, drop the CSV

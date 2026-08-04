@@ -46,6 +46,12 @@ func main() {
 		err = cmdCollectIBM(os.Args[2:])
 	case "collect-fastly":
 		err = cmdCollectFastly(os.Args[2:])
+	case "query-aws":
+		err = cmdQueryAWS(os.Args[2:])
+	case "query-gcp":
+		err = cmdQueryGCP(os.Args[2:])
+	case "collect-scale":
+		err = cmdCollectScale(os.Args[2:])
 	case "report":
 		err = cmdReport(os.Args[2:])
 	case "alert":
@@ -76,6 +82,9 @@ Usage:
   costctl collect-do  [--token <do-token>] [--preview] [--data ./data]
   costctl collect-ibm [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--period YYYY-MM] [--provider ibm-power|ibm-z] [--account <guid>] [--data ./data]
   costctl collect-fastly [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--token <fastly-token>] [--data ./data]
+  costctl query-aws  --start YYYY-MM-DD --end YYYY-MM-DD [--tag key=value] [--group-by SERVICE] [--group-by USAGE_TYPE] [--csv out.csv]
+  costctl query-gcp  --project <p> --start YYYY-MM-DD --end YYYY-MM-DD [--label-key k --label-value v] [--group-by service|sku|project|job|label:<k>] [--list-labels] [--csv out.csv]
+  costctl collect-scale [--period YYYY-MM] [--start ...] [--end ...] [--project <p>] [--profile <p>] [--out web/public/scale.json]
   costctl report  [--asof YYYY-MM-DD] [--data ./data] [--json web/public/dashboard.json] [--xlsx reports/report.xlsx]
   costctl alert   --webhook <url> [--asof YYYY-MM-DD] [--data ./data]
 
@@ -105,6 +114,15 @@ collect-ibm needs an IBM Cloud IAM API key:
 collect-fastly needs a Fastly API token (stats read); tracks bandwidth in GB
 (Fastly invoices are $0 under the committed plan):
   export FASTLY_API_TOKEN=...
+
+query-aws / query-gcp are ad-hoc breakdowns; they print a table (or CSV) and do
+not write to the store. Example: cost of a prow scale job per AWS service:
+  costctl query-aws --start 2026-07-27 --end 2026-07-29 \
+    --tag prow.k8s.io/job=ci-kubernetes-e2e-kops-aws-scale-amazonvpc-using-cl2 \
+    --group-by SERVICE
+Check first whether the tag is activated for cost allocation:
+  costctl query-aws --start 2026-07-01 --end 2026-08-01 --list-tag-values prow.k8s.io/job
+query-aws additionally needs IAM permission ce:GetTags for --list-tag-values.
 `)
 }
 

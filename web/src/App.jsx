@@ -78,10 +78,12 @@ export default function App() {
             <nav className="view-nav">
               <a href="#/overview" className={view === "overview" ? "on" : ""}>Overview</a>
               <a href="#/services" className={view === "services" ? "on" : ""}>Top spenders</a>
+              <a href="#/scale" className={view === "scale" ? "on" : ""}>Scale tests</a>
             </nav>
             <select className="month-select" value={idx}
                     onChange={(e) => setMonthIdx(Number(e.target.value))}
-                    aria-label="Select month">
+                    aria-label="Select month"
+                    disabled={view === "scale"}>
               {snaps.map((s, i) => (
                 <option key={s.label} value={i}>
                   {s.label}{i === snaps.length - 1 ? " (latest)" : ""}
@@ -102,6 +104,8 @@ export default function App() {
 
       {view === "services" ? (
         <TopSpenders providers={providers} />
+      ) : view === "scale" ? (
+        <ScaleTests />
       ) : (
         <>
           <ComparisonChart providers={providers} />
@@ -269,6 +273,202 @@ function ServiceBreakdown({ p, metric }) {
   );
 }
 
+// ScaleTests is the "Scale tests" sub-page: what the upstream scale/performance
+// e2e jobs cost, per job (GCP, via the prow_k8s_io_job billing label) and per
+// dedicated scale account (AWS, which has no activated prow job tag).
+const CLOUD_NAMES = { gcp: "GCP", "gcp-projects": "GCP", aws: "AWS" };
+
+function ScaleTests() {
+  const [scale, setScale] = useState(null);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    fetch(scaleUrl())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(setScale)
+      .catch((e) => setErr(e.message));
+  }, []);
+
+  if (err) {
+    return (
+      <section className="card">
+        <h2>Scale tests</h2>
+        <p className="svc-note">
+          No scale-test dataset yet ({err}). Generate it with{" "}
+          <code>costctl collect-scale --project kubernetes-public --profile k8s --period YYYY-MM</code>.
+        </p>
+      </section>
+    );
+  }
+  if (!scale) return <section className="card"><p>Loading scale-test data…</p></section>;
+
+  const clouds = scale.clouds || [];
+  // gcp-projects is the same money as gcp (seen per project instead of per
+  // job), so it must not be added to the headline figure.
+  const headline = clouds.filter((c) => c.cloud !== "gcp-projects");
+  return (
+    <>
+      <section className="card compare">
+        <div className="card-head">
+          <h2>Scale &amp; performance e2e tests</h2>
+          <span className="svc-total">
+            {money(headline.reduce((a, c) => a + (c.total || 0), 0))}
+          </span>
+        </div>
+        <p className="sub">
+          {scale.start} → {scale.end} · what the upstream scale jobs consume, by
+          job and by resource. Cost per run ≈ cost ÷ active days (days with
+          non-trivial spend). GCP is shown twice — per prow job (from 2026-04-28,
+          when the label was introduced) and per scale project (full history).
+        </p>
+      </section>
+      {clouds.map((c) => (
+        <ScaleCloud key={c.cloud} c={c} />
+      ))}
+      <section className="card method">
+        <h2>How to read this</h2>
+        <dl>
+          <dt>GCP — per prow job</dt>
+          <dd>The billing export carries a <code>prow_k8s_io_job</code> resource
+          label, so every dollar maps to the job that created the resource.
+          Values are <strong>net of committed-use and sustained-use discounts</strong>
+          {" "}(≈ 27% below list) with tax and adjustments excluded.</dd>
+
+          <dt>AWS — per scale account</dt>
+          <dd><code>prow.k8s.io/job</code> is <strong>not</strong> activated as a
+          cost allocation tag, so per-job attribution is impossible today. The
+          dedicated boskos scale accounts are used instead — everything running
+          there is a scale test. Metric is UnblendedCost (no RIs or Savings Plans
+          exist in these accounts, so it equals list price); the accounts are
+          credit funded, so this is consumption, not cash out.</dd>
+
+          <dt>Cost per run</dt>
+          <dd>Periodic jobs run at most once a day, so <code>cost ÷ active days</code>
+          {" "}is a good per-run estimate. Presubmit jobs can run several times a
+          day — for those the number is an upper bound per day, not per run.</dd>
+        </dl>
+      </section>
+    </>
+  );
+}
+
+function ScaleCloud({ c }) {
+  const currency = c.currency || "USD";
+  const [openGroup, setOpenGroup] = useState(null);
+  const groups = c.groups || [];
+  const max = Math.max(...groups.map((g) => g.cost), 1);
+
+  return (
+    <section className="card">
+      <div className="card-head">
+        <h2>{CLOUD_NAMES[c.cloud] || c.cloud} — by {c.groupKind}</h2>
+        <span className="svc-total">{money(c.total, currency)}</span>
+      </div>
+      <p className="svc-note">{c.note}</p>
+      <ScaleDaily points={c.daily} currency={currency} />
+      <table className="scale-table">
+        <thead>
+          <tr>
+            <th>{c.groupKind === "job" ? "Prow job" : "Account"}</th>
+            <th className="num">Cost</th>
+            <th className="num">Active days</th>
+            <th className="num">Per run</th>
+            <th className="bar-col" />
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map((g) => (
+            <React.Fragment key={g.name}>
+              <tr className={openGroup === g.name ? "scale-row open" : "scale-row"}
+                  onClick={() => setOpenGroup(openGroup === g.name ? null : g.name)}>
+                <td>
+                  <span className="scale-toggle">{openGroup === g.name ? "▾" : "▸"}</span>
+                  <span title={g.name}>{g.name}</span>
+                </td>
+                <td className="num">{money(g.cost, currency)}</td>
+                <td className="num">{g.activeDays}</td>
+                <td className="num">{money(g.costPerActiveDay, currency)}</td>
+                <td className="bar-col">
+                  <span className="svc-bar-wrap">
+                    <span className="svc-bar" style={{ width: `${(g.cost / max) * 100}%` }} />
+                  </span>
+                </td>
+              </tr>
+              {openGroup === g.name && (
+                <tr className="scale-detail">
+                  <td colSpan={5}>
+                    <ScaleBreakdown items={g.breakdown} currency={currency}
+                                    title={`Resource split — ${g.name}`} />
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+      <ScaleBreakdown items={c.breakdown} currency={currency}
+                      title={`Resource split — all ${c.groupKind}s`} />
+    </section>
+  );
+}
+
+function ScaleBreakdown({ items, currency, title }) {
+  const rows = (items || []).filter((i) => i.cost > 0);
+  if (rows.length === 0) return null;
+  const total = rows.reduce((a, r) => a + r.cost, 0);
+  const max = Math.max(...rows.map((r) => r.cost), 1);
+  return (
+    <div className="scale-breakdown">
+      <h3>{title}</h3>
+      <ul className="svc-list">
+        {rows.map((r) => (
+          <li key={r.name} className={`svc-row${r.name === "Other" ? " svc-other" : ""}`}>
+            <span className="svc-name" title={r.name}>{r.name}</span>
+            <span className="svc-bar-wrap">
+              <span className="svc-bar" style={{ width: `${(r.cost / max) * 100}%` }} />
+            </span>
+            <span className="svc-val">{money(r.cost, currency)}</span>
+            <span className="svc-pct">{((r.cost / total) * 100).toFixed(1)}%</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ScaleDaily plots the daily spend of a cloud's scale tests — the spikes are
+// individual runs.
+function ScaleDaily({ points, currency }) {
+  if (!points || points.length < 2) return null;
+  const W = 960, H = 90, PAD = 6;
+  const max = Math.max(...points.map((p) => p.cost), 1);
+  const barW = Math.max((W - 2 * PAD) / points.length - 1, 1);
+  const x = (i) => PAD + (i / points.length) * (W - 2 * PAD);
+  const y = (v) => H - PAD - (v / max) * (H - 2 * PAD);
+  const total = points.reduce((a, p) => a + p.cost, 0);
+  const avg = total / points.length;
+  return (
+    <div className="chart">
+      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
+           aria-label="Daily scale-test spend">
+        <line x1={PAD} x2={W - PAD} y1={y(avg)} y2={y(avg)} className="chart-avg" strokeDasharray="2 3" />
+        {points.map((p, i) => (
+          <rect key={p.date} x={x(i)} y={y(p.cost)} width={barW}
+                height={Math.max(H - PAD - y(p.cost), 0)} className="chart-bar">
+            <title>{`${p.date}: ${money(p.cost, currency)}`}</title>
+          </rect>
+        ))}
+      </svg>
+      <div className="chart-legend">
+        <span>daily spend · avg {money(avg, currency)}/day · {points.length} days</span>
+      </div>
+    </div>
+  );
+}
+
 // Methodology explains every number on the page. Formulas mirror
 // internal/calc/calc.go — keep the two in sync.
 function Methodology() {
@@ -331,6 +531,13 @@ function Methodology() {
         full service detail; AWS and GCP populate once their collectors re-run
         with the per-service query; providers billed as a single monthly invoice
         (DigitalOcean, IBM) have no service split.</dd>
+
+        <dt>Scale tests (sub-page)</dt>
+        <dd>What the upstream scale/performance e2e jobs consume. On GCP this is
+        a true per-prow-job split (billing label <code>prow_k8s_io_job</code>);
+        on AWS it is the spend of the dedicated scale boskos accounts, because
+        the <code>prow.k8s.io/job</code> tag is not activated for cost
+        allocation. Generated separately by <code>costctl collect-scale</code>.</dd>
 
         <dt>Comparison chart (top)</dt>
         <dd>Default view shows <code>cumulative spend ÷ annual budget</code> in %

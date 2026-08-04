@@ -197,3 +197,43 @@ hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
   color: var(--text);
 }
 
+/* ---- Scale tests tab ---------------------------------------------------- */
+.scale-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.scale-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.scale-table th.num, .scale-table td.num { text-align: right; }
+.scale-table th.bar-col, .scale-table td.bar-col { width: 22%; }
+.scale-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.scale-row { cursor: pointer; }
+.scale-row:hover { background: rgba(255, 255, 255, 0.04); }
+.scale-row.open { background: rgba(255, 255, 255, 0.06); }
+.scale-row td:first-child {
+  max-width: 420px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scale-toggle { color: var(--muted); margin-right: 6px; }
+.scale-detail td { background: rgba(0, 0, 0, 0.18); }
+.scale-breakdown { margin-top: 14px; }
+.scale-breakdown h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 4px;
+}

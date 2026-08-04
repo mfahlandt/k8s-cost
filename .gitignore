@@ -9,6 +9,9 @@ web/dist/
 # Generated report artifacts (dashboard.json is committed on purpose)
 /reports/*.xlsx
 
+# Ad-hoc query exports (costctl query-aws/query-gcp --csv)
+/reports/adhoc/
+
 # Ingest archive: raw provider exports moved here after ingestion. Kept out of
 # git so the large raw CSVs don't bloat the repo — the normalized data lives in
 # data/spend/*.json instead.
