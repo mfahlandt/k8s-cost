@@ -195,7 +195,8 @@ which is fine for scale tests because they run in dedicated boskos accounts.
 
 ## Dashboard tab
 
-The dashboard has a **Scale tests** tab (`#/scale`) fed by `web/public/scale.json`:
+The dashboard has a **Scale tests** tab fed by `web/public/scale.json` —
+live at <https://mfahlandt.github.io/k8s-cost/#/scale>:
 
 ```bash
 costctl collect-scale --project kubernetes-public --profile k8s \
@@ -333,6 +334,7 @@ costctl query-gcp --project kubernetes-public --start 2026-07-01 --end 2026-08-0
 
 Cost Explorer API calls are billed at ~$0.01 each; a month of BigQuery billing
 export scans ~23 GB (~$0.14).
+
 
 
 

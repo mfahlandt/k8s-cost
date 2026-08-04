@@ -1,5 +1,7 @@
 # Deployment: GitHub Pages + daily cron
 
+Live: **<https://mfahlandt.github.io/k8s-cost/>**
+
 The dashboard is fully static (React build + `dashboard.json`), the data store
 is file-based in `data/` — no server, no database. A GitHub Actions workflow
 (`.github/workflows/update.yml`) refreshes everything **daily at 06:00 UTC**:

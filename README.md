@@ -1,5 +1,10 @@
 # k8s-cost
 
+**📊 Live dashboard: <https://mfahlandt.github.io/k8s-cost/>**
+· [Overview](https://mfahlandt.github.io/k8s-cost/#/overview)
+· [Top spenders](https://mfahlandt.github.io/k8s-cost/#/services)
+· [Scale tests](https://mfahlandt.github.io/k8s-cost/#/scale)
+
 Automates the monthly Kubernetes cloud-spend report. Upload provider billing
 exports → normalize into a git-tracked, file-based data store → compute
 per-provider metrics, burn rate and budget projections → publish a React
@@ -134,6 +139,8 @@ monthsUntilBudgetExhausted = annualBudget / projectedMonthlyAvg - monthsElapsed
 ```
 
 ## Deployment (GitHub Pages)
+
+The dashboard is live at **<https://mfahlandt.github.io/k8s-cost/>**.
 
 `.github/workflows/deploy.yml` builds Go, regenerates `dashboard.json` + the
 XLSX from `data/`, builds the React app and deploys `web/dist` to Pages on every
