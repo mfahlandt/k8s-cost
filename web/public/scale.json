@@ -1,30 +1,30 @@
 {
-  "generatedAt": "2026-09-10T11:03:27.025414475Z",
+  "generatedAt": "2026-09-11T11:01:57.212874137Z",
   "start": "2025-12-31",
-  "end": "2026-09-09",
+  "end": "2026-09-10",
   "clouds": [
     {
       "cloud": "gcp",
       "groupKind": "job",
       "note": "Cost per prow job from the BigQuery billing export label `prow_k8s_io_job`, net of committed-use/sustained-use discounts (tax and adjustments excluded). Only jobs whose name contains \"scale\" or \"performance\" are shown. The label only exists from 2026-04-28 onwards — for older months use the project view.",
       "currency": "USD",
-      "total": 114085.4377,
-      "totalGross": 161704.5857,
+      "total": 114541.4966,
+      "totalGross": 162396.3538,
       "groups": [
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-5000",
-          "cost": 29164.4977,
-          "gross": 39506.4906,
+          "cost": 29164.4955,
+          "gross": 39506.4864,
           "activeDays": 67,
           "costPerActiveDay": 435.291,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 17503.9712
+              "cost": 17503.9701
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 9384.7042
+              "cost": 9384.7032
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
@@ -48,7 +48,7 @@
             },
             {
               "name": "Other",
-              "cost": 145.2687
+              "cost": 145.2686
             },
             {
               "name": "C3 Instance Ram running in Americas",
@@ -274,7 +274,7 @@
             },
             {
               "date": "2026-08-13",
-              "cost": 488.3252
+              "cost": 488.3251
             },
             {
               "date": "2026-08-15",
@@ -330,7 +330,7 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 471.4741
+              "cost": 471.472
             }
           ]
         },
@@ -535,46 +535,46 @@
         },
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-5000-experimental",
-          "cost": 15150.8511,
-          "gross": 20854.0157,
-          "activeDays": 29,
-          "costPerActiveDay": 522.4431,
+          "cost": 15480.979,
+          "gross": 21301.8969,
+          "activeDays": 27,
+          "costPerActiveDay": 573.3696,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 8478.2764
+              "cost": 8659.3991
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 4545.7869
+              "cost": 4642.8994
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 793.9445
+              "cost": 810.5895
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 427.7802
+              "cost": 439.9951
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
-              "cost": 374.4002
+              "cost": 386.5447
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 338.3722
+              "cost": 345.4662
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 76.3107
+              "cost": 77.6708
             },
             {
               "name": "Other",
-              "cost": 72.1997
+              "cost": 73.8256
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 32.9916
+              "cost": 33.7999
             },
             {
               "name": "C3 Instance Ram running in Americas",
@@ -688,11 +688,11 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 3631.4091
+              "cost": 3961.5372
             },
             {
               "date": "2026-08-01",
-              "cost": 81.7896
+              "cost": 81.7895
             },
             {
               "date": "2026-08-03",
@@ -748,7 +748,7 @@
             },
             {
               "date": "2026-08-25",
-              "cost": 166.5666
+              "cost": 166.5665
             },
             {
               "date": "2026-08-28",
@@ -1104,46 +1104,46 @@
         },
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-100",
-          "cost": 10876.8219,
-          "gross": 19875.915,
-          "activeDays": 134,
-          "costPerActiveDay": 81.1703,
+          "cost": 10969.5848,
+          "gross": 20055.6502,
+          "activeDays": 135,
+          "costPerActiveDay": 81.2562,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 3923.4227
+              "cost": 3956.8752
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 2224.4459
+              "cost": 2242.8663
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 2103.8492
+              "cost": 2122.3276
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 1010.9942
+              "cost": 1019.6059
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 948.0345
+              "cost": 956.161
             },
             {
               "name": "C3 Instance Ram running in Americas",
-              "cost": 459.7252
+              "cost": 463.7968
             },
             {
               "name": "Other",
-              "cost": 91.0814
+              "cost": 91.8173
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 75.7213
+              "cost": 76.2491
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 37.1705
+              "cost": 37.5086
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
@@ -1529,7 +1529,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 291.62
+              "cost": 313.3643
             },
             {
               "date": "2026-08-01",
@@ -1689,56 +1689,60 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 50.8042
+              "cost": 72.4677
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 49.3551
             }
           ]
         },
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-100-1-36",
-          "cost": 1312.7761,
-          "gross": 2321.3227,
+          "cost": 1321.9271,
+          "gross": 2337.7865,
           "activeDays": 102,
-          "costPerActiveDay": 12.8704,
+          "costPerActiveDay": 12.9601,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 473.8025
+              "cost": 477.2389
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 268.5589
+              "cost": 270.2753
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 254.0646
+              "cost": 255.9202
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 121.9432
+              "cost": 122.7911
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 114.4583
+              "cost": 115.1898
             },
             {
               "name": "C3 Instance Ram running in Americas",
-              "cost": 55.4351
+              "cost": 55.8205
             },
             {
               "name": "Other",
-              "cost": 10.7449
+              "cost": 10.8212
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 9.1443
+              "cost": 9.2124
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 4.3855
+              "cost": 4.4031
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
-              "cost": 0.2388
+              "cost": 0.2546
             }
           ],
           "daily": [
@@ -2120,7 +2124,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 59.3571
+              "cost": 64.3087
             },
             {
               "date": "2026-08-01",
@@ -2216,7 +2220,7 @@
             },
             {
               "date": "2026-08-24",
-              "cost": 4.5203
+              "cost": 4.5204
             },
             {
               "date": "2026-08-25",
@@ -2280,7 +2284,11 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 3.0127
+              "cost": 4.4612
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 2.7508
             }
           ]
         },
@@ -2341,46 +2349,46 @@
         },
         {
           "name": "pull-perf-tests-gce-master-scale-performance-100",
-          "cost": 801.2315,
-          "gross": 1454.1067,
-          "activeDays": 84,
-          "costPerActiveDay": 9.5385,
+          "cost": 814.9535,
+          "gross": 1481.3805,
+          "activeDays": 85,
+          "costPerActiveDay": 9.5877,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 289.5635
+              "cost": 294.6131
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 162.9457
+              "cost": 165.5664
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 155.2823
+              "cost": 157.9906
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 76.2537
+              "cost": 77.6672
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 69.4462
+              "cost": 70.5632
             },
             {
               "name": "C3 Instance Ram running in Americas",
-              "cost": 34.6651
+              "cost": 35.3077
             },
             {
               "name": "Other",
-              "cost": 5.9046
+              "cost": 5.9893
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 4.6205
+              "cost": 4.6666
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 2.4459
+              "cost": 2.4854
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
@@ -2722,7 +2730,7 @@
             },
             {
               "date": "2026-09-03",
-              "cost": 12.3495
+              "cost": 12.3494
             },
             {
               "date": "2026-09-04",
@@ -2743,6 +2751,10 @@
             {
               "date": "2026-09-08",
               "cost": 16.1707
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 13.7221
             }
           ]
         },
@@ -3163,46 +3175,46 @@
         },
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-100-fieldsv1string",
-          "cost": 301.2294,
-          "gross": 575.857,
-          "activeDays": 133,
-          "costPerActiveDay": 2.2649,
+          "cost": 303.4053,
+          "gross": 580.1726,
+          "activeDays": 134,
+          "costPerActiveDay": 2.2642,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 108.4952
+              "cost": 109.2941
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 61.5202
+              "cost": 61.9474
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 58.1747
+              "cost": 58.6031
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 28.2046
+              "cost": 28.4129
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 26.2197
+              "cost": 26.4018
             },
             {
               "name": "C3 Instance Ram running in Americas",
-              "cost": 12.8216
+              "cost": 12.9163
             },
             {
               "name": "Other",
-              "cost": 2.5462
+              "cost": 2.5632
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 2.1289
+              "cost": 2.1399
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 1.0698
+              "cost": 1.0781
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
@@ -3741,55 +3753,59 @@
             {
               "date": "2026-09-09",
               "cost": 2.0136
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 2.1759
             }
           ]
         },
         {
           "name": "ci-kubernetes-e2e-gce-scale-performance-100-1-37",
-          "cost": 270.7582,
-          "gross": 492.9282,
-          "activeDays": 31,
-          "costPerActiveDay": 8.7341,
+          "cost": 278.8796,
+          "gross": 509.0309,
+          "activeDays": 32,
+          "costPerActiveDay": 8.715,
           "breakdown": [
             {
               "name": "E2 Instance Core running in Americas",
-              "cost": 97.8428
+              "cost": 100.7293
             },
             {
               "name": "C4 Instance Core running in Americas",
-              "cost": 54.3745
+              "cost": 55.91
             },
             {
               "name": "E2 Instance Ram running in Americas",
-              "cost": 52.4685
+              "cost": 54.0333
             },
             {
               "name": "C3 Instance Core running in Americas",
-              "cost": 25.786
+              "cost": 26.7776
             },
             {
               "name": "C4 Instance Ram running in Americas",
-              "cost": 23.1742
+              "cost": 23.8204
             },
             {
               "name": "C3 Instance Ram running in Americas",
-              "cost": 11.7225
+              "cost": 12.0795
             },
             {
               "name": "Other",
-              "cost": 2.3381
+              "cost": 2.4018
             },
             {
               "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-              "cost": 2.0593
+              "cost": 2.1103
             },
             {
               "name": "Network Inter Zone Data Transfer Out",
-              "cost": 0.8075
+              "cost": 0.8566
             },
             {
               "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
-              "cost": 0.1848
+              "cost": 0.1608
             }
           ],
           "daily": [
@@ -3915,7 +3931,11 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 5.7649
+              "cost": 9.2777
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 4.6086
             }
           ]
         },
@@ -4420,43 +4440,43 @@
       "breakdown": [
         {
           "name": "E2 Instance Core running in Americas",
-          "cost": 63357.6986
+          "cost": 63584.4441
         },
         {
           "name": "E2 Instance Ram running in Americas",
-          "cost": 33970.3568
+          "cost": 34092.5038
         },
         {
           "name": "C4 Instance Core running in Americas",
-          "cost": 6020.8083
+          "cost": 6062.1735
         },
         {
           "name": "C4 Instance Ram running in Americas",
-          "cost": 2566.0113
+          "cost": 2583.9086
         },
         {
           "name": "Network Inter Zone Data Transfer Out",
-          "cost": 2218.4345
+          "cost": 2231.102
         },
         {
           "name": "C3 Instance Core running in Americas",
-          "cost": 2148.2941
+          "cost": 2161.7272
         },
         {
           "name": "Regional Internal Passthrough Network Load Balancer Outbound Data Processing for South Carolina (us-east1)",
-          "cost": 2107.8321
+          "cost": 2119.9684
         },
         {
           "name": "C3 Instance Ram running in Americas",
-          "cost": 876.3735
+          "cost": 881.9248
         },
         {
           "name": "Other",
-          "cost": 596.473
+          "cost": 599.0764
         },
         {
           "name": "Network Inter Region Data Transfer Out from Americas to Americas",
-          "cost": 215.1071
+          "cost": 216.6194
         },
         {
           "name": "Network Internet Data Transfer Out from Americas to Americas",
@@ -4850,11 +4870,11 @@
         },
         {
           "date": "2026-07-31",
-          "cost": 4371.7523
+          "cost": 4728.5763
         },
         {
           "date": "2026-08-01",
-          "cost": 616.5711
+          "cost": 616.571
         },
         {
           "date": "2026-08-02",
@@ -4902,7 +4922,7 @@
         },
         {
           "date": "2026-08-13",
-          "cost": 590.1516
+          "cost": 590.1515
         },
         {
           "date": "2026-08-14",
@@ -4946,11 +4966,11 @@
         },
         {
           "date": "2026-08-24",
-          "cost": 594.3892
+          "cost": 594.3893
         },
         {
           "date": "2026-08-25",
-          "cost": 730.8555
+          "cost": 730.8554
         },
         {
           "date": "2026-08-26",
@@ -4986,7 +5006,7 @@
         },
         {
           "date": "2026-09-03",
-          "cost": 578.0294
+          "cost": 578.0293
         },
         {
           "date": "2026-09-04",
@@ -5010,7 +5030,11 @@
         },
         {
           "date": "2026-09-09",
-          "cost": 533.0695
+          "cost": 559.6922
+        },
+        {
+          "date": "2026-09-10",
+          "cost": 72.6125
         }
       ],
       "monthly": [
@@ -5031,18 +5055,18 @@
         },
         {
           "month": "2026-07",
-          "cost": 29603.5465,
-          "gross": 42148.6169
+          "cost": 29960.3705,
+          "gross": 42643.5479
         },
         {
           "month": "2026-08",
-          "cost": 18531.5322,
+          "cost": 18531.532,
           "gross": 27398.3108
         },
         {
           "month": "2026-09",
-          "cost": 4313.906,
-          "gross": 6361.4569
+          "cost": 4413.1411,
+          "gross": 6558.294
         }
       ]
     },
@@ -5051,31 +5075,31 @@
       "groupKind": "project",
       "note": "The same spend seen through the dedicated scale projects (every project id containing \"scale\"), which covers the whole year — unlike the job label, which only exists from 2026-04-28. Net of committed-use/sustained-use discounts.",
       "currency": "USD",
-      "total": 388179.6481,
-      "totalGross": 542151.1708,
+      "total": 389067.0922,
+      "totalGross": 543505.1181,
       "groups": [
         {
           "name": "k8s-infra-e2e-boskos-scale-28",
-          "cost": 75846.1158,
-          "gross": 101636.7439,
-          "activeDays": 128,
-          "costPerActiveDay": 592.5478,
+          "cost": 76228.1714,
+          "gross": 102166.5746,
+          "activeDays": 126,
+          "costPerActiveDay": 604.9855,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 67485.7309
+              "cost": 67822.1349
             },
             {
               "name": "Networking",
-              "cost": 6379.7958
+              "cost": 6424.1704
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 1364.8925
+              "cost": 1365.9496
             },
             {
               "name": "Cloud Storage",
-              "cost": 615.4194
+              "cost": 615.6393
             },
             {
               "name": "Cloud Logging",
@@ -5933,11 +5957,11 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 4193.6263
+              "cost": 4574.813
             },
             {
               "date": "2026-08-01",
-              "cost": 91.0431
+              "cost": 91.043
             },
             {
               "date": "2026-08-02",
@@ -5989,7 +6013,7 @@
             },
             {
               "date": "2026-08-14",
-              "cost": 0.8747
+              "cost": 0.8748
             },
             {
               "date": "2026-08-15",
@@ -6093,36 +6117,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 543.6248
+              "cost": 543.9581
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.5356
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-scale-5k-project",
-          "cost": 66815.6648,
-          "gross": 89111.0975,
+          "cost": 66817.6665,
+          "gross": 89113.0992,
           "activeDays": 128,
-          "costPerActiveDay": 521.9974,
+          "costPerActiveDay": 522.013,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 59101.9242
+              "cost": 59103.6967
             },
             {
               "name": "Networking",
-              "cost": 5852.3443
+              "cost": 5852.3622
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 1249.5223
+              "cost": 1249.5891
             },
             {
               "name": "Cloud Storage",
-              "cost": 607.7045
+              "cost": 607.8306
             },
             {
               "name": "Artifact Registry",
-              "cost": 3.975
+              "cost": 3.9934
             },
             {
               "name": "Cloud Logging",
@@ -6980,7 +7008,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 439.7953
+              "cost": 440.2965
             },
             {
               "date": "2026-08-01",
@@ -7140,36 +7168,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 1.0252
+              "cost": 1.5332
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.9925
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-30",
-          "cost": 66144.7367,
-          "gross": 88736.4666,
+          "cost": 66146.0354,
+          "gross": 88737.7653,
           "activeDays": 138,
-          "costPerActiveDay": 479.3097,
+          "costPerActiveDay": 479.3191,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 58417.9234
+              "cost": 58418.8812
             },
             {
               "name": "Networking",
-              "cost": 5698.9591
+              "cost": 5698.9627
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 1318.8242
+              "cost": 1318.8811
             },
             {
               "name": "Cloud Storage",
-              "cost": 666.9515
+              "cost": 667.1852
             },
             {
               "name": "Artifact Registry",
-              "cost": 41.8911
+              "cost": 41.9378
             },
             {
               "name": "Cloud Logging",
@@ -8027,7 +8059,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 8.1205
+              "cost": 8.515
             },
             {
               "date": "2026-08-01",
@@ -8179,7 +8211,7 @@
             },
             {
               "date": "2026-09-07",
-              "cost": 531.5974
+              "cost": 531.4519
             },
             {
               "date": "2026-09-08",
@@ -8187,32 +8219,36 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 0.6752
+              "cost": 1.079
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.6459
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-29",
-          "cost": 64585.8794,
-          "gross": 86195.822,
+          "cost": 64587.1815,
+          "gross": 86197.1241,
           "activeDays": 139,
-          "costPerActiveDay": 464.6466,
+          "costPerActiveDay": 464.656,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 56860.1394
+              "cost": 56861.1097
             },
             {
               "name": "Networking",
-              "cost": 5741.065
+              "cost": 5741.0685
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 1170.2852
+              "cost": 1170.3472
             },
             {
               "name": "Cloud Storage",
-              "cost": 814.2706
+              "cost": 814.5369
             },
             {
               "name": "Cloud Logging",
@@ -9070,7 +9106,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 7.6164
+              "cost": 7.9841
             },
             {
               "date": "2026-08-01",
@@ -9230,36 +9266,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 0.5722
+              "cost": 0.9523
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.5543
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-16",
-          "cost": 5178.4772,
-          "gross": 7945.0695,
-          "activeDays": 215,
-          "costPerActiveDay": 24.0859,
+          "cost": 5191.5618,
+          "gross": 7968.6368,
+          "activeDays": 216,
+          "costPerActiveDay": 24.035,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 4449.0122
+              "cost": 4460.6061
             },
             {
               "name": "Networking",
-              "cost": 442.7176
+              "cost": 443.8463
             },
             {
               "name": "Cloud Storage",
-              "cost": 191.4317
+              "cost": 191.6577
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 95.1565
+              "cost": 95.2924
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1342
+              "cost": 0.1343
             },
             {
               "name": "Cloud Logging",
@@ -10117,7 +10157,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 44.0181
+              "cost": 47.4453
             },
             {
               "date": "2026-08-01",
@@ -10277,36 +10317,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.3381
+              "cost": 10.8712
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 5.1243
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-07",
-          "cost": 5101.8512,
-          "gross": 7825.935,
-          "activeDays": 186,
-          "costPerActiveDay": 27.4293,
+          "cost": 5120.3334,
+          "gross": 7855.5351,
+          "activeDays": 187,
+          "costPerActiveDay": 27.3815,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 4305.6642
+              "cost": 4320.9846
             },
             {
               "name": "Networking",
-              "cost": 487.7185
+              "cost": 489.8966
             },
             {
               "name": "Cloud Storage",
-              "cost": 204.6069
+              "cost": 205.4165
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 103.6887
+              "cost": 103.8629
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1347
+              "cost": 0.1346
             },
             {
               "name": "Cloud Logging",
@@ -11164,7 +11208,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 45.3486
+              "cost": 48.9179
             },
             {
               "date": "2026-08-01",
@@ -11240,11 +11284,11 @@
             },
             {
               "date": "2026-08-19",
-              "cost": 10.7192
+              "cost": 10.7191
             },
             {
               "date": "2026-08-20",
-              "cost": 8.9621
+              "cost": 8.962
             },
             {
               "date": "2026-08-21",
@@ -11324,1083 +11368,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.3812
-            }
-          ]
-        },
-        {
-          "name": "k8s-infra-e2e-boskos-scale-01",
-          "cost": 4869.9136,
-          "gross": 7496.9598,
-          "activeDays": 175,
-          "costPerActiveDay": 27.8281,
-          "breakdown": [
-            {
-              "name": "Compute Engine",
-              "cost": 4041.102
-            },
-            {
-              "name": "Networking",
-              "cost": 504.4547
-            },
-            {
-              "name": "Cloud Storage",
-              "cost": 218.745
-            },
-            {
-              "name": "Cloud Monitoring",
-              "cost": 105.45
-            },
-            {
-              "name": "Artifact Registry",
-              "cost": 0.1304
-            },
-            {
-              "name": "Cloud Logging",
-              "cost": 0.0315
-            }
-          ],
-          "daily": [
-            {
-              "date": "2025-12-31",
-              "cost": 5.8773
-            },
-            {
-              "date": "2026-01-01",
-              "cost": 19.2057
-            },
-            {
-              "date": "2026-01-02",
-              "cost": 14.4046
-            },
-            {
-              "date": "2026-01-03",
-              "cost": 18.2049
-            },
-            {
-              "date": "2026-01-04",
-              "cost": 22.5877
-            },
-            {
-              "date": "2026-01-05",
-              "cost": 36.4138
-            },
-            {
-              "date": "2026-01-06",
-              "cost": 24.6343
-            },
-            {
-              "date": "2026-01-07",
-              "cost": 26.5424
-            },
-            {
-              "date": "2026-01-08",
-              "cost": 19.4421
-            },
-            {
-              "date": "2026-01-09",
-              "cost": 15.7015
-            },
-            {
-              "date": "2026-01-10",
-              "cost": 22.374
-            },
-            {
-              "date": "2026-01-11",
-              "cost": 18.7323
-            },
-            {
-              "date": "2026-01-12",
-              "cost": 19.5234
-            },
-            {
-              "date": "2026-01-13",
-              "cost": 40.2998
-            },
-            {
-              "date": "2026-01-14",
-              "cost": 21.6222
-            },
-            {
-              "date": "2026-01-15",
-              "cost": 17.4583
-            },
-            {
-              "date": "2026-01-16",
-              "cost": 14.8185
-            },
-            {
-              "date": "2026-01-17",
-              "cost": 21.7282
-            },
-            {
-              "date": "2026-01-18",
-              "cost": 17.5731
-            },
-            {
-              "date": "2026-01-19",
-              "cost": 9.8891
-            },
-            {
-              "date": "2026-01-20",
-              "cost": 15.3039
-            },
-            {
-              "date": "2026-01-21",
-              "cost": 18.2868
-            },
-            {
-              "date": "2026-01-22",
-              "cost": 19.5217
-            },
-            {
-              "date": "2026-01-23",
-              "cost": 17.7761
-            },
-            {
-              "date": "2026-01-24",
-              "cost": 19.3026
-            },
-            {
-              "date": "2026-01-25",
-              "cost": 20.3267
-            },
-            {
-              "date": "2026-01-26",
-              "cost": 18.4318
-            },
-            {
-              "date": "2026-01-27",
-              "cost": 17.3681
-            },
-            {
-              "date": "2026-01-28",
-              "cost": 11.5549
-            },
-            {
-              "date": "2026-01-29",
-              "cost": 16.7188
-            },
-            {
-              "date": "2026-01-30",
-              "cost": 16.247
-            },
-            {
-              "date": "2026-01-31",
-              "cost": 16.4716
-            },
-            {
-              "date": "2026-02-01",
-              "cost": 14.9129
-            },
-            {
-              "date": "2026-02-02",
-              "cost": 179.4064
-            },
-            {
-              "date": "2026-02-03",
-              "cost": 19.6896
-            },
-            {
-              "date": "2026-02-04",
-              "cost": 118.5963
-            },
-            {
-              "date": "2026-02-05",
-              "cost": 15.4147
-            },
-            {
-              "date": "2026-02-06",
-              "cost": 13.429
-            },
-            {
-              "date": "2026-02-07",
-              "cost": 9.6
-            },
-            {
-              "date": "2026-02-08",
-              "cost": 10.0647
-            },
-            {
-              "date": "2026-02-09",
-              "cost": 10.3992
-            },
-            {
-              "date": "2026-02-10",
-              "cost": 10.045
-            },
-            {
-              "date": "2026-02-11",
-              "cost": 14.1729
-            },
-            {
-              "date": "2026-02-12",
-              "cost": 13.8007
-            },
-            {
-              "date": "2026-02-13",
-              "cost": 9.3366
-            },
-            {
-              "date": "2026-02-14",
-              "cost": 7.7423
-            },
-            {
-              "date": "2026-02-15",
-              "cost": 14.908
-            },
-            {
-              "date": "2026-02-16",
-              "cost": 20.0015
-            },
-            {
-              "date": "2026-02-17",
-              "cost": 21.3801
-            },
-            {
-              "date": "2026-02-18",
-              "cost": 13.8358
-            },
-            {
-              "date": "2026-02-19",
-              "cost": 13.0169
-            },
-            {
-              "date": "2026-02-20",
-              "cost": 14.3969
-            },
-            {
-              "date": "2026-02-21",
-              "cost": 12.8788
-            },
-            {
-              "date": "2026-02-22",
-              "cost": 13.5711
-            },
-            {
-              "date": "2026-02-23",
-              "cost": 15.3568
-            },
-            {
-              "date": "2026-02-24",
-              "cost": 16.9572
-            },
-            {
-              "date": "2026-02-25",
-              "cost": 17.9042
-            },
-            {
-              "date": "2026-02-26",
-              "cost": 12.4597
-            },
-            {
-              "date": "2026-02-27",
-              "cost": 11.7874
-            },
-            {
-              "date": "2026-02-28",
-              "cost": 14.7175
-            },
-            {
-              "date": "2026-03-01",
-              "cost": 13.2275
-            },
-            {
-              "date": "2026-03-02",
-              "cost": 173.6845
-            },
-            {
-              "date": "2026-03-03",
-              "cost": 10.4481
-            },
-            {
-              "date": "2026-03-04",
-              "cost": 11.5615
-            },
-            {
-              "date": "2026-03-05",
-              "cost": 20.7683
-            },
-            {
-              "date": "2026-03-06",
-              "cost": 16.1777
-            },
-            {
-              "date": "2026-03-07",
-              "cost": 11.9786
-            },
-            {
-              "date": "2026-03-08",
-              "cost": 12.1881
-            },
-            {
-              "date": "2026-03-09",
-              "cost": 20.9434
-            },
-            {
-              "date": "2026-03-10",
-              "cost": 16.0838
-            },
-            {
-              "date": "2026-03-11",
-              "cost": 10.5817
-            },
-            {
-              "date": "2026-03-12",
-              "cost": 16.1017
-            },
-            {
-              "date": "2026-03-13",
-              "cost": 15.6144
-            },
-            {
-              "date": "2026-03-14",
-              "cost": 14.1981
-            },
-            {
-              "date": "2026-03-15",
-              "cost": 9.2627
-            },
-            {
-              "date": "2026-03-16",
-              "cost": 15.3389
-            },
-            {
-              "date": "2026-03-17",
-              "cost": 10.7331
-            },
-            {
-              "date": "2026-03-18",
-              "cost": 18.8546
-            },
-            {
-              "date": "2026-03-19",
-              "cost": 14.6881
-            },
-            {
-              "date": "2026-03-20",
-              "cost": 11.401
-            },
-            {
-              "date": "2026-03-21",
-              "cost": 17.8133
-            },
-            {
-              "date": "2026-03-22",
-              "cost": 12.4886
-            },
-            {
-              "date": "2026-03-23",
-              "cost": 13.371
-            },
-            {
-              "date": "2026-03-24",
-              "cost": 11.8854
-            },
-            {
-              "date": "2026-03-25",
-              "cost": 35.7967
-            },
-            {
-              "date": "2026-03-26",
-              "cost": 187.5478
-            },
-            {
-              "date": "2026-03-27",
-              "cost": 16.1932
-            },
-            {
-              "date": "2026-03-28",
-              "cost": 11.976
-            },
-            {
-              "date": "2026-03-29",
-              "cost": 16.9809
-            },
-            {
-              "date": "2026-03-30",
-              "cost": 16.9988
-            },
-            {
-              "date": "2026-03-31",
-              "cost": 10.058
-            },
-            {
-              "date": "2026-04-01",
-              "cost": 9.5374
-            },
-            {
-              "date": "2026-04-02",
-              "cost": 15.7858
-            },
-            {
-              "date": "2026-04-03",
-              "cost": 10.3984
-            },
-            {
-              "date": "2026-04-04",
-              "cost": 11.924
-            },
-            {
-              "date": "2026-04-05",
-              "cost": 11.2021
-            },
-            {
-              "date": "2026-04-06",
-              "cost": 8.541
-            },
-            {
-              "date": "2026-04-07",
-              "cost": 8.1032
-            },
-            {
-              "date": "2026-04-08",
-              "cost": 9.4291
-            },
-            {
-              "date": "2026-04-09",
-              "cost": 11.8999
-            },
-            {
-              "date": "2026-04-10",
-              "cost": 21.6611
-            },
-            {
-              "date": "2026-04-11",
-              "cost": 14.6095
-            },
-            {
-              "date": "2026-04-12",
-              "cost": 11.5033
-            },
-            {
-              "date": "2026-04-13",
-              "cost": 9.4172
-            },
-            {
-              "date": "2026-04-14",
-              "cost": 11.3759
-            },
-            {
-              "date": "2026-04-15",
-              "cost": 11.3083
-            },
-            {
-              "date": "2026-04-16",
-              "cost": 15.1144
-            },
-            {
-              "date": "2026-04-17",
-              "cost": 15.1536
-            },
-            {
-              "date": "2026-04-18",
-              "cost": 10.869
-            },
-            {
-              "date": "2026-04-19",
-              "cost": 13.1091
-            },
-            {
-              "date": "2026-04-20",
-              "cost": 7.4001
-            },
-            {
-              "date": "2026-04-21",
-              "cost": 13.1374
-            },
-            {
-              "date": "2026-04-22",
-              "cost": 14.9744
-            },
-            {
-              "date": "2026-04-23",
-              "cost": 13.9747
-            },
-            {
-              "date": "2026-04-24",
-              "cost": 19.3198
-            },
-            {
-              "date": "2026-04-25",
-              "cost": 11.3014
-            },
-            {
-              "date": "2026-04-26",
-              "cost": 10.9604
-            },
-            {
-              "date": "2026-04-27",
-              "cost": 6.5443
-            },
-            {
-              "date": "2026-04-28",
-              "cost": 15.5824
-            },
-            {
-              "date": "2026-04-29",
-              "cost": 11.8352
-            },
-            {
-              "date": "2026-04-30",
-              "cost": 9.0238
-            },
-            {
-              "date": "2026-05-01",
-              "cost": 8.4585
-            },
-            {
-              "date": "2026-05-02",
-              "cost": 15.4625
-            },
-            {
-              "date": "2026-05-03",
-              "cost": 14.0291
-            },
-            {
-              "date": "2026-05-04",
-              "cost": 18.934
-            },
-            {
-              "date": "2026-05-05",
-              "cost": 16.8994
-            },
-            {
-              "date": "2026-05-06",
-              "cost": 15.3469
-            },
-            {
-              "date": "2026-05-07",
-              "cost": 13.848
-            },
-            {
-              "date": "2026-05-08",
-              "cost": 15.8558
-            },
-            {
-              "date": "2026-05-09",
-              "cost": 14.8325
-            },
-            {
-              "date": "2026-05-10",
-              "cost": 17.7202
-            },
-            {
-              "date": "2026-05-11",
-              "cost": 13.4789
-            },
-            {
-              "date": "2026-05-12",
-              "cost": 16.0594
-            },
-            {
-              "date": "2026-05-13",
-              "cost": 15.921
-            },
-            {
-              "date": "2026-05-14",
-              "cost": 15.6192
-            },
-            {
-              "date": "2026-05-15",
-              "cost": 13.8627
-            },
-            {
-              "date": "2026-05-16",
-              "cost": 6.3136
-            },
-            {
-              "date": "2026-05-17",
-              "cost": 14.4669
-            },
-            {
-              "date": "2026-05-18",
-              "cost": 181.1666
-            },
-            {
-              "date": "2026-05-19",
-              "cost": 17.2803
-            },
-            {
-              "date": "2026-05-20",
-              "cost": 8.785
-            },
-            {
-              "date": "2026-05-21",
-              "cost": 13.5293
-            },
-            {
-              "date": "2026-05-22",
-              "cost": 10.928
-            },
-            {
-              "date": "2026-05-23",
-              "cost": 13.0172
-            },
-            {
-              "date": "2026-05-24",
-              "cost": 16.158
-            },
-            {
-              "date": "2026-05-25",
-              "cost": 15.1454
-            },
-            {
-              "date": "2026-05-26",
-              "cost": 13.9075
-            },
-            {
-              "date": "2026-05-27",
-              "cost": 10.5459
-            },
-            {
-              "date": "2026-05-28",
-              "cost": 15.5631
-            },
-            {
-              "date": "2026-05-29",
-              "cost": 12.5679
-            },
-            {
-              "date": "2026-05-30",
-              "cost": 15.0205
-            },
-            {
-              "date": "2026-05-31",
-              "cost": 15.53
-            },
-            {
-              "date": "2026-06-01",
-              "cost": 15.8009
-            },
-            {
-              "date": "2026-06-02",
-              "cost": 34.6386
-            },
-            {
-              "date": "2026-06-03",
-              "cost": 15.6218
-            },
-            {
-              "date": "2026-06-04",
-              "cost": 11.3336
-            },
-            {
-              "date": "2026-06-05",
-              "cost": 10.7476
-            },
-            {
-              "date": "2026-06-06",
-              "cost": 15.0599
-            },
-            {
-              "date": "2026-06-07",
-              "cost": 14.9143
-            },
-            {
-              "date": "2026-06-08",
-              "cost": 12.0522
-            },
-            {
-              "date": "2026-06-09",
-              "cost": 18.1295
-            },
-            {
-              "date": "2026-06-10",
-              "cost": 12.2011
-            },
-            {
-              "date": "2026-06-11",
-              "cost": 10.6052
-            },
-            {
-              "date": "2026-06-12",
-              "cost": 12.8348
-            },
-            {
-              "date": "2026-06-13",
-              "cost": 18.2198
-            },
-            {
-              "date": "2026-06-14",
-              "cost": 16.5556
-            },
-            {
-              "date": "2026-06-15",
-              "cost": 15.4334
-            },
-            {
-              "date": "2026-06-16",
-              "cost": 11.9426
-            },
-            {
-              "date": "2026-06-17",
-              "cost": 14.5029
-            },
-            {
-              "date": "2026-06-18",
-              "cost": 8.5799
-            },
-            {
-              "date": "2026-06-19",
-              "cost": 16.4062
-            },
-            {
-              "date": "2026-06-20",
-              "cost": 14.4222
-            },
-            {
-              "date": "2026-06-21",
-              "cost": 14.9625
-            },
-            {
-              "date": "2026-06-22",
-              "cost": 18.0969
-            },
-            {
-              "date": "2026-06-23",
-              "cost": 10.4886
-            },
-            {
-              "date": "2026-06-24",
-              "cost": 10.2073
-            },
-            {
-              "date": "2026-06-25",
-              "cost": 3.9296
-            },
-            {
-              "date": "2026-06-26",
-              "cost": 13.4746
-            },
-            {
-              "date": "2026-06-27",
-              "cost": 15.0104
-            },
-            {
-              "date": "2026-06-28",
-              "cost": 14.3286
-            },
-            {
-              "date": "2026-06-29",
-              "cost": 19.1617
-            },
-            {
-              "date": "2026-06-30",
-              "cost": 226.8859
-            },
-            {
-              "date": "2026-07-01",
-              "cost": 9.0967
-            },
-            {
-              "date": "2026-07-02",
-              "cost": 7.669
-            },
-            {
-              "date": "2026-07-03",
-              "cost": 14.2745
-            },
-            {
-              "date": "2026-07-04",
-              "cost": 163.5378
-            },
-            {
-              "date": "2026-07-05",
-              "cost": 14.519
-            },
-            {
-              "date": "2026-07-06",
-              "cost": 12.7964
-            },
-            {
-              "date": "2026-07-07",
-              "cost": 13.052
-            },
-            {
-              "date": "2026-07-08",
-              "cost": 12.6579
-            },
-            {
-              "date": "2026-07-09",
-              "cost": 10.7791
-            },
-            {
-              "date": "2026-07-10",
-              "cost": 11.0538
-            },
-            {
-              "date": "2026-07-11",
-              "cost": 16.0558
-            },
-            {
-              "date": "2026-07-12",
-              "cost": 12.6961
-            },
-            {
-              "date": "2026-07-13",
-              "cost": 13.6994
-            },
-            {
-              "date": "2026-07-14",
-              "cost": 12.231
-            },
-            {
-              "date": "2026-07-15",
-              "cost": 12.9321
-            },
-            {
-              "date": "2026-07-16",
-              "cost": 19.4589
-            },
-            {
-              "date": "2026-07-17",
-              "cost": 12.6671
-            },
-            {
-              "date": "2026-07-18",
-              "cost": 13.5645
-            },
-            {
-              "date": "2026-07-19",
-              "cost": 13.1172
-            },
-            {
-              "date": "2026-07-20",
-              "cost": 16.6689
-            },
-            {
-              "date": "2026-07-21",
-              "cost": 17.5431
-            },
-            {
-              "date": "2026-07-22",
-              "cost": 12.221
-            },
-            {
-              "date": "2026-07-23",
-              "cost": 13.7271
-            },
-            {
-              "date": "2026-07-24",
-              "cost": 32.5097
-            },
-            {
-              "date": "2026-07-25",
-              "cost": 13.902
-            },
-            {
-              "date": "2026-07-26",
-              "cost": 162.348
-            },
-            {
-              "date": "2026-07-27",
-              "cost": 12.7316
-            },
-            {
-              "date": "2026-07-28",
-              "cost": 7.1803
-            },
-            {
-              "date": "2026-07-29",
-              "cost": 8.1295
-            },
-            {
-              "date": "2026-07-30",
-              "cost": 45.5044
-            },
-            {
-              "date": "2026-07-31",
-              "cost": 10.8668
-            },
-            {
-              "date": "2026-08-01",
-              "cost": 8.4257
-            },
-            {
-              "date": "2026-08-02",
-              "cost": 9.3704
-            },
-            {
-              "date": "2026-08-03",
-              "cost": 7.674
-            },
-            {
-              "date": "2026-08-04",
-              "cost": 8.4912
-            },
-            {
-              "date": "2026-08-05",
-              "cost": 7.7406
-            },
-            {
-              "date": "2026-08-06",
-              "cost": 8.6415
-            },
-            {
-              "date": "2026-08-07",
-              "cost": 6.2186
-            },
-            {
-              "date": "2026-08-08",
-              "cost": 7.9402
-            },
-            {
-              "date": "2026-08-09",
-              "cost": 9.3189
-            },
-            {
-              "date": "2026-08-10",
-              "cost": 9.2025
-            },
-            {
-              "date": "2026-08-11",
-              "cost": 10.7955
-            },
-            {
-              "date": "2026-08-12",
-              "cost": 9.0887
-            },
-            {
-              "date": "2026-08-13",
-              "cost": 10.7439
-            },
-            {
-              "date": "2026-08-14",
-              "cost": 9.1458
-            },
-            {
-              "date": "2026-08-15",
-              "cost": 12.1476
-            },
-            {
-              "date": "2026-08-16",
-              "cost": 10.5263
-            },
-            {
-              "date": "2026-08-17",
-              "cost": 10.5184
-            },
-            {
-              "date": "2026-08-18",
-              "cost": 10.4284
-            },
-            {
-              "date": "2026-08-19",
-              "cost": 10.6264
-            },
-            {
-              "date": "2026-08-20",
-              "cost": 9.432
-            },
-            {
-              "date": "2026-08-21",
-              "cost": 9.1409
-            },
-            {
-              "date": "2026-08-22",
-              "cost": 10.287
-            },
-            {
-              "date": "2026-08-23",
-              "cost": 7.8855
-            },
-            {
-              "date": "2026-08-24",
-              "cost": 9.4385
-            },
-            {
-              "date": "2026-08-25",
-              "cost": 4.5831
-            },
-            {
-              "date": "2026-08-26",
-              "cost": 8.1776
-            },
-            {
-              "date": "2026-08-27",
-              "cost": 12.2579
-            },
-            {
-              "date": "2026-08-28",
-              "cost": 7.4039
-            },
-            {
-              "date": "2026-08-29",
-              "cost": 9.4046
-            },
-            {
-              "date": "2026-08-30",
-              "cost": 43.3697
-            },
-            {
-              "date": "2026-08-31",
-              "cost": 9.2282
-            },
-            {
-              "date": "2026-09-01",
-              "cost": 7.288
-            },
-            {
-              "date": "2026-09-02",
-              "cost": 9.2647
-            },
-            {
-              "date": "2026-09-03",
-              "cost": 13.2357
-            },
-            {
-              "date": "2026-09-04",
-              "cost": 8.7998
-            },
-            {
-              "date": "2026-09-05",
-              "cost": 30.4542
-            },
-            {
-              "date": "2026-09-06",
-              "cost": 15.3485
-            },
-            {
-              "date": "2026-09-07",
-              "cost": 11.4769
-            },
-            {
-              "date": "2026-09-08",
-              "cost": 13.7626
+              "cost": 9.6261
             },
             {
-              "date": "2026-09-09",
-              "cost": 6.5704
+              "date": "2026-09-10",
+              "cost": 11.6682
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-15",
-          "cost": 4850.5722,
-          "gross": 7513.3337,
-          "activeDays": 22,
-          "costPerActiveDay": 220.4806,
+          "cost": 4905.1507,
+          "gross": 7605.3667,
+          "activeDays": 21,
+          "costPerActiveDay": 233.5786,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 4125.5463
+              "cost": 4177.4907
             },
             {
               "name": "Networking",
-              "cost": 438.2055
+              "cost": 440.4654
             },
             {
               "name": "Cloud Storage",
-              "cost": 195.0634
+              "cost": 195.2396
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 91.5813
+              "cost": 91.7792
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1487
+              "cost": 0.1488
             },
             {
               "name": "Cloud Logging",
@@ -13258,7 +12259,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 467.3085
+              "cost": 509.3982
             },
             {
               "date": "2026-08-01",
@@ -13418,36 +12419,1091 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.4638
+              "cost": 9.108
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.8446
+            }
+          ]
+        },
+        {
+          "name": "k8s-infra-e2e-boskos-scale-01",
+          "cost": 4883.6626,
+          "gross": 7518.2061,
+          "activeDays": 176,
+          "costPerActiveDay": 27.7481,
+          "breakdown": [
+            {
+              "name": "Compute Engine",
+              "cost": 4052.841
+            },
+            {
+              "name": "Networking",
+              "cost": 506.0922
+            },
+            {
+              "name": "Cloud Storage",
+              "cost": 218.9411
+            },
+            {
+              "name": "Cloud Monitoring",
+              "cost": 105.6263
+            },
+            {
+              "name": "Artifact Registry",
+              "cost": 0.1305
+            },
+            {
+              "name": "Cloud Logging",
+              "cost": 0.0315
+            }
+          ],
+          "daily": [
+            {
+              "date": "2025-12-31",
+              "cost": 5.8773
+            },
+            {
+              "date": "2026-01-01",
+              "cost": 19.2057
+            },
+            {
+              "date": "2026-01-02",
+              "cost": 14.4046
+            },
+            {
+              "date": "2026-01-03",
+              "cost": 18.2049
+            },
+            {
+              "date": "2026-01-04",
+              "cost": 22.5877
+            },
+            {
+              "date": "2026-01-05",
+              "cost": 36.4138
+            },
+            {
+              "date": "2026-01-06",
+              "cost": 24.6343
+            },
+            {
+              "date": "2026-01-07",
+              "cost": 26.5424
+            },
+            {
+              "date": "2026-01-08",
+              "cost": 19.4421
+            },
+            {
+              "date": "2026-01-09",
+              "cost": 15.7015
+            },
+            {
+              "date": "2026-01-10",
+              "cost": 22.374
+            },
+            {
+              "date": "2026-01-11",
+              "cost": 18.7323
+            },
+            {
+              "date": "2026-01-12",
+              "cost": 19.5234
+            },
+            {
+              "date": "2026-01-13",
+              "cost": 40.2998
+            },
+            {
+              "date": "2026-01-14",
+              "cost": 21.6222
+            },
+            {
+              "date": "2026-01-15",
+              "cost": 17.4583
+            },
+            {
+              "date": "2026-01-16",
+              "cost": 14.8185
+            },
+            {
+              "date": "2026-01-17",
+              "cost": 21.7282
+            },
+            {
+              "date": "2026-01-18",
+              "cost": 17.5731
+            },
+            {
+              "date": "2026-01-19",
+              "cost": 9.8891
+            },
+            {
+              "date": "2026-01-20",
+              "cost": 15.3039
+            },
+            {
+              "date": "2026-01-21",
+              "cost": 18.2868
+            },
+            {
+              "date": "2026-01-22",
+              "cost": 19.5217
+            },
+            {
+              "date": "2026-01-23",
+              "cost": 17.7761
+            },
+            {
+              "date": "2026-01-24",
+              "cost": 19.3026
+            },
+            {
+              "date": "2026-01-25",
+              "cost": 20.3267
+            },
+            {
+              "date": "2026-01-26",
+              "cost": 18.4318
+            },
+            {
+              "date": "2026-01-27",
+              "cost": 17.3681
+            },
+            {
+              "date": "2026-01-28",
+              "cost": 11.5549
+            },
+            {
+              "date": "2026-01-29",
+              "cost": 16.7188
+            },
+            {
+              "date": "2026-01-30",
+              "cost": 16.247
+            },
+            {
+              "date": "2026-01-31",
+              "cost": 16.4716
+            },
+            {
+              "date": "2026-02-01",
+              "cost": 14.9129
+            },
+            {
+              "date": "2026-02-02",
+              "cost": 179.4064
+            },
+            {
+              "date": "2026-02-03",
+              "cost": 19.6896
+            },
+            {
+              "date": "2026-02-04",
+              "cost": 118.5963
+            },
+            {
+              "date": "2026-02-05",
+              "cost": 15.4147
+            },
+            {
+              "date": "2026-02-06",
+              "cost": 13.429
+            },
+            {
+              "date": "2026-02-07",
+              "cost": 9.6
+            },
+            {
+              "date": "2026-02-08",
+              "cost": 10.0647
+            },
+            {
+              "date": "2026-02-09",
+              "cost": 10.3992
+            },
+            {
+              "date": "2026-02-10",
+              "cost": 10.045
+            },
+            {
+              "date": "2026-02-11",
+              "cost": 14.1729
+            },
+            {
+              "date": "2026-02-12",
+              "cost": 13.8007
+            },
+            {
+              "date": "2026-02-13",
+              "cost": 9.3366
+            },
+            {
+              "date": "2026-02-14",
+              "cost": 7.7423
+            },
+            {
+              "date": "2026-02-15",
+              "cost": 14.908
+            },
+            {
+              "date": "2026-02-16",
+              "cost": 20.0015
+            },
+            {
+              "date": "2026-02-17",
+              "cost": 21.3801
+            },
+            {
+              "date": "2026-02-18",
+              "cost": 13.8358
+            },
+            {
+              "date": "2026-02-19",
+              "cost": 13.0169
+            },
+            {
+              "date": "2026-02-20",
+              "cost": 14.3969
+            },
+            {
+              "date": "2026-02-21",
+              "cost": 12.8788
+            },
+            {
+              "date": "2026-02-22",
+              "cost": 13.5711
+            },
+            {
+              "date": "2026-02-23",
+              "cost": 15.3568
+            },
+            {
+              "date": "2026-02-24",
+              "cost": 16.9572
+            },
+            {
+              "date": "2026-02-25",
+              "cost": 17.9042
+            },
+            {
+              "date": "2026-02-26",
+              "cost": 12.4597
+            },
+            {
+              "date": "2026-02-27",
+              "cost": 11.7874
+            },
+            {
+              "date": "2026-02-28",
+              "cost": 14.7175
+            },
+            {
+              "date": "2026-03-01",
+              "cost": 13.2275
+            },
+            {
+              "date": "2026-03-02",
+              "cost": 173.6845
+            },
+            {
+              "date": "2026-03-03",
+              "cost": 10.4481
+            },
+            {
+              "date": "2026-03-04",
+              "cost": 11.5615
+            },
+            {
+              "date": "2026-03-05",
+              "cost": 20.7683
+            },
+            {
+              "date": "2026-03-06",
+              "cost": 16.1777
+            },
+            {
+              "date": "2026-03-07",
+              "cost": 11.9786
+            },
+            {
+              "date": "2026-03-08",
+              "cost": 12.1881
+            },
+            {
+              "date": "2026-03-09",
+              "cost": 20.9434
+            },
+            {
+              "date": "2026-03-10",
+              "cost": 16.0838
+            },
+            {
+              "date": "2026-03-11",
+              "cost": 10.5817
+            },
+            {
+              "date": "2026-03-12",
+              "cost": 16.1017
+            },
+            {
+              "date": "2026-03-13",
+              "cost": 15.6144
+            },
+            {
+              "date": "2026-03-14",
+              "cost": 14.1981
+            },
+            {
+              "date": "2026-03-15",
+              "cost": 9.2627
+            },
+            {
+              "date": "2026-03-16",
+              "cost": 15.3389
+            },
+            {
+              "date": "2026-03-17",
+              "cost": 10.7331
+            },
+            {
+              "date": "2026-03-18",
+              "cost": 18.8546
+            },
+            {
+              "date": "2026-03-19",
+              "cost": 14.6881
+            },
+            {
+              "date": "2026-03-20",
+              "cost": 11.401
+            },
+            {
+              "date": "2026-03-21",
+              "cost": 17.8133
+            },
+            {
+              "date": "2026-03-22",
+              "cost": 12.4886
+            },
+            {
+              "date": "2026-03-23",
+              "cost": 13.371
+            },
+            {
+              "date": "2026-03-24",
+              "cost": 11.8854
+            },
+            {
+              "date": "2026-03-25",
+              "cost": 35.7967
+            },
+            {
+              "date": "2026-03-26",
+              "cost": 187.5478
+            },
+            {
+              "date": "2026-03-27",
+              "cost": 16.1932
+            },
+            {
+              "date": "2026-03-28",
+              "cost": 11.976
+            },
+            {
+              "date": "2026-03-29",
+              "cost": 16.9809
+            },
+            {
+              "date": "2026-03-30",
+              "cost": 16.9988
+            },
+            {
+              "date": "2026-03-31",
+              "cost": 10.058
+            },
+            {
+              "date": "2026-04-01",
+              "cost": 9.5374
+            },
+            {
+              "date": "2026-04-02",
+              "cost": 15.7858
+            },
+            {
+              "date": "2026-04-03",
+              "cost": 10.3984
+            },
+            {
+              "date": "2026-04-04",
+              "cost": 11.924
+            },
+            {
+              "date": "2026-04-05",
+              "cost": 11.2021
+            },
+            {
+              "date": "2026-04-06",
+              "cost": 8.541
+            },
+            {
+              "date": "2026-04-07",
+              "cost": 8.1032
+            },
+            {
+              "date": "2026-04-08",
+              "cost": 9.4291
+            },
+            {
+              "date": "2026-04-09",
+              "cost": 11.8999
+            },
+            {
+              "date": "2026-04-10",
+              "cost": 21.6611
+            },
+            {
+              "date": "2026-04-11",
+              "cost": 14.6095
+            },
+            {
+              "date": "2026-04-12",
+              "cost": 11.5033
+            },
+            {
+              "date": "2026-04-13",
+              "cost": 9.4172
+            },
+            {
+              "date": "2026-04-14",
+              "cost": 11.3759
+            },
+            {
+              "date": "2026-04-15",
+              "cost": 11.3083
+            },
+            {
+              "date": "2026-04-16",
+              "cost": 15.1144
+            },
+            {
+              "date": "2026-04-17",
+              "cost": 15.1536
+            },
+            {
+              "date": "2026-04-18",
+              "cost": 10.869
+            },
+            {
+              "date": "2026-04-19",
+              "cost": 13.1091
+            },
+            {
+              "date": "2026-04-20",
+              "cost": 7.4001
+            },
+            {
+              "date": "2026-04-21",
+              "cost": 13.1374
+            },
+            {
+              "date": "2026-04-22",
+              "cost": 14.9744
+            },
+            {
+              "date": "2026-04-23",
+              "cost": 13.9747
+            },
+            {
+              "date": "2026-04-24",
+              "cost": 19.3198
+            },
+            {
+              "date": "2026-04-25",
+              "cost": 11.3014
+            },
+            {
+              "date": "2026-04-26",
+              "cost": 10.9604
+            },
+            {
+              "date": "2026-04-27",
+              "cost": 6.5443
+            },
+            {
+              "date": "2026-04-28",
+              "cost": 15.5824
+            },
+            {
+              "date": "2026-04-29",
+              "cost": 11.8352
+            },
+            {
+              "date": "2026-04-30",
+              "cost": 9.0238
+            },
+            {
+              "date": "2026-05-01",
+              "cost": 8.4585
+            },
+            {
+              "date": "2026-05-02",
+              "cost": 15.4625
+            },
+            {
+              "date": "2026-05-03",
+              "cost": 14.0291
+            },
+            {
+              "date": "2026-05-04",
+              "cost": 18.934
+            },
+            {
+              "date": "2026-05-05",
+              "cost": 16.8994
+            },
+            {
+              "date": "2026-05-06",
+              "cost": 15.3469
+            },
+            {
+              "date": "2026-05-07",
+              "cost": 13.848
+            },
+            {
+              "date": "2026-05-08",
+              "cost": 15.8558
+            },
+            {
+              "date": "2026-05-09",
+              "cost": 14.8325
+            },
+            {
+              "date": "2026-05-10",
+              "cost": 17.7202
+            },
+            {
+              "date": "2026-05-11",
+              "cost": 13.4789
+            },
+            {
+              "date": "2026-05-12",
+              "cost": 16.0594
+            },
+            {
+              "date": "2026-05-13",
+              "cost": 15.921
+            },
+            {
+              "date": "2026-05-14",
+              "cost": 15.6192
+            },
+            {
+              "date": "2026-05-15",
+              "cost": 13.8627
+            },
+            {
+              "date": "2026-05-16",
+              "cost": 6.3136
+            },
+            {
+              "date": "2026-05-17",
+              "cost": 14.4669
+            },
+            {
+              "date": "2026-05-18",
+              "cost": 181.1666
+            },
+            {
+              "date": "2026-05-19",
+              "cost": 17.2803
+            },
+            {
+              "date": "2026-05-20",
+              "cost": 8.785
+            },
+            {
+              "date": "2026-05-21",
+              "cost": 13.5293
+            },
+            {
+              "date": "2026-05-22",
+              "cost": 10.928
+            },
+            {
+              "date": "2026-05-23",
+              "cost": 13.0172
+            },
+            {
+              "date": "2026-05-24",
+              "cost": 16.158
+            },
+            {
+              "date": "2026-05-25",
+              "cost": 15.1454
+            },
+            {
+              "date": "2026-05-26",
+              "cost": 13.9075
+            },
+            {
+              "date": "2026-05-27",
+              "cost": 10.5459
+            },
+            {
+              "date": "2026-05-28",
+              "cost": 15.5631
+            },
+            {
+              "date": "2026-05-29",
+              "cost": 12.5679
+            },
+            {
+              "date": "2026-05-30",
+              "cost": 15.0205
+            },
+            {
+              "date": "2026-05-31",
+              "cost": 15.53
+            },
+            {
+              "date": "2026-06-01",
+              "cost": 15.8009
+            },
+            {
+              "date": "2026-06-02",
+              "cost": 34.6386
+            },
+            {
+              "date": "2026-06-03",
+              "cost": 15.6218
+            },
+            {
+              "date": "2026-06-04",
+              "cost": 11.3336
+            },
+            {
+              "date": "2026-06-05",
+              "cost": 10.7476
+            },
+            {
+              "date": "2026-06-06",
+              "cost": 15.0599
+            },
+            {
+              "date": "2026-06-07",
+              "cost": 14.9143
+            },
+            {
+              "date": "2026-06-08",
+              "cost": 12.0522
+            },
+            {
+              "date": "2026-06-09",
+              "cost": 18.1295
+            },
+            {
+              "date": "2026-06-10",
+              "cost": 12.2011
+            },
+            {
+              "date": "2026-06-11",
+              "cost": 10.6052
+            },
+            {
+              "date": "2026-06-12",
+              "cost": 12.8348
+            },
+            {
+              "date": "2026-06-13",
+              "cost": 18.2198
+            },
+            {
+              "date": "2026-06-14",
+              "cost": 16.5556
+            },
+            {
+              "date": "2026-06-15",
+              "cost": 15.4334
+            },
+            {
+              "date": "2026-06-16",
+              "cost": 11.9426
+            },
+            {
+              "date": "2026-06-17",
+              "cost": 14.5029
+            },
+            {
+              "date": "2026-06-18",
+              "cost": 8.5799
+            },
+            {
+              "date": "2026-06-19",
+              "cost": 16.4062
+            },
+            {
+              "date": "2026-06-20",
+              "cost": 14.4222
+            },
+            {
+              "date": "2026-06-21",
+              "cost": 14.9625
+            },
+            {
+              "date": "2026-06-22",
+              "cost": 18.0969
+            },
+            {
+              "date": "2026-06-23",
+              "cost": 10.4886
+            },
+            {
+              "date": "2026-06-24",
+              "cost": 10.2073
+            },
+            {
+              "date": "2026-06-25",
+              "cost": 3.9296
+            },
+            {
+              "date": "2026-06-26",
+              "cost": 13.4746
+            },
+            {
+              "date": "2026-06-27",
+              "cost": 15.0104
+            },
+            {
+              "date": "2026-06-28",
+              "cost": 14.3286
+            },
+            {
+              "date": "2026-06-29",
+              "cost": 19.1617
+            },
+            {
+              "date": "2026-06-30",
+              "cost": 226.8859
+            },
+            {
+              "date": "2026-07-01",
+              "cost": 9.0967
+            },
+            {
+              "date": "2026-07-02",
+              "cost": 7.669
+            },
+            {
+              "date": "2026-07-03",
+              "cost": 14.2745
+            },
+            {
+              "date": "2026-07-04",
+              "cost": 163.5378
+            },
+            {
+              "date": "2026-07-05",
+              "cost": 14.519
+            },
+            {
+              "date": "2026-07-06",
+              "cost": 12.7964
+            },
+            {
+              "date": "2026-07-07",
+              "cost": 13.052
+            },
+            {
+              "date": "2026-07-08",
+              "cost": 12.6579
+            },
+            {
+              "date": "2026-07-09",
+              "cost": 10.7791
+            },
+            {
+              "date": "2026-07-10",
+              "cost": 11.0538
+            },
+            {
+              "date": "2026-07-11",
+              "cost": 16.0558
+            },
+            {
+              "date": "2026-07-12",
+              "cost": 12.6961
+            },
+            {
+              "date": "2026-07-13",
+              "cost": 13.6994
+            },
+            {
+              "date": "2026-07-14",
+              "cost": 12.231
+            },
+            {
+              "date": "2026-07-15",
+              "cost": 12.9321
+            },
+            {
+              "date": "2026-07-16",
+              "cost": 19.4589
+            },
+            {
+              "date": "2026-07-17",
+              "cost": 12.6671
+            },
+            {
+              "date": "2026-07-18",
+              "cost": 13.5645
+            },
+            {
+              "date": "2026-07-19",
+              "cost": 13.1172
+            },
+            {
+              "date": "2026-07-20",
+              "cost": 16.6689
+            },
+            {
+              "date": "2026-07-21",
+              "cost": 17.5431
+            },
+            {
+              "date": "2026-07-22",
+              "cost": 12.221
+            },
+            {
+              "date": "2026-07-23",
+              "cost": 13.7271
+            },
+            {
+              "date": "2026-07-24",
+              "cost": 32.5097
+            },
+            {
+              "date": "2026-07-25",
+              "cost": 13.902
+            },
+            {
+              "date": "2026-07-26",
+              "cost": 162.348
+            },
+            {
+              "date": "2026-07-27",
+              "cost": 12.7316
+            },
+            {
+              "date": "2026-07-28",
+              "cost": 7.1803
+            },
+            {
+              "date": "2026-07-29",
+              "cost": 8.1295
+            },
+            {
+              "date": "2026-07-30",
+              "cost": 45.5044
+            },
+            {
+              "date": "2026-07-31",
+              "cost": 11.2412
+            },
+            {
+              "date": "2026-08-01",
+              "cost": 8.4257
+            },
+            {
+              "date": "2026-08-02",
+              "cost": 9.3704
+            },
+            {
+              "date": "2026-08-03",
+              "cost": 7.674
+            },
+            {
+              "date": "2026-08-04",
+              "cost": 8.4912
+            },
+            {
+              "date": "2026-08-05",
+              "cost": 7.7406
+            },
+            {
+              "date": "2026-08-06",
+              "cost": 8.6415
+            },
+            {
+              "date": "2026-08-07",
+              "cost": 6.2186
+            },
+            {
+              "date": "2026-08-08",
+              "cost": 7.9402
+            },
+            {
+              "date": "2026-08-09",
+              "cost": 9.3189
+            },
+            {
+              "date": "2026-08-10",
+              "cost": 9.2025
+            },
+            {
+              "date": "2026-08-11",
+              "cost": 10.7955
+            },
+            {
+              "date": "2026-08-12",
+              "cost": 9.0887
+            },
+            {
+              "date": "2026-08-13",
+              "cost": 10.7439
+            },
+            {
+              "date": "2026-08-14",
+              "cost": 9.1458
+            },
+            {
+              "date": "2026-08-15",
+              "cost": 12.1476
+            },
+            {
+              "date": "2026-08-16",
+              "cost": 10.5263
+            },
+            {
+              "date": "2026-08-17",
+              "cost": 10.5184
+            },
+            {
+              "date": "2026-08-18",
+              "cost": 10.4284
+            },
+            {
+              "date": "2026-08-19",
+              "cost": 10.6264
+            },
+            {
+              "date": "2026-08-20",
+              "cost": 9.432
+            },
+            {
+              "date": "2026-08-21",
+              "cost": 9.1409
+            },
+            {
+              "date": "2026-08-22",
+              "cost": 10.287
+            },
+            {
+              "date": "2026-08-23",
+              "cost": 7.8855
+            },
+            {
+              "date": "2026-08-24",
+              "cost": 9.4385
+            },
+            {
+              "date": "2026-08-25",
+              "cost": 4.5831
+            },
+            {
+              "date": "2026-08-26",
+              "cost": 8.1776
+            },
+            {
+              "date": "2026-08-27",
+              "cost": 12.2579
+            },
+            {
+              "date": "2026-08-28",
+              "cost": 7.4039
+            },
+            {
+              "date": "2026-08-29",
+              "cost": 9.4046
+            },
+            {
+              "date": "2026-08-30",
+              "cost": 43.3697
+            },
+            {
+              "date": "2026-08-31",
+              "cost": 9.2282
+            },
+            {
+              "date": "2026-09-01",
+              "cost": 7.288
+            },
+            {
+              "date": "2026-09-02",
+              "cost": 9.2647
+            },
+            {
+              "date": "2026-09-03",
+              "cost": 13.2357
+            },
+            {
+              "date": "2026-09-04",
+              "cost": 8.7998
+            },
+            {
+              "date": "2026-09-05",
+              "cost": 30.4542
+            },
+            {
+              "date": "2026-09-06",
+              "cost": 15.3485
+            },
+            {
+              "date": "2026-09-07",
+              "cost": 11.4768
+            },
+            {
+              "date": "2026-09-08",
+              "cost": 13.7626
+            },
+            {
+              "date": "2026-09-09",
+              "cost": 13.016
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 6.9291
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-18",
-          "cost": 4640.9548,
-          "gross": 7281.1687,
-          "activeDays": 214,
-          "costPerActiveDay": 21.6867,
+          "cost": 4654.1832,
+          "gross": 7303.518,
+          "activeDays": 215,
+          "costPerActiveDay": 21.6474,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3889.3545
+              "cost": 3900.6136
             },
             {
               "name": "Networking",
-              "cost": 455.1002
+              "cost": 456.7389
             },
             {
               "name": "Cloud Storage",
-              "cost": 197.9606
+              "cost": 198.1333
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 98.3672
+              "cost": 98.5249
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1484
+              "cost": 0.1486
             },
             {
               "name": "Cloud Logging",
@@ -14305,7 +14361,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 45.2878
+              "cost": 48.7426
             },
             {
               "date": "2026-08-01",
@@ -14369,7 +14425,7 @@
             },
             {
               "date": "2026-08-16",
-              "cost": 7.7248
+              "cost": 7.7249
             },
             {
               "date": "2026-08-17",
@@ -14465,36 +14521,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.9718
+              "cost": 12.0994
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 5.6459
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-09",
-          "cost": 4612.9514,
-          "gross": 7006.7677,
-          "activeDays": 225,
-          "costPerActiveDay": 20.502,
+          "cost": 4626.7092,
+          "gross": 7028.855,
+          "activeDays": 226,
+          "costPerActiveDay": 20.4722,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3855.3537
+              "cost": 3867.1525
             },
             {
               "name": "Networking",
-              "cost": 455.4018
+              "cost": 457.0213
             },
             {
               "name": "Cloud Storage",
-              "cost": 203.6871
+              "cost": 203.8624
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 98.339
+              "cost": 98.5031
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1429
+              "cost": 0.143
             },
             {
               "name": "Cloud Logging",
@@ -15352,7 +15412,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 14.6903
+              "cost": 15.5654
             },
             {
               "date": "2026-08-01",
@@ -15512,32 +15572,36 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 3.7443
+              "cost": 7.0446
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.5824
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-25",
-          "cost": 4588.0746,
-          "gross": 7176.8284,
-          "activeDays": 233,
-          "costPerActiveDay": 19.6913,
+          "cost": 4603.6072,
+          "gross": 7195.0425,
+          "activeDays": 234,
+          "costPerActiveDay": 19.6735,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3761.0523
+              "cost": 3776.2906
             },
             {
               "name": "Networking",
-              "cost": 496.917
+              "cost": 496.9171
             },
             {
               "name": "Cloud Storage",
-              "cost": 222.0923
+              "cost": 222.3151
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 107.8481
+              "cost": 107.9195
             },
             {
               "name": "Artifact Registry",
@@ -16399,7 +16463,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 35.2033
+              "cost": 37.7389
             },
             {
               "date": "2026-08-01",
@@ -16483,7 +16547,7 @@
             },
             {
               "date": "2026-08-21",
-              "cost": 10.6969
+              "cost": 10.697
             },
             {
               "date": "2026-08-22",
@@ -16559,36 +16623,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 4.5583
+              "cost": 8.3567
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.1985
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-24",
-          "cost": 4527.6318,
-          "gross": 6961.787,
-          "activeDays": 113,
-          "costPerActiveDay": 40.0675,
+          "cost": 4597.2099,
+          "gross": 7095.1035,
+          "activeDays": 84,
+          "costPerActiveDay": 54.7287,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3713.8864
+              "cost": 3779.6565
             },
             {
               "name": "Networking",
-              "cost": 497.0709
+              "cost": 500.1522
             },
             {
               "name": "Cloud Storage",
-              "cost": 213.9557
+              "cost": 214.4953
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 102.5502
+              "cost": 102.7372
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.14
+              "cost": 0.1401
             },
             {
               "name": "Cloud Logging",
@@ -17446,7 +17514,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 277.392
+              "cost": 301.9965
             },
             {
               "date": "2026-08-01",
@@ -17606,36 +17674,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.9687
+              "cost": 44.7675
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 7.1748
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-06",
-          "cost": 4494.3658,
-          "gross": 6922.5946,
-          "activeDays": 201,
-          "costPerActiveDay": 22.36,
+          "cost": 4511.0434,
+          "gross": 6944.0969,
+          "activeDays": 202,
+          "costPerActiveDay": 22.3319,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3724.5282
+              "cost": 3738.6886
             },
             {
               "name": "Networking",
-              "cost": 463.9513
+              "cost": 465.5488
             },
             {
               "name": "Cloud Storage",
-              "cost": 204.0271
+              "cost": 204.847
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 101.6966
+              "cost": 101.7961
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1338
+              "cost": 0.1341
             },
             {
               "name": "Cloud Logging",
@@ -18493,7 +18565,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 34.3434
+              "cost": 36.8488
             },
             {
               "date": "2026-08-01",
@@ -18557,7 +18629,7 @@
             },
             {
               "date": "2026-08-16",
-              "cost": 44.3399
+              "cost": 44.34
             },
             {
               "date": "2026-08-17",
@@ -18589,7 +18661,7 @@
             },
             {
               "date": "2026-08-24",
-              "cost": 9.242
+              "cost": 9.2419
             },
             {
               "date": "2026-08-25",
@@ -18653,36 +18725,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.259
+              "cost": 10.0198
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 10.4114
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-20",
-          "cost": 4479.4649,
-          "gross": 6897.8101,
-          "activeDays": 221,
-          "costPerActiveDay": 20.2691,
+          "cost": 4492.3795,
+          "gross": 6915.5099,
+          "activeDays": 222,
+          "costPerActiveDay": 20.2359,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3703.6328
+              "cost": 3715.1695
             },
             {
               "name": "Networking",
-              "cost": 472.6578
+              "cost": 473.7076
             },
             {
               "name": "Cloud Storage",
-              "cost": 208.4448
+              "cost": 208.6545
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 94.5682
+              "cost": 94.6865
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1364
+              "cost": 0.1365
             },
             {
               "name": "Cloud Logging",
@@ -19540,7 +19616,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 20.9572
+              "cost": 22.4709
             },
             {
               "date": "2026-08-01",
@@ -19548,7 +19624,7 @@
             },
             {
               "date": "2026-08-02",
-              "cost": 13.6525
+              "cost": 13.6524
             },
             {
               "date": "2026-08-03",
@@ -19700,36 +19776,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.0518
+              "cost": 10.8742
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 7.5786
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-08",
-          "cost": 4444.3243,
-          "gross": 6814.4655,
-          "activeDays": 211,
-          "costPerActiveDay": 21.0631,
+          "cost": 4464.2625,
+          "gross": 6844.0249,
+          "activeDays": 213,
+          "costPerActiveDay": 20.959,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3648.9394
+              "cost": 3665.6624
             },
             {
               "name": "Networking",
-              "cost": 485.8101
+              "cost": 488.6921
             },
             {
               "name": "Cloud Storage",
-              "cost": 208.0087
+              "cost": 208.2056
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 101.4014
+              "cost": 101.5376
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.134
+              "cost": 0.1341
             },
             {
               "name": "Cloud Logging",
@@ -20587,7 +20667,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 46.5439
+              "cost": 50.1225
             },
             {
               "date": "2026-08-01",
@@ -20747,36 +20827,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.1613
+              "cost": 10.6258
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 12.8951
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-21",
-          "cost": 4431.3366,
-          "gross": 6839.5204,
-          "activeDays": 226,
-          "costPerActiveDay": 19.6077,
+          "cost": 4444.5761,
+          "gross": 6860.1066,
+          "activeDays": 227,
+          "costPerActiveDay": 19.5796,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3662.3727
+              "cost": 3673.1328
             },
             {
               "name": "Networking",
-              "cost": 460.3789
+              "cost": 462.4979
             },
             {
               "name": "Cloud Storage",
-              "cost": 205.8485
+              "cost": 206.0729
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 102.5738
+              "cost": 102.7097
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1377
+              "cost": 0.1378
             },
             {
               "name": "Cloud Logging",
@@ -21634,7 +21718,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 32.9714
+              "cost": 35.3047
             },
             {
               "date": "2026-08-01",
@@ -21686,7 +21770,7 @@
             },
             {
               "date": "2026-08-13",
-              "cost": 9.6317
+              "cost": 9.6316
             },
             {
               "date": "2026-08-14",
@@ -21794,36 +21878,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.4123
+              "cost": 9.7667
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 8.5519
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-04",
-          "cost": 4427.764,
-          "gross": 6820.6455,
+          "cost": 4440.8465,
+          "gross": 6841.6005,
           "activeDays": 148,
-          "costPerActiveDay": 29.9173,
+          "costPerActiveDay": 30.0057,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3640.7156
+              "cost": 3651.2919
             },
             {
               "name": "Networking",
-              "cost": 479.0085
+              "cost": 481.1561
             },
             {
               "name": "Cloud Storage",
-              "cost": 205.1876
+              "cost": 205.3877
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 102.6831
+              "cost": 102.8415
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1392
+              "cost": 0.1393
             },
             {
               "name": "Cloud Logging",
@@ -22681,7 +22769,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 55.1074
+              "cost": 59.0302
             },
             {
               "date": "2026-08-01",
@@ -22841,36 +22929,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.7129
+              "cost": 8.9088
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 6.9638
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-23",
-          "cost": 4408.742,
-          "gross": 6748.4365,
-          "activeDays": 226,
-          "costPerActiveDay": 19.5077,
+          "cost": 4425.8013,
+          "gross": 6776.5344,
+          "activeDays": 227,
+          "costPerActiveDay": 19.4969,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3611.2062
+              "cost": 3625.7563
             },
             {
               "name": "Networking",
-              "cost": 481.6809
+              "cost": 483.8543
             },
             {
               "name": "Cloud Storage",
-              "cost": 216.5137
+              "cost": 216.7244
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 99.1881
+              "cost": 99.3131
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1267
+              "cost": 0.1268
             },
             {
               "name": "Cloud Logging",
@@ -23728,7 +23820,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 29.9363
+              "cost": 32.2127
             },
             {
               "date": "2026-08-01",
@@ -23888,36 +23980,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.2738
+              "cost": 9.1606
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 12.8961
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-22",
-          "cost": 4373.3116,
-          "gross": 6784.6593,
+          "cost": 4386.1913,
+          "gross": 6805.1364,
           "activeDays": 214,
-          "costPerActiveDay": 20.436,
+          "costPerActiveDay": 20.4962,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3611.6793
+              "cost": 3623.1127
             },
             {
               "name": "Networking",
-              "cost": 465.6341
+              "cost": 466.7371
             },
             {
               "name": "Cloud Storage",
-              "cost": 203.9641
+              "cost": 204.1819
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 91.8653
+              "cost": 91.9906
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1399
+              "cost": 0.1401
             },
             {
               "name": "Cloud Logging",
@@ -24775,7 +24871,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 45.5146
+              "cost": 48.9723
             },
             {
               "date": "2026-08-01",
@@ -24843,7 +24939,7 @@
             },
             {
               "date": "2026-08-17",
-              "cost": 12.0358
+              "cost": 12.0359
             },
             {
               "date": "2026-08-18",
@@ -24935,36 +25031,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 5.5015
+              "cost": 8.9844
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 5.939
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-27",
-          "cost": 4331.8288,
-          "gross": 6662.8005,
-          "activeDays": 214,
-          "costPerActiveDay": 20.2422,
+          "cost": 4349.5685,
+          "gross": 6686.8918,
+          "activeDays": 216,
+          "costPerActiveDay": 20.1369,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3543.3712
+              "cost": 3558.5783
             },
             {
               "name": "Networking",
-              "cost": 480.6505
+              "cost": 482.2467
             },
             {
               "name": "Cloud Storage",
-              "cost": 210.3475
+              "cost": 211.1666
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 97.3044
+              "cost": 97.4216
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.128
+              "cost": 0.1281
             },
             {
               "name": "Cloud Logging",
@@ -25822,7 +25922,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 50.551
+              "cost": 54.6109
             },
             {
               "date": "2026-08-01",
@@ -25886,7 +25986,7 @@
             },
             {
               "date": "2026-08-16",
-              "cost": 10.5866
+              "cost": 10.5865
             },
             {
               "date": "2026-08-17",
@@ -25982,1083 +26082,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 8.6482
-            }
-          ]
-        },
-        {
-          "name": "k8s-infra-e2e-boskos-scale-10",
-          "cost": 4190.7435,
-          "gross": 6364.3269,
-          "activeDays": 226,
-          "costPerActiveDay": 18.5431,
-          "breakdown": [
-            {
-              "name": "Compute Engine",
-              "cost": 3365.1454
-            },
-            {
-              "name": "Networking",
-              "cost": 480.3298
-            },
-            {
-              "name": "Cloud Storage",
-              "cost": 237.4707
-            },
-            {
-              "name": "Cloud Monitoring",
-              "cost": 107.6402
-            },
-            {
-              "name": "Artifact Registry",
-              "cost": 0.128
-            },
-            {
-              "name": "Cloud Logging",
-              "cost": 0.0294
-            }
-          ],
-          "daily": [
-            {
-              "date": "2025-12-31",
-              "cost": 3.815
-            },
-            {
-              "date": "2026-01-01",
-              "cost": 21.6148
-            },
-            {
-              "date": "2026-01-02",
-              "cost": 23.6628
-            },
-            {
-              "date": "2026-01-03",
-              "cost": 16.1457
-            },
-            {
-              "date": "2026-01-04",
-              "cost": 26.6043
-            },
-            {
-              "date": "2026-01-05",
-              "cost": 17.1387
-            },
-            {
-              "date": "2026-01-06",
-              "cost": 23.181
-            },
-            {
-              "date": "2026-01-07",
-              "cost": 17.4691
-            },
-            {
-              "date": "2026-01-08",
-              "cost": 22.8587
-            },
-            {
-              "date": "2026-01-09",
-              "cost": 24.2893
-            },
-            {
-              "date": "2026-01-10",
-              "cost": 19.8468
-            },
-            {
-              "date": "2026-01-11",
-              "cost": 23.2936
-            },
-            {
-              "date": "2026-01-12",
-              "cost": 20.7449
-            },
-            {
-              "date": "2026-01-13",
-              "cost": 23.1246
-            },
-            {
-              "date": "2026-01-14",
-              "cost": 19.608
-            },
-            {
-              "date": "2026-01-15",
-              "cost": 21.0877
-            },
-            {
-              "date": "2026-01-16",
-              "cost": 16.6329
-            },
-            {
-              "date": "2026-01-17",
-              "cost": 20.9826
-            },
-            {
-              "date": "2026-01-18",
-              "cost": 19.6851
-            },
-            {
-              "date": "2026-01-19",
-              "cost": 42.4611
-            },
-            {
-              "date": "2026-01-20",
-              "cost": 25.2776
-            },
-            {
-              "date": "2026-01-21",
-              "cost": 39.8243
-            },
-            {
-              "date": "2026-01-22",
-              "cost": 20.2019
-            },
-            {
-              "date": "2026-01-23",
-              "cost": 19.4334
-            },
-            {
-              "date": "2026-01-24",
-              "cost": 20.8469
-            },
-            {
-              "date": "2026-01-25",
-              "cost": 16.1216
-            },
-            {
-              "date": "2026-01-26",
-              "cost": 27.1695
-            },
-            {
-              "date": "2026-01-27",
-              "cost": 13.129
-            },
-            {
-              "date": "2026-01-28",
-              "cost": 19.1306
-            },
-            {
-              "date": "2026-01-29",
-              "cost": 25.1906
-            },
-            {
-              "date": "2026-01-30",
-              "cost": 13.796
-            },
-            {
-              "date": "2026-01-31",
-              "cost": 15.7469
-            },
-            {
-              "date": "2026-02-01",
-              "cost": 15.7383
-            },
-            {
-              "date": "2026-02-02",
-              "cost": 11.0539
-            },
-            {
-              "date": "2026-02-03",
-              "cost": 14.3862
-            },
-            {
-              "date": "2026-02-04",
-              "cost": 25.2192
-            },
-            {
-              "date": "2026-02-05",
-              "cost": 11.6302
-            },
-            {
-              "date": "2026-02-06",
-              "cost": 18.7382
-            },
-            {
-              "date": "2026-02-07",
-              "cost": 7.9112
-            },
-            {
-              "date": "2026-02-08",
-              "cost": 13.2274
-            },
-            {
-              "date": "2026-02-09",
-              "cost": 11.4135
-            },
-            {
-              "date": "2026-02-10",
-              "cost": 16.4822
-            },
-            {
-              "date": "2026-02-11",
-              "cost": 17.6899
-            },
-            {
-              "date": "2026-02-12",
-              "cost": 12.7147
-            },
-            {
-              "date": "2026-02-13",
-              "cost": 42.6458
-            },
-            {
-              "date": "2026-02-14",
-              "cost": 12.2403
-            },
-            {
-              "date": "2026-02-15",
-              "cost": 9.2157
-            },
-            {
-              "date": "2026-02-16",
-              "cost": 13.9318
-            },
-            {
-              "date": "2026-02-17",
-              "cost": 10.4146
-            },
-            {
-              "date": "2026-02-18",
-              "cost": 11.1137
-            },
-            {
-              "date": "2026-02-19",
-              "cost": 11.7648
-            },
-            {
-              "date": "2026-02-20",
-              "cost": 11.3446
-            },
-            {
-              "date": "2026-02-21",
-              "cost": 15.6189
-            },
-            {
-              "date": "2026-02-22",
-              "cost": 10.9603
-            },
-            {
-              "date": "2026-02-23",
-              "cost": 12.4017
-            },
-            {
-              "date": "2026-02-24",
-              "cost": 13.1893
-            },
-            {
-              "date": "2026-02-25",
-              "cost": 11.4924
-            },
-            {
-              "date": "2026-02-26",
-              "cost": 172.7679
-            },
-            {
-              "date": "2026-02-27",
-              "cost": 9.8056
-            },
-            {
-              "date": "2026-02-28",
-              "cost": 9.3641
-            },
-            {
-              "date": "2026-03-01",
-              "cost": 12.1574
-            },
-            {
-              "date": "2026-03-02",
-              "cost": 18.2344
-            },
-            {
-              "date": "2026-03-03",
-              "cost": 11.7683
-            },
-            {
-              "date": "2026-03-04",
-              "cost": 14.9372
-            },
-            {
-              "date": "2026-03-05",
-              "cost": 13.067
-            },
-            {
-              "date": "2026-03-06",
-              "cost": 15.3968
-            },
-            {
-              "date": "2026-03-07",
-              "cost": 15.1791
-            },
-            {
-              "date": "2026-03-08",
-              "cost": 15.0299
-            },
-            {
-              "date": "2026-03-09",
-              "cost": 16.9482
-            },
-            {
-              "date": "2026-03-10",
-              "cost": 15.43
-            },
-            {
-              "date": "2026-03-11",
-              "cost": 14.4897
-            },
-            {
-              "date": "2026-03-12",
-              "cost": 12.3786
-            },
-            {
-              "date": "2026-03-13",
-              "cost": 13.7959
-            },
-            {
-              "date": "2026-03-14",
-              "cost": 10.9276
-            },
-            {
-              "date": "2026-03-15",
-              "cost": 13.5301
-            },
-            {
-              "date": "2026-03-16",
-              "cost": 14.1452
-            },
-            {
-              "date": "2026-03-17",
-              "cost": 14.4689
-            },
-            {
-              "date": "2026-03-18",
-              "cost": 12.1518
-            },
-            {
-              "date": "2026-03-19",
-              "cost": 14.754
-            },
-            {
-              "date": "2026-03-20",
-              "cost": 10.6113
-            },
-            {
-              "date": "2026-03-21",
-              "cost": 14.125
-            },
-            {
-              "date": "2026-03-22",
-              "cost": 168.8433
-            },
-            {
-              "date": "2026-03-23",
-              "cost": 12.6367
-            },
-            {
-              "date": "2026-03-24",
-              "cost": 11.2039
-            },
-            {
-              "date": "2026-03-25",
-              "cost": 13.6078
-            },
-            {
-              "date": "2026-03-26",
-              "cost": 13.5545
-            },
-            {
-              "date": "2026-03-27",
-              "cost": 15.8759
-            },
-            {
-              "date": "2026-03-28",
-              "cost": 9.5976
-            },
-            {
-              "date": "2026-03-29",
-              "cost": 17.3662
-            },
-            {
-              "date": "2026-03-30",
-              "cost": 16.3714
-            },
-            {
-              "date": "2026-03-31",
-              "cost": 10.8866
-            },
-            {
-              "date": "2026-04-01",
-              "cost": 11.7235
-            },
-            {
-              "date": "2026-04-02",
-              "cost": 13.7705
-            },
-            {
-              "date": "2026-04-03",
-              "cost": 13.9987
-            },
-            {
-              "date": "2026-04-04",
-              "cost": 16.1669
-            },
-            {
-              "date": "2026-04-05",
-              "cost": 11.2491
-            },
-            {
-              "date": "2026-04-06",
-              "cost": 11.0783
-            },
-            {
-              "date": "2026-04-07",
-              "cost": 8.4481
-            },
-            {
-              "date": "2026-04-08",
-              "cost": 8.513
-            },
-            {
-              "date": "2026-04-09",
-              "cost": 11.4294
-            },
-            {
-              "date": "2026-04-10",
-              "cost": 38.5599
-            },
-            {
-              "date": "2026-04-11",
-              "cost": 9.583
-            },
-            {
-              "date": "2026-04-12",
-              "cost": 11.3839
-            },
-            {
-              "date": "2026-04-13",
-              "cost": 13.7203
-            },
-            {
-              "date": "2026-04-14",
-              "cost": 13.9558
-            },
-            {
-              "date": "2026-04-15",
-              "cost": 13.9505
-            },
-            {
-              "date": "2026-04-16",
-              "cost": 11.5173
-            },
-            {
-              "date": "2026-04-17",
-              "cost": 16.6701
-            },
-            {
-              "date": "2026-04-18",
-              "cost": 12.3623
-            },
-            {
-              "date": "2026-04-19",
-              "cost": 18.9236
-            },
-            {
-              "date": "2026-04-20",
-              "cost": 16.1584
-            },
-            {
-              "date": "2026-04-21",
-              "cost": 11.0442
-            },
-            {
-              "date": "2026-04-22",
-              "cost": 13.8682
-            },
-            {
-              "date": "2026-04-23",
-              "cost": 14.231
-            },
-            {
-              "date": "2026-04-24",
-              "cost": 14.001
-            },
-            {
-              "date": "2026-04-25",
-              "cost": 13.4908
-            },
-            {
-              "date": "2026-04-26",
-              "cost": 14.1356
-            },
-            {
-              "date": "2026-04-27",
-              "cost": 18.0469
-            },
-            {
-              "date": "2026-04-28",
-              "cost": 13.3763
-            },
-            {
-              "date": "2026-04-29",
-              "cost": 15.2274
-            },
-            {
-              "date": "2026-04-30",
-              "cost": 16.9665
-            },
-            {
-              "date": "2026-05-01",
-              "cost": 14.2421
-            },
-            {
-              "date": "2026-05-02",
-              "cost": 11.9581
-            },
-            {
-              "date": "2026-05-03",
-              "cost": 12.0585
-            },
-            {
-              "date": "2026-05-04",
-              "cost": 19.7142
-            },
-            {
-              "date": "2026-05-05",
-              "cost": 18.4946
-            },
-            {
-              "date": "2026-05-06",
-              "cost": 36.0984
-            },
-            {
-              "date": "2026-05-07",
-              "cost": 17.1582
-            },
-            {
-              "date": "2026-05-08",
-              "cost": 9.4376
-            },
-            {
-              "date": "2026-05-09",
-              "cost": 13.7886
-            },
-            {
-              "date": "2026-05-10",
-              "cost": 15.0877
-            },
-            {
-              "date": "2026-05-11",
-              "cost": 10.8398
-            },
-            {
-              "date": "2026-05-12",
-              "cost": 11.5798
-            },
-            {
-              "date": "2026-05-13",
-              "cost": 18.9716
-            },
-            {
-              "date": "2026-05-14",
-              "cost": 12.2408
-            },
-            {
-              "date": "2026-05-15",
-              "cost": 14.1185
-            },
-            {
-              "date": "2026-05-16",
-              "cost": 11.4085
-            },
-            {
-              "date": "2026-05-17",
-              "cost": 16.8545
-            },
-            {
-              "date": "2026-05-18",
-              "cost": 8.7008
-            },
-            {
-              "date": "2026-05-19",
-              "cost": 13.5295
-            },
-            {
-              "date": "2026-05-20",
-              "cost": 14.5534
-            },
-            {
-              "date": "2026-05-21",
-              "cost": 11.4511
-            },
-            {
-              "date": "2026-05-22",
-              "cost": 13.4477
-            },
-            {
-              "date": "2026-05-23",
-              "cost": 14.0175
-            },
-            {
-              "date": "2026-05-24",
-              "cost": 12.1587
-            },
-            {
-              "date": "2026-05-25",
-              "cost": 16.6114
-            },
-            {
-              "date": "2026-05-26",
-              "cost": 15.1712
-            },
-            {
-              "date": "2026-05-27",
-              "cost": 14.0367
-            },
-            {
-              "date": "2026-05-28",
-              "cost": 15.2676
-            },
-            {
-              "date": "2026-05-29",
-              "cost": 14.9553
-            },
-            {
-              "date": "2026-05-30",
-              "cost": 10.7289
-            },
-            {
-              "date": "2026-05-31",
-              "cost": 19.3142
-            },
-            {
-              "date": "2026-06-01",
-              "cost": 13.1148
-            },
-            {
-              "date": "2026-06-02",
-              "cost": 12.1618
-            },
-            {
-              "date": "2026-06-03",
-              "cost": 19.8697
-            },
-            {
-              "date": "2026-06-04",
-              "cost": 6.5852
-            },
-            {
-              "date": "2026-06-05",
-              "cost": 16.6774
-            },
-            {
-              "date": "2026-06-06",
-              "cost": 13.2915
-            },
-            {
-              "date": "2026-06-07",
-              "cost": 16.2994
-            },
-            {
-              "date": "2026-06-08",
-              "cost": 21.2142
-            },
-            {
-              "date": "2026-06-09",
-              "cost": 7.3341
-            },
-            {
-              "date": "2026-06-10",
-              "cost": 14.4988
-            },
-            {
-              "date": "2026-06-11",
-              "cost": 11.4525
-            },
-            {
-              "date": "2026-06-12",
-              "cost": 18.6538
-            },
-            {
-              "date": "2026-06-13",
-              "cost": 8.5467
-            },
-            {
-              "date": "2026-06-14",
-              "cost": 14.4705
-            },
-            {
-              "date": "2026-06-15",
-              "cost": 14.9203
-            },
-            {
-              "date": "2026-06-16",
-              "cost": 15.474
-            },
-            {
-              "date": "2026-06-17",
-              "cost": 16.0004
-            },
-            {
-              "date": "2026-06-18",
-              "cost": 10.7979
-            },
-            {
-              "date": "2026-06-19",
-              "cost": 32.0942
-            },
-            {
-              "date": "2026-06-20",
-              "cost": 10.7448
-            },
-            {
-              "date": "2026-06-21",
-              "cost": 16.1418
-            },
-            {
-              "date": "2026-06-22",
-              "cost": 17.4353
-            },
-            {
-              "date": "2026-06-23",
-              "cost": 12.1978
-            },
-            {
-              "date": "2026-06-24",
-              "cost": 12.9675
-            },
-            {
-              "date": "2026-06-25",
-              "cost": 14.2142
-            },
-            {
-              "date": "2026-06-26",
-              "cost": 15.9297
-            },
-            {
-              "date": "2026-06-27",
-              "cost": 34.5681
-            },
-            {
-              "date": "2026-06-28",
-              "cost": 22.2514
-            },
-            {
-              "date": "2026-06-29",
-              "cost": 13.379
-            },
-            {
-              "date": "2026-06-30",
-              "cost": 129.044
-            },
-            {
-              "date": "2026-07-01",
-              "cost": 12.8734
-            },
-            {
-              "date": "2026-07-02",
-              "cost": 17.4499
-            },
-            {
-              "date": "2026-07-03",
-              "cost": 8.9864
-            },
-            {
-              "date": "2026-07-04",
-              "cost": 16.0193
-            },
-            {
-              "date": "2026-07-05",
-              "cost": 11.2915
-            },
-            {
-              "date": "2026-07-06",
-              "cost": 13.3402
-            },
-            {
-              "date": "2026-07-07",
-              "cost": 17.6314
-            },
-            {
-              "date": "2026-07-08",
-              "cost": 19.0056
-            },
-            {
-              "date": "2026-07-09",
-              "cost": 8.4059
-            },
-            {
-              "date": "2026-07-10",
-              "cost": 14.0858
-            },
-            {
-              "date": "2026-07-11",
-              "cost": 11.5977
-            },
-            {
-              "date": "2026-07-12",
-              "cost": 12.3307
-            },
-            {
-              "date": "2026-07-13",
-              "cost": 11.5405
-            },
-            {
-              "date": "2026-07-14",
-              "cost": 13.6559
-            },
-            {
-              "date": "2026-07-15",
-              "cost": 16.897
-            },
-            {
-              "date": "2026-07-16",
-              "cost": 15.3463
-            },
-            {
-              "date": "2026-07-17",
-              "cost": 9.2354
-            },
-            {
-              "date": "2026-07-18",
-              "cost": 20.7461
-            },
-            {
-              "date": "2026-07-19",
-              "cost": 11.0151
-            },
-            {
-              "date": "2026-07-20",
-              "cost": 33.9466
-            },
-            {
-              "date": "2026-07-21",
-              "cost": 16.9532
-            },
-            {
-              "date": "2026-07-22",
-              "cost": 15.4579
-            },
-            {
-              "date": "2026-07-23",
-              "cost": 18.8453
-            },
-            {
-              "date": "2026-07-24",
-              "cost": 11.627
-            },
-            {
-              "date": "2026-07-25",
-              "cost": 7.8946
-            },
-            {
-              "date": "2026-07-26",
-              "cost": 39.48
-            },
-            {
-              "date": "2026-07-27",
-              "cost": 6.9358
-            },
-            {
-              "date": "2026-07-28",
-              "cost": 6.0813
-            },
-            {
-              "date": "2026-07-29",
-              "cost": 7.7494
-            },
-            {
-              "date": "2026-07-30",
-              "cost": 15.3788
-            },
-            {
-              "date": "2026-07-31",
-              "cost": 50.3178
-            },
-            {
-              "date": "2026-08-01",
-              "cost": 7.4222
-            },
-            {
-              "date": "2026-08-02",
-              "cost": 8.2965
-            },
-            {
-              "date": "2026-08-03",
-              "cost": 7.4442
-            },
-            {
-              "date": "2026-08-04",
-              "cost": 10.3409
-            },
-            {
-              "date": "2026-08-05",
-              "cost": 9.9287
-            },
-            {
-              "date": "2026-08-06",
-              "cost": 11.0885
-            },
-            {
-              "date": "2026-08-07",
-              "cost": 7.7955
-            },
-            {
-              "date": "2026-08-08",
-              "cost": 9.3937
-            },
-            {
-              "date": "2026-08-09",
-              "cost": 10.6075
-            },
-            {
-              "date": "2026-08-10",
-              "cost": 11.0678
-            },
-            {
-              "date": "2026-08-11",
-              "cost": 8.4088
-            },
-            {
-              "date": "2026-08-12",
-              "cost": 8.8457
-            },
-            {
-              "date": "2026-08-13",
-              "cost": 10.1894
-            },
-            {
-              "date": "2026-08-14",
-              "cost": 47.3663
-            },
-            {
-              "date": "2026-08-15",
-              "cost": 6.6364
-            },
-            {
-              "date": "2026-08-16",
-              "cost": 9.9579
-            },
-            {
-              "date": "2026-08-17",
-              "cost": 7.9567
-            },
-            {
-              "date": "2026-08-18",
-              "cost": 6.5483
-            },
-            {
-              "date": "2026-08-19",
-              "cost": 7.8455
-            },
-            {
-              "date": "2026-08-20",
-              "cost": 10.9749
-            },
-            {
-              "date": "2026-08-21",
-              "cost": 6.0196
-            },
-            {
-              "date": "2026-08-22",
-              "cost": 9.6627
-            },
-            {
-              "date": "2026-08-23",
-              "cost": 11.5036
-            },
-            {
-              "date": "2026-08-24",
-              "cost": 12.7647
-            },
-            {
-              "date": "2026-08-25",
-              "cost": 4.6288
-            },
-            {
-              "date": "2026-08-26",
-              "cost": 9.5704
-            },
-            {
-              "date": "2026-08-27",
-              "cost": 12.4466
-            },
-            {
-              "date": "2026-08-28",
-              "cost": 7.0995
-            },
-            {
-              "date": "2026-08-29",
-              "cost": 7.5234
-            },
-            {
-              "date": "2026-08-30",
-              "cost": 6.5268
-            },
-            {
-              "date": "2026-08-31",
-              "cost": 8.8309
-            },
-            {
-              "date": "2026-09-01",
-              "cost": 9.0982
-            },
-            {
-              "date": "2026-09-02",
-              "cost": 10.3058
-            },
-            {
-              "date": "2026-09-03",
-              "cost": 8.9248
-            },
-            {
-              "date": "2026-09-04",
-              "cost": 11.2548
-            },
-            {
-              "date": "2026-09-05",
-              "cost": 10.9711
-            },
-            {
-              "date": "2026-09-06",
-              "cost": 10.0873
-            },
-            {
-              "date": "2026-09-07",
-              "cost": 13.7734
-            },
-            {
-              "date": "2026-09-08",
-              "cost": 16.7245
+              "cost": 11.7717
             },
             {
-              "date": "2026-09-09",
-              "cost": 6.8509
+              "date": "2026-09-10",
+              "cost": 10.5564
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-13",
-          "cost": 4189.5717,
-          "gross": 6423.0151,
+          "cost": 4219.3046,
+          "gross": 6475.6831,
           "activeDays": 209,
-          "costPerActiveDay": 20.0458,
+          "costPerActiveDay": 20.1881,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3482.6349
+              "cost": 3511.0496
             },
             {
               "name": "Networking",
-              "cost": 420.1529
+              "cost": 420.7967
             },
             {
               "name": "Cloud Storage",
-              "cost": 189.4275
+              "cost": 189.9671
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 97.1835
+              "cost": 97.3182
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1444
+              "cost": 0.1445
             },
             {
               "name": "Cloud Logging",
@@ -27916,7 +26973,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 32.477
+              "cost": 34.9111
             },
             {
               "date": "2026-08-01",
@@ -28076,36 +27133,1091 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 13.8049
+              "cost": 31.8952
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.2085
+            }
+          ]
+        },
+        {
+          "name": "k8s-infra-e2e-boskos-scale-10",
+          "cost": 4208.3666,
+          "gross": 6390.0572,
+          "activeDays": 228,
+          "costPerActiveDay": 18.4577,
+          "breakdown": [
+            {
+              "name": "Compute Engine",
+              "cost": 3378.3951
+            },
+            {
+              "name": "Networking",
+              "cost": 483.8032
+            },
+            {
+              "name": "Cloud Storage",
+              "cost": 238.2182
+            },
+            {
+              "name": "Cloud Monitoring",
+              "cost": 107.7926
+            },
+            {
+              "name": "Artifact Registry",
+              "cost": 0.1281
+            },
+            {
+              "name": "Cloud Logging",
+              "cost": 0.0294
+            }
+          ],
+          "daily": [
+            {
+              "date": "2025-12-31",
+              "cost": 3.815
+            },
+            {
+              "date": "2026-01-01",
+              "cost": 21.6148
+            },
+            {
+              "date": "2026-01-02",
+              "cost": 23.6628
+            },
+            {
+              "date": "2026-01-03",
+              "cost": 16.1457
+            },
+            {
+              "date": "2026-01-04",
+              "cost": 26.6043
+            },
+            {
+              "date": "2026-01-05",
+              "cost": 17.1387
+            },
+            {
+              "date": "2026-01-06",
+              "cost": 23.181
+            },
+            {
+              "date": "2026-01-07",
+              "cost": 17.4691
+            },
+            {
+              "date": "2026-01-08",
+              "cost": 22.8587
+            },
+            {
+              "date": "2026-01-09",
+              "cost": 24.2893
+            },
+            {
+              "date": "2026-01-10",
+              "cost": 19.8468
+            },
+            {
+              "date": "2026-01-11",
+              "cost": 23.2936
+            },
+            {
+              "date": "2026-01-12",
+              "cost": 20.7449
+            },
+            {
+              "date": "2026-01-13",
+              "cost": 23.1246
+            },
+            {
+              "date": "2026-01-14",
+              "cost": 19.608
+            },
+            {
+              "date": "2026-01-15",
+              "cost": 21.0877
+            },
+            {
+              "date": "2026-01-16",
+              "cost": 16.6329
+            },
+            {
+              "date": "2026-01-17",
+              "cost": 20.9826
+            },
+            {
+              "date": "2026-01-18",
+              "cost": 19.6851
+            },
+            {
+              "date": "2026-01-19",
+              "cost": 42.4611
+            },
+            {
+              "date": "2026-01-20",
+              "cost": 25.2776
+            },
+            {
+              "date": "2026-01-21",
+              "cost": 39.8243
+            },
+            {
+              "date": "2026-01-22",
+              "cost": 20.2019
+            },
+            {
+              "date": "2026-01-23",
+              "cost": 19.4334
+            },
+            {
+              "date": "2026-01-24",
+              "cost": 20.8469
+            },
+            {
+              "date": "2026-01-25",
+              "cost": 16.1216
+            },
+            {
+              "date": "2026-01-26",
+              "cost": 27.1695
+            },
+            {
+              "date": "2026-01-27",
+              "cost": 13.129
+            },
+            {
+              "date": "2026-01-28",
+              "cost": 19.1306
+            },
+            {
+              "date": "2026-01-29",
+              "cost": 25.1906
+            },
+            {
+              "date": "2026-01-30",
+              "cost": 13.796
+            },
+            {
+              "date": "2026-01-31",
+              "cost": 15.7469
+            },
+            {
+              "date": "2026-02-01",
+              "cost": 15.7383
+            },
+            {
+              "date": "2026-02-02",
+              "cost": 11.0539
+            },
+            {
+              "date": "2026-02-03",
+              "cost": 14.3862
+            },
+            {
+              "date": "2026-02-04",
+              "cost": 25.2192
+            },
+            {
+              "date": "2026-02-05",
+              "cost": 11.6302
+            },
+            {
+              "date": "2026-02-06",
+              "cost": 18.7382
+            },
+            {
+              "date": "2026-02-07",
+              "cost": 7.9112
+            },
+            {
+              "date": "2026-02-08",
+              "cost": 13.2274
+            },
+            {
+              "date": "2026-02-09",
+              "cost": 11.4135
+            },
+            {
+              "date": "2026-02-10",
+              "cost": 16.4822
+            },
+            {
+              "date": "2026-02-11",
+              "cost": 17.6899
+            },
+            {
+              "date": "2026-02-12",
+              "cost": 12.7147
+            },
+            {
+              "date": "2026-02-13",
+              "cost": 42.6458
+            },
+            {
+              "date": "2026-02-14",
+              "cost": 12.2403
+            },
+            {
+              "date": "2026-02-15",
+              "cost": 9.2157
+            },
+            {
+              "date": "2026-02-16",
+              "cost": 13.9318
+            },
+            {
+              "date": "2026-02-17",
+              "cost": 10.4146
+            },
+            {
+              "date": "2026-02-18",
+              "cost": 11.1137
+            },
+            {
+              "date": "2026-02-19",
+              "cost": 11.7648
+            },
+            {
+              "date": "2026-02-20",
+              "cost": 11.3446
+            },
+            {
+              "date": "2026-02-21",
+              "cost": 15.6189
+            },
+            {
+              "date": "2026-02-22",
+              "cost": 10.9603
+            },
+            {
+              "date": "2026-02-23",
+              "cost": 12.4017
+            },
+            {
+              "date": "2026-02-24",
+              "cost": 13.1893
+            },
+            {
+              "date": "2026-02-25",
+              "cost": 11.4924
+            },
+            {
+              "date": "2026-02-26",
+              "cost": 172.7679
+            },
+            {
+              "date": "2026-02-27",
+              "cost": 9.8056
+            },
+            {
+              "date": "2026-02-28",
+              "cost": 9.3641
+            },
+            {
+              "date": "2026-03-01",
+              "cost": 12.1574
+            },
+            {
+              "date": "2026-03-02",
+              "cost": 18.2344
+            },
+            {
+              "date": "2026-03-03",
+              "cost": 11.7683
+            },
+            {
+              "date": "2026-03-04",
+              "cost": 14.9372
+            },
+            {
+              "date": "2026-03-05",
+              "cost": 13.067
+            },
+            {
+              "date": "2026-03-06",
+              "cost": 15.3968
+            },
+            {
+              "date": "2026-03-07",
+              "cost": 15.1791
+            },
+            {
+              "date": "2026-03-08",
+              "cost": 15.0299
+            },
+            {
+              "date": "2026-03-09",
+              "cost": 16.9482
+            },
+            {
+              "date": "2026-03-10",
+              "cost": 15.43
+            },
+            {
+              "date": "2026-03-11",
+              "cost": 14.4897
+            },
+            {
+              "date": "2026-03-12",
+              "cost": 12.3786
+            },
+            {
+              "date": "2026-03-13",
+              "cost": 13.7959
+            },
+            {
+              "date": "2026-03-14",
+              "cost": 10.9276
+            },
+            {
+              "date": "2026-03-15",
+              "cost": 13.5301
+            },
+            {
+              "date": "2026-03-16",
+              "cost": 14.1452
+            },
+            {
+              "date": "2026-03-17",
+              "cost": 14.4689
+            },
+            {
+              "date": "2026-03-18",
+              "cost": 12.1518
+            },
+            {
+              "date": "2026-03-19",
+              "cost": 14.754
+            },
+            {
+              "date": "2026-03-20",
+              "cost": 10.6113
+            },
+            {
+              "date": "2026-03-21",
+              "cost": 14.125
+            },
+            {
+              "date": "2026-03-22",
+              "cost": 168.8433
+            },
+            {
+              "date": "2026-03-23",
+              "cost": 12.6367
+            },
+            {
+              "date": "2026-03-24",
+              "cost": 11.2039
+            },
+            {
+              "date": "2026-03-25",
+              "cost": 13.6078
+            },
+            {
+              "date": "2026-03-26",
+              "cost": 13.5545
+            },
+            {
+              "date": "2026-03-27",
+              "cost": 15.8759
+            },
+            {
+              "date": "2026-03-28",
+              "cost": 9.5976
+            },
+            {
+              "date": "2026-03-29",
+              "cost": 17.3662
+            },
+            {
+              "date": "2026-03-30",
+              "cost": 16.3714
+            },
+            {
+              "date": "2026-03-31",
+              "cost": 10.8866
+            },
+            {
+              "date": "2026-04-01",
+              "cost": 11.7235
+            },
+            {
+              "date": "2026-04-02",
+              "cost": 13.7705
+            },
+            {
+              "date": "2026-04-03",
+              "cost": 13.9987
+            },
+            {
+              "date": "2026-04-04",
+              "cost": 16.1669
+            },
+            {
+              "date": "2026-04-05",
+              "cost": 11.2491
+            },
+            {
+              "date": "2026-04-06",
+              "cost": 11.0783
+            },
+            {
+              "date": "2026-04-07",
+              "cost": 8.4481
+            },
+            {
+              "date": "2026-04-08",
+              "cost": 8.513
+            },
+            {
+              "date": "2026-04-09",
+              "cost": 11.4294
+            },
+            {
+              "date": "2026-04-10",
+              "cost": 38.5599
+            },
+            {
+              "date": "2026-04-11",
+              "cost": 9.583
+            },
+            {
+              "date": "2026-04-12",
+              "cost": 11.3839
+            },
+            {
+              "date": "2026-04-13",
+              "cost": 13.7203
+            },
+            {
+              "date": "2026-04-14",
+              "cost": 13.9558
+            },
+            {
+              "date": "2026-04-15",
+              "cost": 13.9505
+            },
+            {
+              "date": "2026-04-16",
+              "cost": 11.5173
+            },
+            {
+              "date": "2026-04-17",
+              "cost": 16.6701
+            },
+            {
+              "date": "2026-04-18",
+              "cost": 12.3623
+            },
+            {
+              "date": "2026-04-19",
+              "cost": 18.9236
+            },
+            {
+              "date": "2026-04-20",
+              "cost": 16.1584
+            },
+            {
+              "date": "2026-04-21",
+              "cost": 11.0442
+            },
+            {
+              "date": "2026-04-22",
+              "cost": 13.8682
+            },
+            {
+              "date": "2026-04-23",
+              "cost": 14.231
+            },
+            {
+              "date": "2026-04-24",
+              "cost": 14.001
+            },
+            {
+              "date": "2026-04-25",
+              "cost": 13.4908
+            },
+            {
+              "date": "2026-04-26",
+              "cost": 14.1356
+            },
+            {
+              "date": "2026-04-27",
+              "cost": 18.0469
+            },
+            {
+              "date": "2026-04-28",
+              "cost": 13.3763
+            },
+            {
+              "date": "2026-04-29",
+              "cost": 15.2274
+            },
+            {
+              "date": "2026-04-30",
+              "cost": 16.9665
+            },
+            {
+              "date": "2026-05-01",
+              "cost": 14.2421
+            },
+            {
+              "date": "2026-05-02",
+              "cost": 11.9581
+            },
+            {
+              "date": "2026-05-03",
+              "cost": 12.0585
+            },
+            {
+              "date": "2026-05-04",
+              "cost": 19.7142
+            },
+            {
+              "date": "2026-05-05",
+              "cost": 18.4946
+            },
+            {
+              "date": "2026-05-06",
+              "cost": 36.0984
+            },
+            {
+              "date": "2026-05-07",
+              "cost": 17.1582
+            },
+            {
+              "date": "2026-05-08",
+              "cost": 9.4376
+            },
+            {
+              "date": "2026-05-09",
+              "cost": 13.7886
+            },
+            {
+              "date": "2026-05-10",
+              "cost": 15.0877
+            },
+            {
+              "date": "2026-05-11",
+              "cost": 10.8398
+            },
+            {
+              "date": "2026-05-12",
+              "cost": 11.5798
+            },
+            {
+              "date": "2026-05-13",
+              "cost": 18.9716
+            },
+            {
+              "date": "2026-05-14",
+              "cost": 12.2408
+            },
+            {
+              "date": "2026-05-15",
+              "cost": 14.1185
+            },
+            {
+              "date": "2026-05-16",
+              "cost": 11.4085
+            },
+            {
+              "date": "2026-05-17",
+              "cost": 16.8545
+            },
+            {
+              "date": "2026-05-18",
+              "cost": 8.7008
+            },
+            {
+              "date": "2026-05-19",
+              "cost": 13.5295
+            },
+            {
+              "date": "2026-05-20",
+              "cost": 14.5534
+            },
+            {
+              "date": "2026-05-21",
+              "cost": 11.4511
+            },
+            {
+              "date": "2026-05-22",
+              "cost": 13.4477
+            },
+            {
+              "date": "2026-05-23",
+              "cost": 14.0175
+            },
+            {
+              "date": "2026-05-24",
+              "cost": 12.1587
+            },
+            {
+              "date": "2026-05-25",
+              "cost": 16.6114
+            },
+            {
+              "date": "2026-05-26",
+              "cost": 15.1712
+            },
+            {
+              "date": "2026-05-27",
+              "cost": 14.0367
+            },
+            {
+              "date": "2026-05-28",
+              "cost": 15.2676
+            },
+            {
+              "date": "2026-05-29",
+              "cost": 14.9553
+            },
+            {
+              "date": "2026-05-30",
+              "cost": 10.7289
+            },
+            {
+              "date": "2026-05-31",
+              "cost": 19.3142
+            },
+            {
+              "date": "2026-06-01",
+              "cost": 13.1148
+            },
+            {
+              "date": "2026-06-02",
+              "cost": 12.1618
+            },
+            {
+              "date": "2026-06-03",
+              "cost": 19.8697
+            },
+            {
+              "date": "2026-06-04",
+              "cost": 6.5852
+            },
+            {
+              "date": "2026-06-05",
+              "cost": 16.6774
+            },
+            {
+              "date": "2026-06-06",
+              "cost": 13.2915
+            },
+            {
+              "date": "2026-06-07",
+              "cost": 16.2994
+            },
+            {
+              "date": "2026-06-08",
+              "cost": 21.2142
+            },
+            {
+              "date": "2026-06-09",
+              "cost": 7.3341
+            },
+            {
+              "date": "2026-06-10",
+              "cost": 14.4988
+            },
+            {
+              "date": "2026-06-11",
+              "cost": 11.4525
+            },
+            {
+              "date": "2026-06-12",
+              "cost": 18.6538
+            },
+            {
+              "date": "2026-06-13",
+              "cost": 8.5467
+            },
+            {
+              "date": "2026-06-14",
+              "cost": 14.4705
+            },
+            {
+              "date": "2026-06-15",
+              "cost": 14.9203
+            },
+            {
+              "date": "2026-06-16",
+              "cost": 15.474
+            },
+            {
+              "date": "2026-06-17",
+              "cost": 16.0004
+            },
+            {
+              "date": "2026-06-18",
+              "cost": 10.7979
+            },
+            {
+              "date": "2026-06-19",
+              "cost": 32.0942
+            },
+            {
+              "date": "2026-06-20",
+              "cost": 10.7448
+            },
+            {
+              "date": "2026-06-21",
+              "cost": 16.1418
+            },
+            {
+              "date": "2026-06-22",
+              "cost": 17.4353
+            },
+            {
+              "date": "2026-06-23",
+              "cost": 12.1978
+            },
+            {
+              "date": "2026-06-24",
+              "cost": 12.9675
+            },
+            {
+              "date": "2026-06-25",
+              "cost": 14.2142
+            },
+            {
+              "date": "2026-06-26",
+              "cost": 15.9297
+            },
+            {
+              "date": "2026-06-27",
+              "cost": 34.5681
+            },
+            {
+              "date": "2026-06-28",
+              "cost": 22.2514
+            },
+            {
+              "date": "2026-06-29",
+              "cost": 13.379
+            },
+            {
+              "date": "2026-06-30",
+              "cost": 129.044
+            },
+            {
+              "date": "2026-07-01",
+              "cost": 12.8734
+            },
+            {
+              "date": "2026-07-02",
+              "cost": 17.4499
+            },
+            {
+              "date": "2026-07-03",
+              "cost": 8.9864
+            },
+            {
+              "date": "2026-07-04",
+              "cost": 16.0193
+            },
+            {
+              "date": "2026-07-05",
+              "cost": 11.2915
+            },
+            {
+              "date": "2026-07-06",
+              "cost": 13.3402
+            },
+            {
+              "date": "2026-07-07",
+              "cost": 17.6314
+            },
+            {
+              "date": "2026-07-08",
+              "cost": 19.0056
+            },
+            {
+              "date": "2026-07-09",
+              "cost": 8.4059
+            },
+            {
+              "date": "2026-07-10",
+              "cost": 14.0858
+            },
+            {
+              "date": "2026-07-11",
+              "cost": 11.5977
+            },
+            {
+              "date": "2026-07-12",
+              "cost": 12.3307
+            },
+            {
+              "date": "2026-07-13",
+              "cost": 11.5405
+            },
+            {
+              "date": "2026-07-14",
+              "cost": 13.6559
+            },
+            {
+              "date": "2026-07-15",
+              "cost": 16.897
+            },
+            {
+              "date": "2026-07-16",
+              "cost": 15.3463
+            },
+            {
+              "date": "2026-07-17",
+              "cost": 9.2354
+            },
+            {
+              "date": "2026-07-18",
+              "cost": 20.7461
+            },
+            {
+              "date": "2026-07-19",
+              "cost": 11.0151
+            },
+            {
+              "date": "2026-07-20",
+              "cost": 33.9466
+            },
+            {
+              "date": "2026-07-21",
+              "cost": 16.9532
+            },
+            {
+              "date": "2026-07-22",
+              "cost": 15.4579
+            },
+            {
+              "date": "2026-07-23",
+              "cost": 18.8453
+            },
+            {
+              "date": "2026-07-24",
+              "cost": 11.627
+            },
+            {
+              "date": "2026-07-25",
+              "cost": 7.8946
+            },
+            {
+              "date": "2026-07-26",
+              "cost": 39.48
+            },
+            {
+              "date": "2026-07-27",
+              "cost": 6.9358
+            },
+            {
+              "date": "2026-07-28",
+              "cost": 6.0813
+            },
+            {
+              "date": "2026-07-29",
+              "cost": 7.7494
+            },
+            {
+              "date": "2026-07-30",
+              "cost": 15.3788
+            },
+            {
+              "date": "2026-07-31",
+              "cost": 54.2629
+            },
+            {
+              "date": "2026-08-01",
+              "cost": 7.4222
+            },
+            {
+              "date": "2026-08-02",
+              "cost": 8.2965
+            },
+            {
+              "date": "2026-08-03",
+              "cost": 7.4442
+            },
+            {
+              "date": "2026-08-04",
+              "cost": 10.3409
+            },
+            {
+              "date": "2026-08-05",
+              "cost": 9.9287
+            },
+            {
+              "date": "2026-08-06",
+              "cost": 11.0885
+            },
+            {
+              "date": "2026-08-07",
+              "cost": 7.7955
+            },
+            {
+              "date": "2026-08-08",
+              "cost": 9.3937
+            },
+            {
+              "date": "2026-08-09",
+              "cost": 10.6075
+            },
+            {
+              "date": "2026-08-10",
+              "cost": 11.0678
+            },
+            {
+              "date": "2026-08-11",
+              "cost": 8.4088
+            },
+            {
+              "date": "2026-08-12",
+              "cost": 8.8457
+            },
+            {
+              "date": "2026-08-13",
+              "cost": 10.1894
+            },
+            {
+              "date": "2026-08-14",
+              "cost": 47.3663
+            },
+            {
+              "date": "2026-08-15",
+              "cost": 6.6364
+            },
+            {
+              "date": "2026-08-16",
+              "cost": 9.9579
+            },
+            {
+              "date": "2026-08-17",
+              "cost": 7.9567
+            },
+            {
+              "date": "2026-08-18",
+              "cost": 6.5483
+            },
+            {
+              "date": "2026-08-19",
+              "cost": 7.8455
+            },
+            {
+              "date": "2026-08-20",
+              "cost": 10.9749
+            },
+            {
+              "date": "2026-08-21",
+              "cost": 6.0196
+            },
+            {
+              "date": "2026-08-22",
+              "cost": 9.6627
+            },
+            {
+              "date": "2026-08-23",
+              "cost": 11.5036
+            },
+            {
+              "date": "2026-08-24",
+              "cost": 12.7647
+            },
+            {
+              "date": "2026-08-25",
+              "cost": 4.6288
+            },
+            {
+              "date": "2026-08-26",
+              "cost": 9.5704
+            },
+            {
+              "date": "2026-08-27",
+              "cost": 12.4466
+            },
+            {
+              "date": "2026-08-28",
+              "cost": 7.0995
+            },
+            {
+              "date": "2026-08-29",
+              "cost": 7.5234
+            },
+            {
+              "date": "2026-08-30",
+              "cost": 6.5268
+            },
+            {
+              "date": "2026-08-31",
+              "cost": 8.8309
+            },
+            {
+              "date": "2026-09-01",
+              "cost": 9.0982
+            },
+            {
+              "date": "2026-09-02",
+              "cost": 10.3058
+            },
+            {
+              "date": "2026-09-03",
+              "cost": 8.9248
+            },
+            {
+              "date": "2026-09-04",
+              "cost": 11.2548
+            },
+            {
+              "date": "2026-09-05",
+              "cost": 10.9711
+            },
+            {
+              "date": "2026-09-06",
+              "cost": 10.0873
+            },
+            {
+              "date": "2026-09-07",
+              "cost": 13.7734
+            },
+            {
+              "date": "2026-09-08",
+              "cost": 16.7245
+            },
+            {
+              "date": "2026-09-09",
+              "cost": 10.6318
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.8971
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-14",
-          "cost": 4135.4634,
-          "gross": 6357.5717,
+          "cost": 4145.6739,
+          "gross": 6374.9336,
           "activeDays": 215,
-          "costPerActiveDay": 19.2347,
+          "costPerActiveDay": 19.2822,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3365.8385
+              "cost": 3375.167
             },
             {
               "name": "Networking",
-              "cost": 466.7934
+              "cost": 467.34
             },
             {
               "name": "Cloud Storage",
-              "cost": 202.5071
+              "cost": 202.7144
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 100.1394
+              "cost": 100.2674
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1532
+              "cost": 0.1533
             },
             {
               "name": "Cloud Logging",
@@ -28963,7 +29075,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 41.616
+              "cost": 45.0702
             },
             {
               "date": "2026-08-01",
@@ -29123,32 +29235,36 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.6617
+              "cost": 8.9608
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 5.4572
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-17",
-          "cost": 4131.441,
-          "gross": 6332.3369,
+          "cost": 4144.3726,
+          "gross": 6353.7434,
           "activeDays": 215,
-          "costPerActiveDay": 19.216,
+          "costPerActiveDay": 19.2762,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3340.339
+              "cost": 3350.7148
             },
             {
               "name": "Networking",
-              "cost": 483.6322
+              "cost": 485.8022
             },
             {
               "name": "Cloud Storage",
-              "cost": 207.8341
+              "cost": 208.0439
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 99.4807
+              "cost": 99.6567
             },
             {
               "name": "Artifact Registry",
@@ -30010,7 +30126,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 23.8694
+              "cost": 25.4158
             },
             {
               "date": "2026-08-01",
@@ -30170,36 +30286,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 5.1372
+              "cost": 8.4271
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 8.0953
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-26",
-          "cost": 4098.5886,
-          "gross": 6365.5383,
-          "activeDays": 226,
-          "costPerActiveDay": 18.1353,
+          "cost": 4113.7349,
+          "gross": 6391.781,
+          "activeDays": 227,
+          "costPerActiveDay": 18.1222,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3339.3016
+              "cost": 3350.8281
             },
             {
               "name": "Networking",
-              "cost": 459.2573
+              "cost": 462.4428
             },
             {
               "name": "Cloud Storage",
-              "cost": 199.869
+              "cost": 200.1353
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 99.9876
+              "cost": 100.1554
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1427
+              "cost": 0.1429
             },
             {
               "name": "Cloud Logging",
@@ -31057,7 +31177,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 53.4643
+              "cost": 57.9282
             },
             {
               "date": "2026-08-01",
@@ -31217,36 +31337,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 10.2808
+              "cost": 11.2555
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 9.7077
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-19",
-          "cost": 4076.9887,
-          "gross": 6313.7211,
-          "activeDays": 228,
-          "costPerActiveDay": 17.8815,
+          "cost": 4090.5646,
+          "gross": 6337.7715,
+          "activeDays": 229,
+          "costPerActiveDay": 17.8627,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3314.6132
+              "cost": 3325.9647
             },
             {
               "name": "Networking",
-              "cost": 459.8715
+              "cost": 461.6781
             },
             {
               "name": "Cloud Storage",
-              "cost": 199.9628
+              "cost": 200.2218
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 102.377
+              "cost": 102.5356
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.14
+              "cost": 0.1402
             },
             {
               "name": "Cloud Logging",
@@ -32104,7 +32228,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 38.9394
+              "cost": 42.2
             },
             {
               "date": "2026-08-01",
@@ -32160,7 +32284,7 @@
             },
             {
               "date": "2026-08-14",
-              "cost": 9.1489
+              "cost": 9.149
             },
             {
               "date": "2026-08-15",
@@ -32264,36 +32388,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.656
+              "cost": 10.9779
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 6.9933
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-11",
-          "cost": 4061.8702,
-          "gross": 6098.7576,
-          "activeDays": 228,
-          "costPerActiveDay": 17.8152,
+          "cost": 4080.5063,
+          "gross": 6129.3229,
+          "activeDays": 230,
+          "costPerActiveDay": 17.7413,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3245.4619
+              "cost": 3259.4057
             },
             {
               "name": "Networking",
-              "cost": 498.6363
+              "cost": 502.0906
             },
             {
               "name": "Cloud Storage",
-              "cost": 214.2349
+              "cost": 215.277
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 103.3691
+              "cost": 103.5649
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1399
+              "cost": 0.14
             },
             {
               "name": "Cloud Logging",
@@ -33151,7 +33279,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 33.7139
+              "cost": 36.2001
             },
             {
               "date": "2026-08-01",
@@ -33303,7 +33431,7 @@
             },
             {
               "date": "2026-09-07",
-              "cost": 12.4457
+              "cost": 12.4456
             },
             {
               "date": "2026-09-08",
@@ -33311,36 +33439,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 8.4311
+              "cost": 11.0315
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 13.5496
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-03",
-          "cost": 4044.7629,
-          "gross": 6112.1068,
-          "activeDays": 215,
-          "costPerActiveDay": 18.8129,
+          "cost": 4060.9832,
+          "gross": 6138.1039,
+          "activeDays": 216,
+          "costPerActiveDay": 18.8008,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3277.107
+              "cost": 3287.5274
             },
             {
               "name": "Networking",
-              "cost": 470.6517
+              "cost": 474.8526
             },
             {
               "name": "Cloud Storage",
-              "cost": 201.1371
+              "cost": 202.5776
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 95.7065
+              "cost": 95.8648
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.135
+              "cost": 0.1352
             },
             {
               "name": "Cloud Logging",
@@ -34198,7 +34330,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 43.0792
+              "cost": 46.6398
             },
             {
               "date": "2026-08-01",
@@ -34262,7 +34394,7 @@
             },
             {
               "date": "2026-08-16",
-              "cost": 5.9271
+              "cost": 5.9272
             },
             {
               "date": "2026-08-17",
@@ -34346,7 +34478,7 @@
             },
             {
               "date": "2026-09-06",
-              "cost": 10.5598
+              "cost": 10.5597
             },
             {
               "date": "2026-09-07",
@@ -34358,36 +34490,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.0623
+              "cost": 12.1604
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 7.5616
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-02",
-          "cost": 4038.9641,
-          "gross": 6191.2416,
-          "activeDays": 213,
-          "costPerActiveDay": 18.9623,
+          "cost": 4056.3877,
+          "gross": 6217.0724,
+          "activeDays": 215,
+          "costPerActiveDay": 18.8669,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3278.9841
+              "cost": 3293.9405
             },
             {
               "name": "Networking",
-              "cost": 449.5003
+              "cost": 450.9295
             },
             {
               "name": "Cloud Storage",
-              "cost": 210.6708
+              "cost": 211.5702
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 99.6466
+              "cost": 99.7851
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1332
+              "cost": 0.1333
             },
             {
               "name": "Cloud Logging",
@@ -35245,7 +35381,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 50.542
+              "cost": 54.351
             },
             {
               "date": "2026-08-01",
@@ -35405,36 +35541,40 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 7.1722
+              "cost": 10.6038
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 10.183
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-05",
-          "cost": 4010.2233,
-          "gross": 6166.5734,
-          "activeDays": 220,
-          "costPerActiveDay": 18.2283,
+          "cost": 4023.8494,
+          "gross": 6190.7143,
+          "activeDays": 221,
+          "costPerActiveDay": 18.2075,
           "breakdown": [
             {
               "name": "Compute Engine",
-              "cost": 3265.0507
+              "cost": 3276.2521
             },
             {
               "name": "Networking",
-              "cost": 440.8053
+              "cost": 442.2539
             },
             {
               "name": "Cloud Storage",
-              "cost": 209.158
+              "cost": 209.9797
             },
             {
               "name": "Cloud Monitoring",
-              "cost": 95.0575
+              "cost": 95.2117
             },
             {
               "name": "Artifact Registry",
-              "cost": 0.1239
+              "cost": 0.1241
             },
             {
               "name": "Cloud Logging",
@@ -36292,7 +36432,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 43.6282
+              "cost": 47.0478
             },
             {
               "date": "2026-08-01",
@@ -36356,7 +36496,7 @@
             },
             {
               "date": "2026-08-16",
-              "cost": 8.0175
+              "cost": 8.0176
             },
             {
               "date": "2026-08-17",
@@ -36388,7 +36528,7 @@
             },
             {
               "date": "2026-08-24",
-              "cost": 13.6827
+              "cost": 13.6828
             },
             {
               "date": "2026-08-25",
@@ -36452,24 +36592,28 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 6.1235
+              "cost": 9.9588
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 6.371
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-scale-project",
-          "cost": 27.3501,
-          "gross": 27.3501,
+          "cost": 27.4444,
+          "gross": 27.4444,
           "activeDays": 206,
-          "costPerActiveDay": 0.1328,
+          "costPerActiveDay": 0.1332,
           "breakdown": [
             {
               "name": "Cloud Monitoring",
-              "cost": 20.1791
+              "cost": 20.224
             },
             {
               "name": "Cloud Storage",
-              "cost": 7.171
+              "cost": 7.2204
             }
           ],
           "daily": [
@@ -37323,7 +37467,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 0.4057
+              "cost": 0.4403
             },
             {
               "date": "2026-08-01",
@@ -37483,20 +37627,24 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 0.0287
+              "cost": 0.0596
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.0288
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-12",
-          "cost": 19.7191,
-          "gross": 19.7191,
+          "cost": 19.7621,
+          "gross": 19.7621,
           "activeDays": 226,
-          "costPerActiveDay": 0.0873,
+          "costPerActiveDay": 0.0874,
           "breakdown": [
             {
               "name": "Cloud Monitoring",
-              "cost": 18.6273
+              "cost": 18.6703
             },
             {
               "name": "Cloud Storage",
@@ -38354,7 +38502,7 @@
             },
             {
               "date": "2026-07-31",
-              "cost": 0.1317
+              "cost": 0.1415
             },
             {
               "date": "2026-08-01",
@@ -38514,7 +38662,11 @@
             },
             {
               "date": "2026-09-09",
-              "cost": 0.0275
+              "cost": 0.033
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.0277
             }
           ]
         }
@@ -38522,23 +38674,23 @@
       "breakdown": [
         {
           "name": "Compute Engine",
-          "cost": 336427.6112
+          "cost": 337202.0956
         },
         {
           "name": "Networking",
-          "cost": 35869.1532
+          "cost": 35964.124
         },
         {
           "name": "Cloud Storage",
-          "cost": 8094.7655
+          "cost": 8107.511
         },
         {
           "name": "Cloud Monitoring",
-          "cost": 7737.1806
+          "cost": 7742.3559
         },
         {
           "name": "Artifact Registry",
-          "cost": 49.4199
+          "cost": 49.488
         },
         {
           "name": "Cloud Logging",
@@ -39396,15 +39548,15 @@
         },
         {
           "date": "2026-07-31",
-          "cost": 6317.3837
+          "cost": 6836.8363
         },
         {
           "date": "2026-08-01",
-          "cost": 885.7802
+          "cost": 885.7801
         },
         {
           "date": "2026-08-02",
-          "cost": 348.4775
+          "cost": 348.4774
         },
         {
           "date": "2026-08-03",
@@ -39448,11 +39600,11 @@
         },
         {
           "date": "2026-08-13",
-          "cost": 908.3954
+          "cost": 908.3953
         },
         {
           "date": "2026-08-14",
-          "cost": 651.1573
+          "cost": 651.1575
         },
         {
           "date": "2026-08-15",
@@ -39460,11 +39612,11 @@
         },
         {
           "date": "2026-08-16",
-          "cost": 347.5784
+          "cost": 347.5787
         },
         {
           "date": "2026-08-17",
-          "cost": 1178.1936
+          "cost": 1178.1937
         },
         {
           "date": "2026-08-18",
@@ -39472,15 +39624,15 @@
         },
         {
           "date": "2026-08-19",
-          "cost": 877.6894
+          "cost": 877.6893
         },
         {
           "date": "2026-08-20",
-          "cost": 304.654
+          "cost": 304.6539
         },
         {
           "date": "2026-08-21",
-          "cost": 1215.1509
+          "cost": 1215.151
         },
         {
           "date": "2026-08-22",
@@ -39544,11 +39696,11 @@
         },
         {
           "date": "2026-09-06",
-          "cost": 402.5949
+          "cost": 402.5948
         },
         {
           "date": "2026-09-07",
-          "cost": 1312.8197
+          "cost": 1312.674
         },
         {
           "date": "2026-09-08",
@@ -39556,7 +39708,11 @@
         },
         {
           "date": "2026-09-09",
-          "cost": 731.1516
+          "cost": 868.5195
+        },
+        {
+          "date": "2026-09-10",
+          "cost": 230.7692
         }
       ],
       "monthly": [
@@ -39597,18 +39753,18 @@
         },
         {
           "month": "2026-07",
-          "cost": 45817.8028,
-          "gross": 68101.4824
+          "cost": 46337.2554,
+          "gross": 68855.1676
         },
         {
           "month": "2026-08",
-          "cost": 27649.6953,
-          "gross": 41978.6183
+          "cost": 27649.6955,
+          "gross": 41978.6188
         },
         {
           "month": "2026-09",
-          "cost": 7024.4114,
-          "gross": 10495.6436
+          "cost": 7392.4027,
+          "gross": 11095.9052
         }
       ]
     },
@@ -39617,39 +39773,39 @@
       "groupKind": "account",
       "note": "AWS has no activated `prow.k8s.io/job` cost allocation tag, so this is the spend of the dedicated scale boskos accounts (UnblendedCost, refunds/credits excluded). These accounts are credit funded — the figure is consumption at list price, not cash out.",
       "currency": "USD",
-      "total": 154221.2535,
-      "totalGross": 154221.2535,
+      "total": 154848.2349,
+      "totalGross": 154848.2349,
       "groups": [
         {
           "name": "k8s-infra-e2e-boskos-scale-001",
-          "cost": 153960.0251,
-          "gross": 153960.0251,
-          "activeDays": 252,
-          "costPerActiveDay": 610.9525,
+          "cost": 154586.9205,
+          "gross": 154586.9205,
+          "activeDays": 253,
+          "costPerActiveDay": 611.0155,
           "breakdown": [
             {
               "name": "USE2-BoxUsage:t3a.medium",
-              "cost": 100620.9519
+              "cost": 100909.7867
             },
             {
               "name": "USE2-PublicIPv4:InUseAddress",
-              "cost": 14716.2841
+              "cost": 14774.1605
             },
             {
               "name": "USE2-BoxUsage:t3.medium",
-              "cost": 7439.4861
+              "cost": 7585.4142
             },
             {
               "name": "USE2-EBS:VolumeUsage.gp3",
-              "cost": 6465.7864
+              "cost": 6490.5517
             },
             {
               "name": "USE2-DataTransfer-Regional-Bytes",
-              "cost": 6207.8522
+              "cost": 6210.5239
             },
             {
               "name": "Dollar",
-              "cost": 5581.5824
+              "cost": 5628.5561
             },
             {
               "name": "USE2-CPUCredits:t3a",
@@ -39657,15 +39813,15 @@
             },
             {
               "name": "USE2-EBS:VolumeP-IOPS.io2",
-              "cost": 3000.6716
+              "cost": 3028.9568
             },
             {
               "name": "USE2-BoxUsage:c8i.24xlarge",
-              "cost": 2226.3563
+              "cost": 2235.0838
             },
             {
               "name": "Other",
-              "cost": 1613.5694
+              "cost": 1620.1998
             },
             {
               "name": "USE2-LCUUsage",
@@ -39677,7 +39833,7 @@
             },
             {
               "name": "Other",
-              "cost": 1280.4314
+              "cost": 1296.6337
             }
           ],
           "daily": [
@@ -40655,7 +40811,7 @@
             },
             {
               "date": "2026-09-01",
-              "cost": 898.5794
+              "cost": 945.5531
             },
             {
               "date": "2026-09-02",
@@ -40688,15 +40844,19 @@
             {
               "date": "2026-09-09",
               "cost": 622.8352
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 579.9217
             }
           ]
         },
         {
           "name": "k8s-infra-e2e-boskos-scale-002",
-          "cost": 261.2284,
-          "gross": 261.2284,
+          "cost": 261.3144,
+          "gross": 261.3144,
           "activeDays": 10,
-          "costPerActiveDay": 26.1228,
+          "costPerActiveDay": 26.1314,
           "breakdown": [
             {
               "name": "NoUsageType",
@@ -40704,51 +40864,51 @@
             },
             {
               "name": "CW:GMD-Metrics",
-              "cost": 3.3735
+              "cost": 3.4372
             },
             {
               "name": "Other",
-              "cost": 1.5496
+              "cost": 1.5579
             },
             {
               "name": "CW:Requests",
-              "cost": 0.4116
-            },
-            {
-              "name": "APN2-CW:Requests",
-              "cost": 0.0909
-            },
-            {
-              "name": "EUC1-CW:Requests",
-              "cost": 0.0901
-            },
-            {
-              "name": "APS3-CW:Requests",
-              "cost": 0.0876
-            },
-            {
-              "name": "EUW3-CW:Requests",
-              "cost": 0.0848
+              "cost": 0.4193
             },
             {
               "name": "APS2-CW:Requests",
-              "cost": 0.0843
+              "cost": 0.0885
             },
             {
-              "name": "USE2-CW:Requests",
-              "cost": 0.0828
-            },
-            {
-              "name": "USW2-CW:Requests",
-              "cost": 0.0825
+              "name": "EUC1-CW:Requests",
+              "cost": 0.088
             },
             {
               "name": "CAN1-CW:Requests",
-              "cost": 0.0824
+              "cost": 0.0866
+            },
+            {
+              "name": "APN2-CW:Requests",
+              "cost": 0.0853
+            },
+            {
+              "name": "APS3-CW:Requests",
+              "cost": 0.0848
+            },
+            {
+              "name": "EUW3-CW:Requests",
+              "cost": 0.0841
+            },
+            {
+              "name": "APN1-CW:Requests",
+              "cost": 0.0841
+            },
+            {
+              "name": "APN3-CW:Requests",
+              "cost": 0.0837
             },
             {
               "name": "Other",
-              "cost": 0.6266
+              "cost": 0.6332
             }
           ],
           "daily": [
@@ -41726,7 +41886,7 @@
             },
             {
               "date": "2026-09-01",
-              "cost": 26.1761
+              "cost": 26.1768
             },
             {
               "date": "2026-09-02",
@@ -41759,6 +41919,10 @@
             {
               "date": "2026-09-09",
               "cost": 0.1003
+            },
+            {
+              "date": "2026-09-10",
+              "cost": 0.0853
             }
           ]
         }
@@ -41766,27 +41930,27 @@
       "breakdown": [
         {
           "name": "USE2-BoxUsage:t3a.medium",
-          "cost": 100620.9519
+          "cost": 100909.7867
         },
         {
           "name": "USE2-PublicIPv4:InUseAddress",
-          "cost": 14716.2841
+          "cost": 14774.1605
         },
         {
           "name": "USE2-BoxUsage:t3.medium",
-          "cost": 7439.4861
+          "cost": 7585.4142
         },
         {
           "name": "USE2-EBS:VolumeUsage.gp3",
-          "cost": 6465.7864
+          "cost": 6490.5517
         },
         {
           "name": "USE2-DataTransfer-Regional-Bytes",
-          "cost": 6207.8522
+          "cost": 6210.5239
         },
         {
           "name": "Dollar",
-          "cost": 5581.5824
+          "cost": 5628.5561
         },
         {
           "name": "USE2-CPUCredits:t3a",
@@ -41794,15 +41958,15 @@
         },
         {
           "name": "USE2-EBS:VolumeP-IOPS.io2",
-          "cost": 3000.6716
+          "cost": 3028.9568
         },
         {
           "name": "USE2-BoxUsage:c8i.24xlarge",
-          "cost": 2226.3563
+          "cost": 2235.0838
         },
         {
           "name": "Other",
-          "cost": 1615.119
+          "cost": 1621.7577
         },
         {
           "name": "USE2-LCUUsage",
@@ -41814,7 +41978,7 @@
         },
         {
           "name": "Other",
-          "cost": 1540.1102
+          "cost": 1556.3902
         }
       ],
       "daily": [
@@ -42792,7 +42956,7 @@
         },
         {
           "date": "2026-09-01",
-          "cost": 924.7555
+          "cost": 971.7299
         },
         {
           "date": "2026-09-02",
@@ -42825,6 +42989,10 @@
         {
           "date": "2026-09-09",
           "cost": 622.9355
+        },
+        {
+          "date": "2026-09-10",
+          "cost": 580.007
         }
       ],
       "monthly": [
@@ -42870,8 +43038,8 @@
         },
         {
           "month": "2026-09",
-          "cost": 5542.8897,
-          "gross": 5542.8897
+          "cost": 6169.8711,
+          "gross": 6169.8711
         }
       ]
     }
